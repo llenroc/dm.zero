@@ -27,6 +27,11 @@ namespace DM.AbpZeroTemplate.Web.Navigation
                 public const string Dashboard = "Dashboard.Tenant";
                 public const string Settings = "Administration.Settings.Tenant";
             }
+
+            public static class CMS
+            {
+                public const string Channels = "CMS.Channels";
+            }
         }
 
         public static class Frontend
