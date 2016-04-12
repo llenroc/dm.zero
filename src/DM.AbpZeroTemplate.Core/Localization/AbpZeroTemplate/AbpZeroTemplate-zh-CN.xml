@@ -280,5 +280,10 @@
     <text name="LookingForMpaVersion" value="查找多页面应用版本号" />
     <text name="LookingForSpaVersion" value="查找单页面应用版本号" />
     <text name="ThisLanguageAlreadyExists" value="这种语言已经存在!" />
+
+    <!--CMS STAET-->
+    <text name="Channels" value="栏目"></text>
+    <!--CMS END-->
+    
   </texts>
 </localizationDictionary>

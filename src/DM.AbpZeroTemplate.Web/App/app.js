@@ -187,6 +187,21 @@ appModule.config([
                 menu: 'Administration.Settings.Tenant'
             });
         }
+
+        //cms channel
+        $stateProvider.state('cms', {
+            'abstract': true,
+            url: '/cms',
+            template: '<div ui-view class="fade-in-up"></div>'
+        });
+
+        if (abp.auth.hasPermission('Pages.CMS.Channels')) {
+            $stateProvider.state('cms.channels', {
+                url: '/channels',
+                templateUrl: '~/App/cms/views/channels/index.cshtml',
+                menu: 'CMS.Channels'
+            });
+        }
     }
 ]);
 

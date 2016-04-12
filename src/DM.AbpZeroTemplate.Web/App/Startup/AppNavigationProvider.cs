@@ -99,7 +99,19 @@ namespace DM.AbpZeroTemplate.Web.App.Startup
                         requiredPermissionName: AppPermissions.Pages_Administration_Tenant_Settings
                         )
                     )
-                );
+                ).AddItem(new MenuItemDefinition(
+                    PageNames.App.CMS.CMSName,
+                    L("CMS"),
+                    icon: "icon-manage"
+                    ).AddItem(new MenuItemDefinition(
+                        PageNames.App.CMS.Channels,
+                        L("Channels"),
+                        url: "cms.channels",
+                        icon: "icon-manage",
+                        requiredPermissionName: AppPermissions.Pages_CMS_Channels
+                        )
+                   )
+                 );
         }
 
         private static ILocalizableString L(string name)

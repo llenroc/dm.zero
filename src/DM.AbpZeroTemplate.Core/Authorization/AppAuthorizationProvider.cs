@@ -18,12 +18,12 @@ namespace DM.AbpZeroTemplate.Authorization
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));
-            
+
             var roles = administration.CreateChildPermission(AppPermissions.Pages_Administration_Roles, L("Roles"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Create, L("CreatingNewRole"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Edit, L("EditingRole"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Delete, L("DeletingRole"));
-            
+
             var users = administration.CreateChildPermission(AppPermissions.Pages_Administration_Users, L("Users"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Create, L("CreatingNewUser"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Edit, L("EditingUser"));
@@ -65,6 +65,12 @@ namespace DM.AbpZeroTemplate.Authorization
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Settings, L("Settings"), multiTenancySides: MultiTenancySides.Host);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Maintenance, L("Maintenance"), multiTenancySides: MultiTenancySides.Host);
+
+            //CMS-SPECIFIC PERMISSIONS
+            var cms = pages.CreateChildPermission(AppPermissions.Pages_CMS_Channels, L("Channels"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels_Create, L("ChannelCreate"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels_Delete, L("ChannelDelete"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels_Edit, L("ChannelEdit"));
         }
 
         private static ILocalizableString L(string name)

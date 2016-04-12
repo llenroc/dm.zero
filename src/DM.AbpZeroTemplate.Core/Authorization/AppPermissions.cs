@@ -9,7 +9,7 @@
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";
-        
+
         public const string Pages_Administration = "Pages.Administration";
 
         public const string Pages_Administration_Roles = "Pages.Administration.Roles";
@@ -41,7 +41,7 @@
         public const string Pages_Tenant_Dashboard = "Pages.Tenant.Dashboard";
 
         public const string Pages_Administration_Tenant_Settings = "Pages.Administration.Tenant.Settings";
-        
+
         //HOST-SPECIFIC PERMISSIONS
 
         public const string Pages_Editions = "Pages.Editions";
@@ -59,5 +59,12 @@
         public const string Pages_Administration_Host_Maintenance = "Pages.Administration.Host.Maintenance";
 
         public const string Pages_Administration_Host_Settings = "Pages.Administration.Host.Settings";
+
+        //CMS-SPECIFIC PERMISSIONS
+
+        public const string Pages_CMS_Channels = "Pages.CMS.Channels";
+        public const string Pages_CMS_Channels_Create = "Pages.CMS.Channels.Create";
+        public const string Pages_CMS_Channels_Edit = "Pages.CMS.Channels.Edit";
+        public const string Pages_CMS_Channels_Delete = "Pages.CMS.Channels.Delete";
     }
 }
