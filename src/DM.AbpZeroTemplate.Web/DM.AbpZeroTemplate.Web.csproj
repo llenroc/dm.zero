@@ -1979,6 +1979,7 @@
     <Content Include="App\common\views\users\loginAttemptsModal.less" />
     <Content Include="Areas\Mpa\Views\Users\_LoginAttemptsModal.cshtml" />
     <Content Include="Areas\Mpa\Views\Users\_LoginAttemptsModal.less" />
+    <None Include="Properties\PublishProfiles\dm.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />

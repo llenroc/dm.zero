@@ -41,6 +41,10 @@
       <HintPath>..\packages\Abp.AutoMapper.0.8.3.0\lib\net452\Abp.AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Abp.CMS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.CMS.1.0.0.0\lib\net452\Abp.CMS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Abp.Zero, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Abp.Zero.0.8.3.0\lib\net452\Abp.Zero.dll</HintPath>
       <Private>True</Private>
@@ -153,6 +157,12 @@
     <Compile Include="Caching\CachingAppService.cs" />
     <Compile Include="Caching\Dto\CacheDto.cs" />
     <Compile Include="Caching\ICachingAppService.cs" />
+    <Compile Include="CMS\Channels\ChannelAppService.cs" />
+    <Compile Include="CMS\Channels\Dto\MoveChannelInput.cs" />
+    <Compile Include="CMS\Channels\Dto\UpdateChannelInput.cs" />
+    <Compile Include="CMS\Channels\Dto\CreateChannelInput.cs" />
+    <Compile Include="CMS\Channels\Dto\ChannelDto.cs" />
+    <Compile Include="CMS\Channels\IChannelAppService.cs" />
     <Compile Include="Common\CommonLookupAppService.cs" />
     <Compile Include="Common\Dto\FindUsersInput.cs" />
     <Compile Include="Common\ICommonLookupAppService.cs" />
