@@ -1,4 +1,5 @@
-﻿using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using DM.AbpZeroTemplate.CMS.Channels.Dto;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
     /// <summary>
     ///  栏目的领域服务
     /// </summary>
-    public interface IChannelAppService
+    public interface IChannelAppService : IApplicationService
     {
         /// <summary>
         /// 获取栏目

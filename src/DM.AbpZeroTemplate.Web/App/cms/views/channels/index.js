@@ -146,7 +146,7 @@
                 },
 
                 getTreeDataFromServer: function (callback) {
-                    channelService.getChannels({}).success(function (result) {
+                    channelService.getChannels({ id: 0 }).success(function (result) {
                         var treeData = _.map(result.items, function (item) {
                             return {
                                 id: item.id,

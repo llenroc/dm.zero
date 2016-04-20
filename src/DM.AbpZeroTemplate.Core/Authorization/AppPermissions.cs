@@ -66,5 +66,6 @@
         public const string Pages_CMS_Channels_Create = "Pages.CMS.Channels.Create";
         public const string Pages_CMS_Channels_Edit = "Pages.CMS.Channels.Edit";
         public const string Pages_CMS_Channels_Delete = "Pages.CMS.Channels.Delete";
+        public const string Pages_CMS_Channels_Move = "Pages.CMS.Channels.Move";
     }
 }

@@ -8,6 +8,10 @@ using DM.AbpZeroTemplate.CMS.Channels.Dto;
 using Abp.Authorization;
 using DM.AbpZeroTemplate.Authorization;
 using Abp.Channels;
+using Abp.Apps;
+using Abp.AutoMapper;
+using Abp.Domain.Repositories;
+using System.Data.Entity;
 
 namespace DM.AbpZeroTemplate.CMS.Channels
 {
@@ -15,30 +19,110 @@ namespace DM.AbpZeroTemplate.CMS.Channels
     public class ChannelAppService : AbpZeroTemplateAppServiceBase, IChannelAppService
     {
         private readonly ChannelManager _channelManager;
+        private readonly AppManager _appManager;
+        private readonly IRepository<Channel, long> _channelRepository;
 
-        public Task<ChannelDto> CreateChannel(CreateChannelInput input)
+        public ChannelAppService(ChannelManager channelManager, AppManager appManager, IRepository<Channel, long> channelRepository)
         {
-            throw new NotImplementedException();
+            _channelManager = channelManager;
+            _appManager = appManager;
+            _channelRepository = channelRepository;
         }
 
-        public Task DeleteChannel(IdInput<long> input)
+        /// <summary>
+        /// 创建栏目
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_CMS_Channels_Create)]
+        public async Task<ChannelDto> CreateChannel(CreateChannelInput input)
         {
-            throw new NotImplementedException();
+            var channel = new Channel(input.AppId, input.DisplayName, input.ParentId);
+            await _channelManager.CreateAsync(channel);
+            await CurrentUnitOfWork.SaveChangesAsync();
+            return channel.MapTo<ChannelDto>();
         }
 
-        public Task<ListResultOutput<ChannelDto>> GetChannels(IdInput<long> input)
+        /// <summary>
+        /// 删除栏目
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_CMS_Channels_Delete)]
+        public async Task DeleteChannel(IdInput<long> input)
         {
-            throw new NotImplementedException();
+            await _channelManager.DeleteAsync(input.Id);
         }
 
-        public Task<ChannelDto> MoveChannel(MoveChannelInput input)
+        /// <summary>
+        /// 获取栏目
+        /// </summary>
+        /// <param name="input">appId</param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_CMS_Channels)]
+        public async Task<ListResultOutput<ChannelDto>> GetChannels(IdInput<long> input)
         {
-            throw new NotImplementedException();
+            var query = from ch in _channelRepository.GetAll()
+                                .Where(c => c.AppId == input.Id)
+                        select new { ch, contentContent = 0 };
+            var items = await query.ToListAsync();
+            return new ListResultOutput<ChannelDto>(items.Select(
+                    item =>
+                    {
+                        var dto = item.ch.MapTo<ChannelDto>();
+                        dto.ContentCount = item.contentContent;
+                        return dto;
+                    }
+                ).ToList()
+                );
+
         }
 
-        public Task<ChannelDto> UpdateChannel(UpdateChannelInput input)
+        /// <summary>
+        /// 移动栏目
+        /// </summary>
+        /// <param name="input">appId</param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_CMS_Channels_Move)]
+        public async Task<ChannelDto> MoveChannel(MoveChannelInput input)
         {
-            throw new NotImplementedException();
+            await _channelManager.MoveAsync(input.Id, input.NewParentId);
+            return await CreateChannelDto(
+                await _channelRepository.GetAsync(input.Id)
+                );
+        }
+
+        /// <summary>
+        /// 修改栏目
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<ChannelDto> UpdateChannel(UpdateChannelInput input)
+        {
+            var channel = await _channelRepository.GetAsync(input.Id);
+            if (channel != null)
+            {
+                channel.DisplayName = input.DisplayName;
+                await _channelManager.UpdateAsync(channel);
+            }
+            return await CreateChannelDto(channel);
+        }
+
+        /// <summary>
+        ///  根据Channel创建Dto
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <returns></returns>
+        private async Task<ChannelDto> CreateChannelDto(Channel channel)
+        {
+            if (channel != null)
+            {
+                var dto = channel.MapTo<ChannelDto>();
+                dto.ContentCount = 0;//需要从数据库中读取
+                return dto;
+            }
+            else
+                return null;
         }
     }
 }

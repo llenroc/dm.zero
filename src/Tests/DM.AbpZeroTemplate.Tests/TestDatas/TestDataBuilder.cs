@@ -1,5 +1,6 @@
 ﻿using EntityFramework.DynamicFilters;
 using DM.AbpZeroTemplate.EntityFramework;
+using Abp.CMS.EntityFramework;
 
 namespace DM.AbpZeroTemplate.Tests.TestDatas
 {
