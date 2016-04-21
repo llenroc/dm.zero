@@ -2,13 +2,14 @@
 using Abp.AutoMapper;
 using Abp.Modules;
 using DM.AbpZeroTemplate.Authorization;
+using DM.AbpZeroTemplate;
 
 namespace DM.AbpZeroTemplate
 {
     /// <summary>
     /// Application layer module of the application.
     /// </summary>
-    [DependsOn(typeof(AbpZeroTemplateCoreModule), typeof(AbpAutoMapperModule))]
+    [DependsOn(typeof(AbpZeroTemplateCoreModule), typeof(AbpAutoMapperModule), typeof(AbpZeroTemplateDataModule))]
     public class AbpZeroTemplateApplicationModule : AbpModule
     {
         public override void PreInitialize()
