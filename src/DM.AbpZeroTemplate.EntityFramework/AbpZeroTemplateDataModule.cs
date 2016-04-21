@@ -1,13 +1,14 @@
 ﻿using System.Reflection;
 using Abp.Modules;
 using Abp.Zero.EntityFramework;
+using Abp.CMS.EntityFramework;
 
 namespace DM.AbpZeroTemplate
 {
     /// <summary>
     /// Entity framework module of the application.
     /// </summary>
-    [DependsOn(typeof(AbpZeroEntityFrameworkModule), typeof(AbpZeroTemplateCoreModule))]
+    [DependsOn(typeof(AbpZeroEntityFrameworkModule), typeof(AbpZeroTemplateCoreModule), typeof(AbpCMSEntityFrameworkModule))]
     public class AbpZeroTemplateDataModule : AbpModule
     {
         public override void PreInitialize()

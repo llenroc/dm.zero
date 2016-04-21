@@ -14,13 +14,14 @@ using DM.AbpZeroTemplate.Configuration;
 using DM.AbpZeroTemplate.Debugging;
 using DM.AbpZeroTemplate.Features;
 using DM.AbpZeroTemplate.Notifications;
+using Abp.CMS;
 
 namespace DM.AbpZeroTemplate
 {
     /// <summary>
     /// Core (domain) module of the application.
     /// </summary>
-    [DependsOn(typeof(AbpZeroCoreModule), typeof(AbpZeroLdapModule))]
+    [DependsOn(typeof(AbpZeroCoreModule), typeof(AbpZeroLdapModule), typeof(AbpCMSCoreModule))]
     public class AbpZeroTemplateCoreModule : AbpModule
     {
         public override void PreInitialize()
