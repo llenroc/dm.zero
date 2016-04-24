@@ -32,6 +32,7 @@
     <text name="Static" value="Static" />
     <text name="Actions" value="Actions" />
     <text name="Delete" value="Delete" />
+    <text name="Add" value="添加" />
     <text name="SavedSuccessfully" value="Saved successfully." />
     <text name="AreYouSure" value="Are you sure?" />
     <text name="YesDelete" value="Yes, delete!" />
@@ -374,7 +375,11 @@
     <text name="ResizedProfilePicture_Warn_SizeLimit" value="Resized picture size must be smalled than 100KB. Please resize down and try again." />
     
     <!--CMS STAET-->
-    <text name="Channels" value="CMS Channels"></text>
+    <text name="CMS" value="CMS Manage"></text>
+    <text name="Channels" value="Channels"></text>
+    <text name="ChannelsHeaderInfo" value="Class of Content"></text>
+    <text name="ChannelTree" value="ChannelTree"></text>
+    <text name="ChannelDeleteWarningMessage" value="Are you sure to delete channel {0}?" />
     <!--CMS END-->
   </texts>
 </localizationDictionary>

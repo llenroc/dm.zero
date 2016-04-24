@@ -1,5 +1,7 @@
 ﻿using EntityFramework.DynamicFilters;
 using DM.AbpZeroTemplate.EntityFramework;
+using Abp.CMS.EntityFramework;
+using Abp.Dependency;
 
 namespace DM.AbpZeroTemplate.Migrations.Seed
 {
@@ -20,6 +22,10 @@ namespace DM.AbpZeroTemplate.Migrations.Seed
             new DefaultLanguagesCreator(_context).Create();
             new DefaultTenantRoleAndUserCreator(_context).Create();
             new DefaultSettingsCreator(_context).Create();
+
+            #region CMS
+            new DefaultAppChannelCreator(_context).Create(); 
+            #endregion
 
             _context.SaveChanges();
         }

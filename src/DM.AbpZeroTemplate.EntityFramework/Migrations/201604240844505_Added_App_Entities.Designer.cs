@@ -7,13 +7,13 @@ namespace DM.AbpZeroTemplate.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Added_Channel_Entities : IMigrationMetadata
+    public sealed partial class Added_App_Entities : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Added_Channel_Entities));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Added_App_Entities));
         
         string IMigrationMetadata.Id
         {
-            get { return "201604200710268_Added_Channel_Entities"; }
+            get { return "201604240844505_Added_App_Entities"; }
         }
         
         string IMigrationMetadata.Source

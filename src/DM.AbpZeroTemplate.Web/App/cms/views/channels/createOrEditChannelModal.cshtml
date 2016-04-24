@@ -1,0 +1,21 @@
+﻿@using Abp.Channels
+<div>
+    <form name="channelForm" role="form" novalidate class="form-validation">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                <span ng-if="vm.channel.Id">@L("Edit"):{{vm.channel.displayName}}</span>
+                <span ng-if="!vm.channel.Id">@L("AddSubChannel")</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input auto-focus class="form-control" type="text" name="DisplayName" ng-class="{'edited':vm.channel.displayName}" ng-model="vm.channel.displayName" required maxlength="@Channel.MaxDisplayNameLength" />
+                <label>@L("Name")</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>
+            <button type="submit" button-busy="vm.saving" busy-text="@L("SavingWithThreeDot")" class="btn btn-primary blue" ng-click="vm.save()" ng-disabled="channelForm.$invalid"><i class="fa fa-save"></i><span>@L("Save")</span></button>
+        </div>
+    </form>
+</div>

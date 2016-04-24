@@ -36,7 +36,6 @@ namespace DM.AbpZeroTemplate.Tests
                 new InitialDbBuilder(context).Create();
                 new TestDataBuilder(context).Create();
             });
-
             LoginAsDefaultTenantAdmin();
         }
 

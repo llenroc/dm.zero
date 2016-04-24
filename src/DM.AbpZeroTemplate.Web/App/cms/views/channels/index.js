@@ -41,7 +41,7 @@
                             vm.channelTree.selectedChannel.displayName = ouInTree.displayName;
                             vm.channelTree.selectedChannel.code = ouInTree.code;
                         }
-                        vm.members.load();
+                        // vm.members.load();
                     }
                 },
 
@@ -51,22 +51,22 @@
                             label: app.localize('Edit'),
                             _disabled: !vm.permissions.manageChannelTree,
                             action: function (data) {
-                                var instance = $jstree.reference(data.reference);
+                                var instance = $.jstree.reference(data.reference);
 
                                 vm.channelTree.openCreateOrEditChannelModal(
                                     {
                                         id: node.id,
-                                        displayName: node.channel.displayName
+                                        displayName: node.original.displayName
                                     },
                                     function (updatedChannel) {
-                                        node.channel.displayName = updatedChannel.displayName;
+                                        node.original.displayName = updatedChannel.displayName;
                                         instance.rename_node(node, vm.channelTree.generateTextOnTree(updatedChannel));
                                     });
                             }
                         }
                         ,
                         addSubChannel: {
-                            lable: app.localize('AddSubChannel'),
+                            label: app.localize('Add'),
                             _disabled: !vm.permissions.manageChannelTree,
                             action: function () {
                                 vm.channelTree.addChannel(node.id);
@@ -74,14 +74,14 @@
                         }
                         ,
                         'delete': {
-                            lable: app.localize('Delete'),
+                            label: app.localize('Delete'),
                             _disabled: !vm.permissions.manageChannelTree,
                             action: function (data) {
                                 var instance = $.jstree.reference(data.reference);
 
                                 abp.message.confirm(
                                     app.localize('ChannelDeleteWarningMessage',
-                                    node.channel.displayName),
+                                    node.original.displayName),
                                     function (isConfirmed) {
                                         if (isConfirmed) {
                                             channelService.deleteChannel({
@@ -142,7 +142,7 @@
 
                 generateTextOnTree: function (channel) {
                     var itemClass = channel.contentCount > 0 ? ' ou-text-has-members' : ' ou-text-no-members';
-                    return '<span title="' + channel.code + '" class="ou-text' + itemClass + '" data-ou-id="' + channel.id + '">' + channel.displayName + '</span>(<span class="ou-text-member-count">' + channel.contentCount + '</span>)<i class="fa fa-caret-down text-muted"></i>';
+                    return '<span title="' + channel.code + '" class="ou-text' + itemClass + '" data-ou-id="' + channel.id + '">' + channel.displayName + '(<span class="ou-text-member-count">' + channel.contentCount + '</span>)<i class="fa fa-caret-down text-muted"></i></span>';
                 },
 
                 getTreeDataFromServer: function (callback) {
@@ -192,34 +192,35 @@
                                     vm.channelTree.selectedChannel.set(selectedChannel);
                                 }
                             })
-                            .on('move_node.jstree', function (e, data) {
-                                if (!vm.permissions.manageChannelTree) {
-                                    vm.channelTree.$tree.jstree('refresh');//刷新
-                                    return;
-                                }
-                                var parentChannelName = (!data.parent || data.parent == '#')
-                                    ? app.localize('Root')
-                                    : vm.channelTree.$tree.jstree('get_node', data.parent).channel.displayName;
+                        })
+                        .on('move_node.jstree', function (e, data) {
+                            if (!vm.permissions.manageChannelTree) {
+                                vm.channelTree.$tree.jstree('refresh');//刷新
+                                return;
+                            }
+                            var parentChannelName = (!data.parent || data.parent == '#')
+                                ? app.localize('Root')
+                                : vm.channelTree.$tree.jstree('get_node', data.parent).channel.displayName;
 
-                                abp.message.confirm(app.localize('ChannelMoveConfirmMessage', data.node.channel.displayName, parentChannelName),
-                                    function (isConfirmed) {
-                                        if (isConfirmed) {
-                                            channelService.moveChannel({
-                                                id: data.node.id,
-                                                newParentId: data.parent
-                                            }).success(function () {
-                                                abp.notify.success(app.localize('SuccessfullyMoved'));
-                                                vm.channelTree.reload();
-                                            }).catch(function (err) {
-                                                vm.channelTree.$tree.jstree('refresh');
-                                                setTimeout(function () { abp.message.error(err.data.message); }, 500);
-                                            });
-                                        }
-                                        else {
+                            abp.message.confirm(app.localize('ChannelMoveConfirmMessage', data.node.original.displayName, parentChannelName),
+                                function (isConfirmed) {
+                                    if (isConfirmed) {
+                                        channelService.moveChannel({
+                                            id: data.node.id,
+                                            newParentId: data.parent
+                                        }).success(function () {
+                                            abp.notify.success(app.localize('SuccessfullyMoved'));
+                                            vm.channelTree.reload();
+                                        }).catch(function (err) {
                                             vm.channelTree.$tree.jstree('refresh');
-                                        }
-                                    });
-                            })
+                                            setTimeout(function () { abp.message.error(err.data.message); }, 500);
+                                        });
+                                    }
+                                    else {
+                                        vm.channelTree.$tree.jstree('refresh');
+                                    }
+                                });
+                        })
                             .jstree({
                                 'core': {
                                     data: treeData,
@@ -240,7 +241,7 @@
                                     items: vm.channelTree.contextMenu
                                 },
                                 sort: function (node1, node2) {
-                                    if (this.get_node(node2).channel.displayName < this.get_node(node1).channel.displayName) {
+                                    if (this.get_node(node2).original.displayName < this.get_node(node1).original.displayName) {
                                         return 1;
                                     }
                                     return -1;
@@ -248,15 +249,14 @@
                                 plugins: jsTreePlugins
                             });
 
-                            vm.channelTree.$tree.on('click', '.ou-text .fa-caret-down', function (e) {
-                                e.preventDefault();
+                        vm.channelTree.$tree.on('click', '.ou-text .fa-caret-down', function (e) {
+                            e.preventDefault();
 
-                                var channelId = $(this).closest('.ou-text').attr('data-ou-id');
-                                setTimeout(function () {
-                                    vm.channelTree.$tree.jstree('show_contextmenu', channelId);
-                                }, 100);
-                            });
-                        })
+                            var channelId = $(this).closest('.ou-text').attr('data-ou-id');
+                            setTimeout(function () {
+                                vm.channelTree.$tree.jstree('show_contextmenu', channelId);
+                            }, 100);
+                        });
                     });
                 },
 

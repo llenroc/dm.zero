@@ -32,6 +32,7 @@
     <text name="Static" value="系统" />
     <text name="Actions" value="操作" />
     <text name="Delete" value="删除" />
+    <text name="Add" value="添加" />
     <text name="SavedSuccessfully" value="保存成功." />
     <text name="AreYouSure" value="您确定吗?" />
     <text name="YesDelete" value="是, 执行删除!" />
@@ -282,7 +283,11 @@
     <text name="ThisLanguageAlreadyExists" value="这种语言已经存在!" />
 
     <!--CMS STAET-->
+    <text name="CMS" value="CMS管理"></text>
     <text name="Channels" value="栏目"></text>
+    <text name="ChannelsHeaderInfo" value="内容分类结构。"></text>
+    <text name="ChannelTree" value="栏目结构"></text>
+    <text name="ChannelDeleteWarningMessage" value="确定要删除当前栏目吗 {0}?" />
     <!--CMS END-->
     
   </texts>

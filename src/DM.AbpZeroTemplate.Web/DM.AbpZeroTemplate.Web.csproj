@@ -324,6 +324,7 @@
     <Content Include="Abp\Framework\styles\abp.mixings.css" />
     <Content Include="Abp\Framework\styles\abp.mixings.min.css" />
     <Content Include="Abp\Framework\styles\utils\ie10fix.css" />
+    <Content Include="App\cms\views\channels\createOrEditChannelModal.js" />
     <Content Include="App\cms\views\channels\index.cshtml" />
     <Content Include="App\cms\views\channels\index.js" />
     <Content Include="App\common\directives\enterKey.js" />
@@ -1987,6 +1988,7 @@
     <Content Include="App\common\views\users\loginAttemptsModal.less" />
     <Content Include="Areas\Mpa\Views\Users\_LoginAttemptsModal.cshtml" />
     <Content Include="Areas\Mpa\Views\Users\_LoginAttemptsModal.less" />
+    <Content Include="App\cms\views\channels\createOrEditChannelModal.cshtml" />
     <None Include="Properties\PublishProfiles\dm.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
