@@ -43,5 +43,11 @@ namespace DM.AbpZeroTemplate.Authorization.Users
         {
             return Guid.NewGuid().ToString("N").Truncate(16);
         }
+
+
+        /// <summary>
+        ///  当前用户打开的AppId
+        /// </summary>
+        public virtual long AppId { get; set; }
     }
 }

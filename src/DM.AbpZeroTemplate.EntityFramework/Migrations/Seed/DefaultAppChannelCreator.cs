@@ -26,7 +26,12 @@ namespace DM.AbpZeroTemplate.Migrations.Seed
             if (defaultApp == null)
             {
                 var defaultTenant = _context.Tenants.FirstOrDefault(t => t.TenancyName == Tenant.DefaultTenantName);
-                defaultApp = new App { AppName = App.DefaultName, AppDir = App.DefaultDir, AppUrl = "/" + App.DefaultDir, TenantId = defaultTenant.Id };
+                defaultApp = new App {
+                    AppName = App.DefaultName,
+                    AppDir = App.DefaultDir,
+                    AppUrl = "/" + App.DefaultDir,
+                    TenantId = defaultTenant.Id
+                };
                 _context.Apps.Add(defaultApp);
                 _context.SaveChanges();
             }
@@ -37,12 +42,13 @@ namespace DM.AbpZeroTemplate.Migrations.Seed
             {
                 defaultChannel = new Channel
                 {
-                    ParentId = ChannelManager.DefaultParentId,
+                    ParentId = null,
                     DisplayName = ChannelManager.DefaultChannelName,
                     AppId = defaultApp.Id,
                     Code = Channel.CreateCode(0),
                     Parent = null,
                 };
+
                 _context.Channels.Add(defaultChannel);
                 _context.SaveChanges();
             }

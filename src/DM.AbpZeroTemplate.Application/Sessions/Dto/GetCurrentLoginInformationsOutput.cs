@@ -7,5 +7,7 @@ namespace DM.AbpZeroTemplate.Sessions.Dto
         public UserLoginInfoDto User { get; set; }
 
         public TenantLoginInfoDto Tenant { get; set; }
+
+        public AppLoginInfoDto App { get; set; }
     }
 }

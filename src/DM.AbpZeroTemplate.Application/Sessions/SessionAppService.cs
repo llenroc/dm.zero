@@ -14,7 +14,8 @@ namespace DM.AbpZeroTemplate.Sessions
         {
             var output = new GetCurrentLoginInformationsOutput
             {
-                User = (await GetCurrentUserAsync()).MapTo<UserLoginInfoDto>()
+                User = (await GetCurrentUserAsync()).MapTo<UserLoginInfoDto>(),
+                App = (await GetCurrentAppAsync()).MapTo<AppLoginInfoDto>()
             };
 
             if (AbpSession.TenantId.HasValue)

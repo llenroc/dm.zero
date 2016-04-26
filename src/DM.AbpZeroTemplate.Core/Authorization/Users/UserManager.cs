@@ -1,4 +1,5 @@
-﻿using Abp.Authorization;
+﻿using System.Threading.Tasks;
+using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Configuration;
 using Abp.Configuration.Startup;
@@ -10,6 +11,8 @@ using Abp.Runtime.Caching;
 using Abp.Zero.Configuration;
 using DM.AbpZeroTemplate.Authorization.Roles;
 using DM.AbpZeroTemplate.MultiTenancy;
+using Microsoft.AspNet.Identity;
+using Abp.Apps;
 
 namespace DM.AbpZeroTemplate.Authorization.Users
 {
@@ -20,6 +23,8 @@ namespace DM.AbpZeroTemplate.Authorization.Users
     /// </summary>
     public class UserManager : AbpUserManager<Tenant, Role, User>
     {
+        private readonly AppManager _appManager;
+
         public UserManager(
             UserStore userStore,
             RoleManager roleManager,
@@ -34,7 +39,8 @@ namespace DM.AbpZeroTemplate.Authorization.Users
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
             IOrganizationUnitSettings organizationUnitSettings,
-            IRepository<UserLoginAttempt, long> userLoginAttemptRepository)
+            IRepository<UserLoginAttempt, long> userLoginAttemptRepository,
+            AppManager appManager)
             : base(
                 userStore,
                 roleManager,
@@ -51,7 +57,21 @@ namespace DM.AbpZeroTemplate.Authorization.Users
                 organizationUnitSettings,
                 userLoginAttemptRepository)
         {
+            _appManager = appManager;
+        }
 
+        public override async Task<AbpLoginResult> LoginAsync(UserLoginInfo login, string tenancyName = null)
+        {
+            var result = await base.LoginAsync(login, tenancyName);
+
+            //设置当前用户，最后查看的appId
+            var defaultApp = await _appManager.FindDefaultAppAsync();
+            if (defaultApp != null)
+            {
+                result.User.AppId = defaultApp.Id;
+                await UpdateAsync(result.User);
+            }
+            return result;
         }
     }
 }

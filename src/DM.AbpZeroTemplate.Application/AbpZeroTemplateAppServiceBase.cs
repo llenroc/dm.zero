@@ -7,6 +7,7 @@ using Abp.Runtime.Session;
 using Microsoft.AspNet.Identity;
 using DM.AbpZeroTemplate.Authorization.Users;
 using DM.AbpZeroTemplate.MultiTenancy;
+using Abp.Apps;
 
 namespace DM.AbpZeroTemplate
 {
@@ -19,6 +20,29 @@ namespace DM.AbpZeroTemplate
         public TenantManager TenantManager { get; set; }
 
         public UserManager UserManager { get; set; }
+
+        public AppManager AppManager { get; set; }
+
+        public long AppId
+        {
+            get
+            {
+                var currentApp = GetCurrentApp();
+                if (currentApp != null)
+                    return currentApp.Id;
+                else
+                    return 0;
+            }
+        }
+
+        public virtual async Task<long> GetAppIdAsync()
+        {
+            var currentApp = await GetCurrentAppAsync();
+            if (currentApp != null)
+                return currentApp.Id;
+            else
+                return 0;
+        }
 
         protected AbpZeroTemplateAppServiceBase()
         {
@@ -55,6 +79,30 @@ namespace DM.AbpZeroTemplate
         protected virtual Tenant GetCurrentTenant()
         {
             return TenantManager.GetById(AbpSession.GetTenantId());
+        }
+
+
+        protected virtual async Task<App> GetCurrentAppAsync()
+        {
+            var user = await GetCurrentUserAsync();
+
+            if (user.AppId > 0)
+                return await AppManager.GetByIdAsync(GetCurrentUser().AppId);
+            else
+            {
+                return await AppManager.FindDefaultAppAsync();
+            }
+        }
+
+        protected virtual App GetCurrentApp()
+        {
+            var user = GetCurrentUser();
+            if (user.AppId > 0)
+                return AppManager.GetById(GetCurrentUser().AppId);
+            else
+            {
+                return AppManager.FindDefaultApp();
+            }
         }
 
         protected virtual void CheckErrors(IdentityResult identityResult)

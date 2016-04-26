@@ -19,13 +19,11 @@ namespace DM.AbpZeroTemplate.CMS.Channels
     public class ChannelAppService : AbpZeroTemplateAppServiceBase, IChannelAppService
     {
         private readonly ChannelManager _channelManager;
-        private readonly AppManager _appManager;
         private readonly IRepository<Channel, long> _channelRepository;
 
-        public ChannelAppService(ChannelManager channelManager, AppManager appManager, IRepository<Channel, long> channelRepository)
+        public ChannelAppService(ChannelManager channelManager, IRepository<Channel, long> channelRepository)
         {
             _channelManager = channelManager;
-            _appManager = appManager;
             _channelRepository = channelRepository;
         }
 
@@ -37,7 +35,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         [AbpAuthorize(AppPermissions.Pages_CMS_Channels_Create)]
         public async Task<ChannelDto> CreateChannel(CreateChannelInput input)
         {
-            var channel = new Channel(input.AppId, input.DisplayName, input.ParentId);
+            var channel = new Channel(AppId, input.DisplayName, input.ParentId);
             await _channelManager.CreateAsync(channel);
             await CurrentUnitOfWork.SaveChangesAsync();
             return channel.MapTo<ChannelDto>();
@@ -62,10 +60,13 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         [AbpAuthorize(AppPermissions.Pages_CMS_Channels)]
         public async Task<ListResultOutput<ChannelDto>> GetChannels(IdInput<long> input)
         {
+            if (input.Id == 0)
+                input.Id = AppId;
+
             var query = from ch in _channelRepository.GetAll()
                                 .Where(c => c.AppId == input.Id)
                         select new { ch, contentContent = 0 };
-            var items = await query.ToListAsync();
+            var items = query.ToList();
             return new ListResultOutput<ChannelDto>(items.Select(
                     item =>
                     {

@@ -277,6 +277,10 @@
     <Compile Include="Migrations\201604240844505_Added_App_Entities.Designer.cs">
       <DependentUpon>201604240844505_Added_App_Entities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604260950199_Added_AppId_To_User.cs" />
+    <Compile Include="Migrations\201604260950199_Added_AppId_To_User.Designer.cs">
+      <DependentUpon>201604260950199_Added_AppId_To_User.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="AbpZeroTemplateDataModule.cs" />
     <Compile Include="Migrations\Seed\DefaultAppChannelCreator.cs" />
@@ -411,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604240844505_Added_App_Entities.resx">
       <DependentUpon>201604240844505_Added_App_Entities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604260950199_Added_AppId_To_User.resx">
+      <DependentUpon>201604260950199_Added_AppId_To_User.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
