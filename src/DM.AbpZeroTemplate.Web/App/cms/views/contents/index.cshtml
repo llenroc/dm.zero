@@ -1,0 +1,57 @@
+﻿@using DM.AbpZeroTemplate.Localization
+
+<div ng-controller="cms.views.channels.index as vm">
+    <div class="row margin-bottom-5">
+        <div class="col-xs-12">
+            <div class="page-head">
+                <div class="page-title">
+                    <h1>
+                        <span>@L("Contents")</span><small>@L("ContentsHeaderInfo")</small>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold uppercase">
+                            @L("ChannelTree")
+                        </span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div id="ChannelEditTree"></div>
+                    <div ng-if="!vm.channelTree.channelCount" class="text-muted">
+                        @L("NoChannelDefinedYet")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold uppercase">
+                            @L("Contents")
+                            <span ng-if="vm.channelTree.selectedChannel.displayName">: {{vm.channelTree.selectedChannel.displayName}}</span>
+                        </span>
+                    </div>
+                    <div class="actions" ng-if="vm.channelTree.selectedChannel.id">
+                        <a ng-if="vm.permissions.manageContents" ng-click="vm.contents.addContent()" class="btn btn-circle btn-default">
+                            <i class="fa fa-plus"></i> @L("AddContent")
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div ng-if="vm.channelTree.selectedChannel.id" ui-grid="vm.contents.gridOptions" ui-grid-pagination ui-grid-resize-columns dir=@(CultureHelper.IsRtl ? "rtl" : "")></div>
+                    <div ng-if="!vm.channelTree.selectedChannel.id" class="text-muted">
+                        @L("SelectAnChannelToSeeContents")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ using DM.AbpZeroTemplate.MultiTenancy;
 using DM.AbpZeroTemplate.Storage;
 using Abp.Channels;
 using Abp.Apps;
-using Abp.CMS.EntityFramework;
+using Abp.Contents;
 
 namespace DM.AbpZeroTemplate.EntityFramework
 {
@@ -20,7 +20,8 @@ namespace DM.AbpZeroTemplate.EntityFramework
 
         #region CMS
         public virtual IDbSet<App> Apps { get; set; }
-        public virtual IDbSet<Channel> Channels { get; set; } 
+        public virtual IDbSet<Channel> Channels { get; set; }
+        public virtual IDbSet<Content> Contents { get; set; }
         #endregion
 
         /* Setting "Default" to base class helps us when working migration commands on Package Manager Console.

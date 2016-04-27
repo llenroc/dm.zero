@@ -110,6 +110,13 @@ namespace DM.AbpZeroTemplate.Web.App.Startup
                         icon: "icon-manage",
                         requiredPermissionName: AppPermissions.Pages_CMS_Channels
                         )
+                   ).AddItem(new MenuItemDefinition(
+                        PageNames.App.CMS.Contents,
+                        L("Contents"),
+                        url: "cms.contents",
+                        icon: "icon-manage",
+                        requiredPermissionName: AppPermissions.Pages_CMS_Contents
+                        )
                    )
                  );
         }

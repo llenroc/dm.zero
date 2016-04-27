@@ -12,6 +12,7 @@ using Abp.Apps;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using System.Data.Entity;
+using Abp.Contents;
 
 namespace DM.AbpZeroTemplate.CMS.Channels
 {
@@ -19,12 +20,12 @@ namespace DM.AbpZeroTemplate.CMS.Channels
     public class ChannelAppService : AbpZeroTemplateAppServiceBase, IChannelAppService
     {
         private readonly ChannelManager _channelManager;
-        private readonly IRepository<Channel, long> _channelRepository;
+        private readonly ContentManager _contentManager;
 
-        public ChannelAppService(ChannelManager channelManager, IRepository<Channel, long> channelRepository)
+        public ChannelAppService(ChannelManager channelManager, ContentManager contentManager)
         {
             _channelManager = channelManager;
-            _channelRepository = channelRepository;
+            _contentManager = contentManager;
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
             if (input.Id == 0)
                 input.Id = AppId;
 
-            var query = from ch in _channelRepository.GetAll()
+            var query = from ch in _channelManager.ChannelRepository.GetAll()
                                 .Where(c => c.AppId == input.Id)
                         select new { ch, contentContent = 0 };
             var items = query.ToList();
@@ -80,6 +81,17 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         }
 
         /// <summary>
+        /// 是否在栏目下
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<bool> IsInChannel(IsInChannelInput input)
+        {
+            var content = await _contentManager.ContentRepository.GetAsync(input.ContentId);
+            return await Task.FromResult<bool>(content.ChannelId == input.ChannelId);
+        }
+
+        /// <summary>
         /// 移动栏目
         /// </summary>
         /// <param name="input">appId</param>
@@ -89,7 +101,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         {
             await _channelManager.MoveAsync(input.Id, input.NewParentId);
             return await CreateChannelDto(
-                await _channelRepository.GetAsync(input.Id)
+                await _channelManager.ChannelRepository.GetAsync(input.Id)
                 );
         }
 
@@ -100,7 +112,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         /// <returns></returns>
         public async Task<ChannelDto> UpdateChannel(UpdateChannelInput input)
         {
-            var channel = await _channelRepository.GetAsync(input.Id);
+            var channel = await _channelManager.ChannelRepository.GetAsync(input.Id);
             if (channel != null)
             {
                 channel.DisplayName = input.DisplayName;

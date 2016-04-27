@@ -1,0 +1,25 @@
+﻿@using Abp.Contents
+<div>
+    <form name="contentForm" role="form" novalidate class="form-validation">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                <span ng-if="vm.content.Id">@L("Edit"):{{vm.content.displayName}}</span>
+                <span ng-if="!vm.content.Id">@L("AddSubContent")</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input auto-focus class="form-control" type="text" name="Title" ng-class="{'edited':vm.content.title}" ng-model="vm.content.title" required maxlength="@Content.MaxTitleLength" />
+                <label>@L("Title")</label>
+            </div>
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input auto-focus class="form-control" type="text" name="ContentText" ng-class="{'edited':vm.content.contentText}" ng-model="vm.content.contentText"  />
+                <label>@L("ContentText")</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>
+            <button type="submit" button-busy="vm.saving" busy-text="@L("SavingWithThreeDot")" class="btn btn-primary blue" ng-click="vm.save()" ng-disabled="contentForm.$invalid"><i class="fa fa-save"></i><span>@L("Save")</span></button>
+        </div>
+    </form>
+</div>

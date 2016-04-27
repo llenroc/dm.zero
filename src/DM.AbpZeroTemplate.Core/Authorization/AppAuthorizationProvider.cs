@@ -67,10 +67,18 @@ namespace DM.AbpZeroTemplate.Authorization
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Maintenance, L("Maintenance"), multiTenancySides: MultiTenancySides.Host);
 
             //CMS-SPECIFIC PERMISSIONS
-            var cms = pages.CreateChildPermission(AppPermissions.Pages_CMS_Channels, L("Channels"));
+            var cms = pages.CreateChildPermission(AppPermissions.Pages_CMS, L("CMS"));
+
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels, L("Channels"));
             cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels_Create, L("ChannelCreate"));
             cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels_Delete, L("ChannelDelete"));
             cms.CreateChildPermission(AppPermissions.Pages_CMS_Channels_Edit, L("ChannelEdit"));
+
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Contents, L("Contents"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Contents_Create, L("ContentCreate"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Contents_Delete, L("ContentDelete"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Contents_Edit, L("ContentEdit"));
+
         }
 
         private static ILocalizableString L(string name)

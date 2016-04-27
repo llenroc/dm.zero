@@ -61,11 +61,18 @@
         public const string Pages_Administration_Host_Settings = "Pages.Administration.Host.Settings";
 
         //CMS-SPECIFIC PERMISSIONS
+        public const string Pages_CMS = "Pages.CMS";
 
         public const string Pages_CMS_Channels = "Pages.CMS.Channels";
         public const string Pages_CMS_Channels_Create = "Pages.CMS.Channels.Create";
         public const string Pages_CMS_Channels_Edit = "Pages.CMS.Channels.Edit";
         public const string Pages_CMS_Channels_Delete = "Pages.CMS.Channels.Delete";
         public const string Pages_CMS_Channels_Move = "Pages.CMS.Channels.Move";
+
+        public const string Pages_CMS_Contents = "Pages.CMS.Contents";
+        public const string Pages_CMS_Contents_Create = "Pages.CMS.Contents.Create";
+        public const string Pages_CMS_Contents_Edit = "Pages.CMS.Contents.Edit";
+        public const string Pages_CMS_Contents_Delete = "Pages.CMS.Contents.Delete";
+        public const string Pages_CMS_Contents_Move = "Pages.CMS.Contents.Move";
     }
 }

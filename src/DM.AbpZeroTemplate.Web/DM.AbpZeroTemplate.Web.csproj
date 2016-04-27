@@ -327,6 +327,8 @@
     <Content Include="App\cms\views\channels\createOrEditChannelModal.js" />
     <Content Include="App\cms\views\channels\index.cshtml" />
     <Content Include="App\cms\views\channels\index.js" />
+    <Content Include="App\cms\views\contents\createOrEditContentModal.js" />
+    <Content Include="App\cms\views\contents\index.js" />
     <Content Include="App\common\directives\enterKey.js" />
     <Content Include="App\common\services\appUserNotificationHelper.js" />
     <Content Include="App\common\views\auditLogs\detailModal.css">
@@ -1989,6 +1991,8 @@
     <Content Include="Areas\Mpa\Views\Users\_LoginAttemptsModal.cshtml" />
     <Content Include="Areas\Mpa\Views\Users\_LoginAttemptsModal.less" />
     <Content Include="App\cms\views\channels\createOrEditChannelModal.cshtml" />
+    <Content Include="App\cms\views\contents\index.cshtml" />
+    <Content Include="App\cms\views\contents\createOrEditContentModal.cshtml" />
     <None Include="Properties\PublishProfiles\dm.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />

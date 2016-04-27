@@ -65,7 +65,7 @@ namespace DM.AbpZeroTemplate.Authorization.Users
             var result = await base.LoginAsync(login, tenancyName);
 
             //设置当前用户，最后查看的appId
-            var defaultApp = await _appManager.FindDefaultAppAsync();
+            var defaultApp = await _appManager.FindDefaultAsync();
             if (defaultApp != null)
             {
                 result.User.AppId = defaultApp.Id;

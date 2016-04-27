@@ -90,7 +90,7 @@ namespace DM.AbpZeroTemplate
                 return await AppManager.GetByIdAsync(GetCurrentUser().AppId);
             else
             {
-                return await AppManager.FindDefaultAppAsync();
+                return await AppManager.FindDefaultAsync();
             }
         }
 
@@ -101,7 +101,7 @@ namespace DM.AbpZeroTemplate
                 return AppManager.GetById(GetCurrentUser().AppId);
             else
             {
-                return AppManager.FindDefaultApp();
+                return AppManager.FindDefault();
             }
         }
 

@@ -202,6 +202,14 @@ appModule.config([
                 menu: 'CMS.Channels'
             });
         }
+
+        if (abp.auth.hasPermission('Pages.CMS.Contents')) {
+            $stateProvider.state('cms.contents', {
+                url: '/contents',
+                templateUrl: '~/App/cms/views/contents/index.cshtml',
+                menu: 'CMS.Contents'
+            });
+        }
     }
 ]);
 
