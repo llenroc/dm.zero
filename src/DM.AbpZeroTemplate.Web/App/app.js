@@ -210,6 +210,14 @@ appModule.config([
                 menu: 'CMS.Contents'
             });
         }
+
+        if (abp.auth.hasPermission('Pages.CMS.Templates')) {
+            $stateProvider.state('cms.templates', {
+                url: '/templates',
+                templateUrl: '~/App/cms/views/templates/index.cshtml',
+                menu: 'CMS.Templates'
+            });
+        }
     }
 ]);
 

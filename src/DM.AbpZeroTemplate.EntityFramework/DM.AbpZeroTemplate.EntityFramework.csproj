@@ -285,9 +285,9 @@
     <Compile Include="Migrations\201604270746443_Added_Content_Entities.Designer.cs">
       <DependentUpon>201604270746443_Added_Content_Entities.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604281021347_Added_Template_Entities.cs" />
-    <Compile Include="Migrations\201604281021347_Added_Template_Entities.Designer.cs">
-      <DependentUpon>201604281021347_Added_Template_Entities.cs</DependentUpon>
+    <Compile Include="Migrations\201604281520399_Added_Content_Entities1.cs" />
+    <Compile Include="Migrations\201604281520399_Added_Content_Entities1.Designer.cs">
+      <DependentUpon>201604281520399_Added_Content_Entities1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="AbpZeroTemplateDataModule.cs" />
@@ -431,8 +431,8 @@
     <EmbeddedResource Include="Migrations\201604270746443_Added_Content_Entities.resx">
       <DependentUpon>201604270746443_Added_Content_Entities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604281021347_Added_Template_Entities.resx">
-      <DependentUpon>201604281021347_Added_Template_Entities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604281520399_Added_Content_Entities1.resx">
+      <DependentUpon>201604281520399_Added_Content_Entities1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

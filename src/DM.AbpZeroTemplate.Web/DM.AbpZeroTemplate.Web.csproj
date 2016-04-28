@@ -327,6 +327,8 @@
     <Content Include="App\cms\views\channels\createOrEditChannelModal.js" />
     <Content Include="App\cms\views\channels\index.cshtml" />
     <Content Include="App\cms\views\channels\index.js" />
+    <Content Include="App\cms\views\templates\createOrEditTemplateModal.js" />
+    <Content Include="App\cms\views\templates\index.js" />
     <Content Include="App\cms\views\contents\createOrEditContentModal.js" />
     <Content Include="App\cms\views\contents\detailModal.js" />
     <Content Include="App\cms\views\contents\index.js" />
@@ -1995,6 +1997,8 @@
     <Content Include="App\cms\views\contents\index.cshtml" />
     <Content Include="App\cms\views\contents\createOrEditContentModal.cshtml" />
     <Content Include="App\cms\views\contents\detailModal.cshtml" />
+    <Content Include="App\cms\views\templates\createOrEditTemplateModal.cshtml" />
+    <Content Include="App\cms\views\templates\index.cshtml" />
     <None Include="Properties\PublishProfiles\dm.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />

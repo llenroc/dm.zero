@@ -168,6 +168,13 @@
     <Compile Include="CMS\Channels\Dto\CreateChannelInput.cs" />
     <Compile Include="CMS\Channels\Dto\ChannelDto.cs" />
     <Compile Include="CMS\Channels\IChannelAppService.cs" />
+    <Compile Include="CMS\Templates\TemplateAppService.cs" />
+    <Compile Include="CMS\Templates\Dto\TemplateDto.cs" />
+    <Compile Include="CMS\Templates\Dto\CreateTemplateInput.cs" />
+    <Compile Include="CMS\Templates\Dto\GetAppTemplateDto.cs" />
+    <Compile Include="CMS\Templates\Dto\GetAppTemplateInput.cs" />
+    <Compile Include="CMS\Templates\Dto\UpdateTemplateInput.cs" />
+    <Compile Include="CMS\Templates\ITemplateAppService.cs" />
     <Compile Include="CMS\Contents\ContentAppService.cs" />
     <Compile Include="CMS\Contents\Dto\GetChannelContentDto.cs" />
     <Compile Include="CMS\Contents\Dto\ContentDto.cs" />

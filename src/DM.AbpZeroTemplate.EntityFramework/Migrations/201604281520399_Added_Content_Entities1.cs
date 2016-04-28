@@ -5,7 +5,7 @@ namespace DM.AbpZeroTemplate.Migrations
     using System.Data.Entity.Infrastructure.Annotations;
     using System.Data.Entity.Migrations;
     
-    public partial class Added_Template_Entities : DbMigration
+    public partial class Added_Content_Entities1 : DbMigration
     {
         public override void Up()
         {
@@ -19,7 +19,6 @@ namespace DM.AbpZeroTemplate.Migrations
                         Name = c.String(nullable: false, maxLength: 128),
                         Type = c.String(nullable: false, maxLength: 64),
                         Extension = c.String(nullable: false, maxLength: 64),
-                        Content = c.String(),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleterUserId = c.Long(),
                         DeletionTime = c.DateTime(),

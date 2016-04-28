@@ -74,5 +74,10 @@
         public const string Pages_CMS_Contents_Edit = "Pages.CMS.Contents.Edit";
         public const string Pages_CMS_Contents_Delete = "Pages.CMS.Contents.Delete";
         public const string Pages_CMS_Contents_Move = "Pages.CMS.Contents.Move";
+
+        public const string Pages_CMS_Templates = "Pages.CMS.Templates";
+        public const string Pages_CMS_Templates_Create = "Pages.CMS.Templates.Create";
+        public const string Pages_CMS_Templates_Edit = "Pages.CMS.Templates.Edit";
+        public const string Pages_CMS_Templates_Delete = "Pages.CMS.Templates.Delete";
     }
 }

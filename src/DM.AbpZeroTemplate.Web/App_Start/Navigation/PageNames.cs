@@ -33,6 +33,7 @@ namespace DM.AbpZeroTemplate.Web.Navigation
                 public const string CMSName = "CMS";
                 public const string Channels = "CMS.Channels";
                 public const string Contents = "CMS.Contents";
+                public const string Templates = "CMS.Templates";
             }
         }
 

@@ -1,0 +1,48 @@
+﻿@using DM.AbpZeroTemplate.Localization
+
+<div ng-controller="cms.views.templates.index as vm">
+    <div class="row margin-bottom-5">
+        <div class="col-xs-12">
+            <div class="page-head">
+                <div class="page-title">
+                    <h1>
+                        <span>@L("Templates")</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet light">
+        <div class="portlet-body">
+            <div class="form">
+                <form class="horizontal-form">
+                    <div class="form-body" enter-key="vm.getTemplates()">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">@L("TemplateType")</label>
+                                    <select class="form-control" ng-model="vm.requestParams.templateType">
+                                        <option value="">@L("All")</option>
+                                        <option value="false">@L("Success")</option>
+                                        <option value="true">@L("HasError")</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row margin-bottom-10">
+                        <div class="col-sm-12 text-right">
+                            <button class="btn btn-default" ng-click="vm.exportToExcel()"><i class="fa fa-file-excel-o"></i> @L("ExportToExcel")</button>
+                            <button class="btn blue" ng-click="vm.getTemplates()"><i class=" fa fa-refresh"></i> @L("Refresh")</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div  ui-grid="vm.templates.gridOptions" ui-grid-pagination ui-grid-resize-columns dir=@(CultureHelper.IsRtl ? "rtl" : "")></div>
+        </div>
+    </div>
+</div>

@@ -79,6 +79,11 @@ namespace DM.AbpZeroTemplate.Authorization
             cms.CreateChildPermission(AppPermissions.Pages_CMS_Contents_Delete, L("ContentDelete"));
             cms.CreateChildPermission(AppPermissions.Pages_CMS_Contents_Edit, L("ContentEdit"));
 
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Templates, L("Templates"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Templates_Create, L("TemplateCreate"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Templates_Delete, L("TemplateDelete"));
+            cms.CreateChildPermission(AppPermissions.Pages_CMS_Templates_Edit, L("TemplateEdit"));
+
         }
 
         private static ILocalizableString L(string name)
