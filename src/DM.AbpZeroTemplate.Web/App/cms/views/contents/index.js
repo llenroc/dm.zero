@@ -1,7 +1,7 @@
 ﻿(function () {
     appModule.controller('cms.views.channels.index', [
         '$scope', '$uibModal', '$q', 'uiGridConstants', 'abp.services.app.channel', 'abp.services.app.content', 'abp.services.app.commonLookup', 'lookupModal', 'appSession',
-        function ($scope, $uiModal, $q, uiGridConstants, channelService, contentService, commonLookupService, lookupModal, $appSession) {
+        function ($scope, $uibModal, $q, uiGridConstants, channelService, contentService, commonLookupService, lookupModal, $appSession) {
             var vm = this;
 
             $scope.$on('$viewContentLoaded', function () {
@@ -10,7 +10,21 @@
 
             vm.permissions = {
                 manageChannelTree: abp.auth.hasPermission('Pages.CMS.Channels'),
-                manageContents: abp.auth.hasPermission('Pages.CMS.Contents')
+                createChannelTree: abp.auth.hasPermission('Pages.CMS.Channels.Create'),
+                editChannelTree: abp.auth.hasPermission('Pages.CMS.Channels.Edit'),
+                deleteChannelTree: abp.auth.hasPermission('Pages.CMS.Channels.Delete'),
+
+                manageContents: abp.auth.hasPermission('Pages.CMS.Contents'),
+                createContents: abp.auth.hasPermission('Pages.CMS.Contents.Create'),
+                editContents: abp.auth.hasPermission('Pages.CMS.Contents.Edit'),
+                deleteContents: abp.auth.hasPermission('Pages.CMS.Contents.Delete')
+            };
+
+            vm.requestParams = {
+                id: 0,
+                skipCount: 0,
+                maxResultCount: app.consts.grid.defaultPageSize,
+                sorting: null
             };
 
             vm.channelTree = {
@@ -31,7 +45,7 @@
                     id: null,
                     displayName: null,
                     code: null,
-
+                    defaultIndex: 0, //默认加载第一个节点的内容
                     set: function (ouInTree) {
                         if (!ouInTree) {
                             vm.channelTree.selectedChannel.id = null;
@@ -50,7 +64,7 @@
                     var items = {
                         editChannel: {
                             label: app.localize('Edit'),
-                            _disabled: !vm.permissions.manageChannelTree,
+                            _disabled: !vm.permissions.editChannelTree,
                             action: function (data) {
                                 var instance = $.jstree.reference(data.reference);
 
@@ -68,23 +82,15 @@
                         ,
                         addSubChannel: {
                             label: app.localize('Add'),
-                            _disabled: !vm.permissions.manageChannelTree,
+                            _disabled: !vm.permissions.createChannelTree,
                             action: function () {
                                 vm.channelTree.addChannel(node.id);
                             }
                         }
                         ,
-                        addContent: {
-                            label: app.localize('AddContent'),
-                            _disabled: !vm.permissions.manageContents,
-                            action: function () {
-                                vm.contents.addContent();
-                            }
-                        }
-                        ,
                         'delete': {
                             label: app.localize('Delete'),
-                            _disabled: !vm.permissions.manageChannelTree,
+                            _disabled: !vm.permissions.deleteChannelTree,
                             action: function (data) {
                                 var instance = $.jstree.reference(data.reference);
 
@@ -102,6 +108,14 @@
                                             });
                                         }
                                     });
+                            }
+                        }
+                         ,
+                        addContent: {
+                            label: app.localize('AddContent'),
+                            _disabled: !vm.permissions.createContents,
+                            action: function () {
+                                vm.contents.addContent();
                             }
                         }
                     }
@@ -133,7 +147,7 @@
                 },
 
                 openCreateOrEditChannelModal: function (channel, closeCallback) {
-                    var modalInstance = $uiModal.open({
+                    var modalInstance = $uibModal.open({
                         templateUrl: '~/App/cms/views/channels/createOrEditChannelModal.cshtml',
                         controller: 'cms.views.channels.createOrEditChannelModal as vm',
                         backdrop: 'static',
@@ -184,6 +198,9 @@
                     vm.channelTree.getTreeDataFromServer(function (treeData) {
                         vm.channelTree.setChannelCount(treeData.length);
                         vm.channelTree.$tree = $('#ChannelEditTree');
+
+                        //设置加载栏目内容
+                        vm.channelTree.selectedChannel.set(treeData[vm.channelTree.selectedChannel.defaultIndex]);
 
                         var jsTreePlugins = [
                                 'types',
@@ -301,22 +318,25 @@
                             width: 100,
                             cellTemplate:
                                 '<div class=\"ui-grid-cell-contents\">' +
-                                '  <button ng-if="grid.appScope.permissions.manageContents" class="btn btn-default btn-xs" ng-click="grid.appScope.contents.remove(row.entity)" title="' + app.localize('Delete') + '"><i class="fa fa-trash-o"></i></button>' +
+                                '  <div class="btn-group dropdown" uib-dropdown="">' +
+                                '    <button class="btn btn-xs btn-primary blue" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> ' + app.localize('Actions') + ' <span class="caret"></span></button>' +
+                                '    <ul uib-dropdown-menu>' +
+                                '      <li><a ng-if="grid.appScope.permissions.editContents" ng-click="grid.appScope.contents.editContent(row.entity)">' + app.localize('Edit') + '</a></li>' +
+                                '      <li><a ng-if="grid.appScope.permissions.deleteContents" ng-click="grid.appScope.contents.remove(row.entity)" >' + app.localize('Delete') + '</a></li>' +
+                                '      <li><a ng-click="grid.appScope.contents.showDetails(row.entity)">' + app.localize('Detail') + '</a></li>' +
+                                '    </ul>' +
+                                '  </div>' +
                                 '</div>'
                         },
                         {
-                            name: app.localize('ContentName'),
+                            name: app.localize('Title'),
                             field: 'title',
                             cellTemplate:
-                                '<div class=\"ui-grid-cell-contents\" title="{{row.entity.name + \' \' + row.entity.surname + \' (\' + row.entity.emailAddress + \')\'}}">' +
-                                '  <img ng-if="row.entity.profilePictureId" ng-src="' + abp.appPath + 'Profile/GetProfilePictureById?id={{row.entity.profilePictureId}}" width="22" height="22" class="img-rounded img-profile-picture-in-grid" />' +
-                                '  <img ng-if="!row.entity.profilePictureId" src="' + abp.appPath + 'Common/Images/default-profile-picture.png" width="22" height="22" class="img-rounded" />' +
-                                '  {{COL_FIELD CUSTOM_FILTERS}} &nbsp;' +
-                                '</div>',
+                                '<div class=\"ui-grid-cell-contents\" title="{{row.entity.channelName}}"> {{COL_FIELD CUSTOM_FILTERS}} &nbsp;</div>',
                             minWidth: 140
                         },
                         {
-                            name: app.localize('AddedTime'),
+                            name: app.localize('CreationTime'),
                             field: 'creationTime',
                             cellFilter: 'momentFormat: \'L\'',
                             minWidth: 100
@@ -326,16 +346,16 @@
                         $scope.gridApi = gridApi;
                         $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
                             if (!sortColumns.length || !sortColumns[0].field) {
-                                requestParams.sorting = null;
+                                vm.requestParams.sorting = null;
                             } else {
-                                requestParams.sorting = sortColumns[0].field + ' ' + sortColumns[0].sort.direction;
+                                vm.requestParams.sorting = sortColumns[0].field + ' ' + sortColumns[0].sort.direction;
                             }
 
                             vm.contents.load();
                         });
                         gridApi.pagination.on.paginationChanged($scope, function (pageNumber, pageSize) {
-                            requestParams.skipCount = (pageNumber - 1) * pageSize;
-                            requestParams.maxResultCount = pageSize;
+                            vm.requestParams.skipCount = (pageNumber - 1) * pageSize;
+                            vm.requestParams.maxResultCount = pageSize;
 
                             vm.contents.load();
                         });
@@ -350,9 +370,7 @@
                         return;
                     }
 
-                    contentService.getContents({
-                        id: vm.channelTree.selectedChannel.id
-                    }).success(function (result) {
+                    contentService.getContents($.extend(vm.requestParams, { id: vm.channelTree.selectedChannel.id })).success(function (result) {
                         vm.contents.gridOptions.totalItems = result.totalCount;
                         vm.contents.gridOptions.data = result.items;
                     });
@@ -360,18 +378,18 @@
 
                 remove: function (content) {
                     var channelId = vm.channelTree.selectedChannel.id;
-                    if (!channelId) {
+                    var treeNode = vm.channelTree.$tree.jstree('get_node', channelId)
+                    if (!treeNode) {
                         return;
                     }
 
                     abp.message.confirm(
-                        app.localize('RemoveContentFromChannelWarningMessage', content.contentName, vm.channelTree.selectedChannel.displayName),
+                        app.localize('RemoveContentFromChannelWarningMessage', content.title, treeNode.original.displayName),
                         function (isConfirmed) {
                             if (isConfirmed) {
                                 contentService.deleteContent({
-                                    contentId: content.id
+                                    id: content.id
                                 }).success(function () {
-                                    abp.notify.success(app.localize('SuccessfullyRemoved'));
                                     vm.channelTree.incrementContentCount(channelId, -1);
                                     vm.contents.load();
                                 });
@@ -380,7 +398,7 @@
                     );
                 },
 
-                addContent: function () {
+                addContent: function (content) {
                     var channelId = vm.channelTree.selectedChannel.id;
                     if (!channelId) {
                         return;
@@ -389,14 +407,24 @@
                         appId: $appSession.app.id,
                         channelId: channelId
                     }, function (newContent) {
-                        abp.notify.success(app.localize('SuccessfullyAdded'));
+                        vm.channelTree.incrementContentCount(channelId, 1);
+                        vm.contents.load();
+                    });
+                },
+
+                editContent: function (content) {
+                    var channelId = vm.channelTree.selectedChannel.id;
+                    if (!channelId) {
+                        return;
+                    }
+                    vm.contents.openCreateOrEditContentModal(content, function (newContent) {
                         vm.channelTree.incrementContentCount(channelId, 1);
                         vm.contents.load();
                     });
                 },
 
                 openCreateOrEditContentModal: function (content, closeCallback) {
-                    var modalInstance = $uiModal.open({
+                    var modalInstance = $uibModal.open({
                         templateUrl: '~/App/cms/views/contents/createOrEditContentModal.cshtml',
                         controller: 'cms.views.contents.createOrEditContentModal as vm',
                         backdrop: 'static',
@@ -416,6 +444,19 @@
                     if (!vm.permissions.manageContents) {
                         vm.contents.gridOptions.columnDefs.shift();
                     }
+                },
+
+                showDetails: function (content) {
+                    $uibModal.open({
+                        templateUrl: '~/App/cms/views/contents/detailModal.cshtml',
+                        controller: 'cms.views.contents.detailModal as vm',
+                        backdrop: 'static',
+                        resolve: {
+                            content: function () {
+                                return content;
+                            }
+                        }
+                    });
                 }
             }
 

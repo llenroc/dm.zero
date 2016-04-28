@@ -169,8 +169,10 @@
     <Compile Include="CMS\Channels\Dto\ChannelDto.cs" />
     <Compile Include="CMS\Channels\IChannelAppService.cs" />
     <Compile Include="CMS\Contents\ContentAppService.cs" />
+    <Compile Include="CMS\Contents\Dto\GetChannelContentDto.cs" />
     <Compile Include="CMS\Contents\Dto\ContentDto.cs" />
     <Compile Include="CMS\Contents\Dto\CreateContentInput.cs" />
+    <Compile Include="CMS\Contents\Dto\GetChannelContentsInput.cs" />
     <Compile Include="CMS\Contents\Dto\MoveContentInput.cs" />
     <Compile Include="CMS\Contents\Dto\UpdateContentInput.cs" />
     <Compile Include="CMS\Contents\IContentAppService.cs" />

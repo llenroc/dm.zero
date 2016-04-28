@@ -287,7 +287,14 @@
     <text name="Channels" value="栏目"></text>
     <text name="ChannelsHeaderInfo" value="内容分类结构。"></text>
     <text name="ChannelTree" value="栏目结构"></text>
-    <text name="ChannelDeleteWarningMessage" value="确定要删除当前栏目吗 {0}?" />
+    <text name="ChannelDeleteWarningMessage" value="确定要删除当前栏目 {0} 吗?" />
+
+    <text name="Contents" value="内容"></text>
+    <text name="ContentDetail" value="内容详情"></text>
+    <text name="AddContent" value="添加内容"></text>
+    <text name="Title" value="标题"></text>
+    <text name="ContentText" value="正文"></text>
+    <text name="RemoveContentFromChannelWarningMessage" value="确定要删除 {1} 栏目下的内容 {0} 吗?"></text>
     <!--CMS END-->
     
   </texts>

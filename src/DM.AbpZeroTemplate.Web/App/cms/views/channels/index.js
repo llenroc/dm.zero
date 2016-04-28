@@ -9,7 +9,15 @@
         });
 
         vm.permissions = {
-            manageChannelTree: abp.auth.hasPermission('Pages.CMS.Channels')
+            manageChannelTree: abp.auth.hasPermission('Pages.CMS.Channels'),
+            createChannelTree: abp.auth.hasPermission('Pages.CMS.Channels.Create'),
+            editChannelTree: abp.auth.hasPermission('Pages.CMS.Channels.Edit'),
+            deleteChannelTree: abp.auth.hasPermission('Pages.CMS.Channels.Delete'),
+
+            manageContents: abp.auth.hasPermission('Pages.CMS.Contents'),
+            createContents: abp.auth.hasPermission('Pages.CMS.Contents.Create'),
+            editContents: abp.auth.hasPermission('Pages.CMS.Contents.Edit'),
+            deleteContents: abp.auth.hasPermission('Pages.CMS.Contents.Delete')
         };
 
         vm.channelTree = {
@@ -49,7 +57,7 @@
                 var items = {
                     editChannel: {
                         label: app.localize('Edit'),
-                        _disabled: !vm.permissions.manageChannelTree,
+                        _disabled: !vm.permissions.editChannelTree,
                         action: function (data) {
                             var instance = $.jstree.reference(data.reference);
 
@@ -67,7 +75,7 @@
                     ,
                     addSubChannel: {
                         label: app.localize('Add'),
-                        _disabled: !vm.permissions.manageChannelTree,
+                        _disabled: !vm.permissions.createChannelTree,
                         action: function () {
                             vm.channelTree.addChannel(node.id);
                         }
@@ -75,7 +83,7 @@
                     ,
                     'delete': {
                         label: app.localize('Delete'),
-                        _disabled: !vm.permissions.manageChannelTree,
+                        _disabled: !vm.permissions.deleteChannelTree,
                         action: function (data) {
                             var instance = $.jstree.reference(data.reference);
 

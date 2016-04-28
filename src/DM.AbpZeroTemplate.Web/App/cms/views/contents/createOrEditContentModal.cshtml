@@ -4,7 +4,7 @@
         <div class="modal-header">
             <h4 class="modal-title">
                 <span ng-if="vm.content.Id">@L("Edit"):{{vm.content.displayName}}</span>
-                <span ng-if="!vm.content.Id">@L("AddSubContent")</span>
+                <span ng-if="!vm.content.Id">@L("AddContent")</span>
             </h4>
         </div>
         <div class="modal-body">
@@ -13,7 +13,7 @@
                 <label>@L("Title")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <input auto-focus class="form-control" type="text" name="ContentText" ng-class="{'edited':vm.content.contentText}" ng-model="vm.content.contentText"  />
+                <textarea auto-focus class="form-control" name="ContentText"  ng-class="{'edited':vm.content.contentText}" ng-model="vm.content.contentText" ></textarea>
                 <label>@L("ContentText")</label>
             </div>
         </div>

@@ -65,8 +65,10 @@ namespace DM.AbpZeroTemplate.CMS.Channels
                 input.Id = AppId;
 
             var query = from ch in _channelManager.ChannelRepository.GetAll()
-                                .Where(c => c.AppId == input.Id)
-                        select new { ch, contentContent = 0 };
+                        join con in _contentManager.ContentRepository.GetAll() on ch.Id equals con.ChannelId
+                        into g
+                        where ch.AppId == input.Id
+                        select new { ch, contentContent = g.Count() };
             var items = query.ToList();
             return new ListResultOutput<ChannelDto>(items.Select(
                     item =>

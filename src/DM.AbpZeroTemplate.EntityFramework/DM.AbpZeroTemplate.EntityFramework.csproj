@@ -285,12 +285,17 @@
     <Compile Include="Migrations\201604270746443_Added_Content_Entities.Designer.cs">
       <DependentUpon>201604270746443_Added_Content_Entities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604281021347_Added_Template_Entities.cs" />
+    <Compile Include="Migrations\201604281021347_Added_Template_Entities.Designer.cs">
+      <DependentUpon>201604281021347_Added_Template_Entities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="AbpZeroTemplateDataModule.cs" />
     <Compile Include="Migrations\Seed\DefaultAppChannelCreator.cs" />
     <Compile Include="Migrations\Seed\DefaultEditionCreator.cs" />
     <Compile Include="Migrations\Seed\DefaultLanguagesCreator.cs" />
     <Compile Include="Migrations\Seed\DefaultSettingsCreator.cs" />
+    <Compile Include="Migrations\Seed\DefaultTemplateCreator.cs" />
     <Compile Include="Migrations\Seed\DefaultTenantRoleAndUserCreator.cs" />
     <Compile Include="Migrations\Seed\InitialDbBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -425,6 +430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604270746443_Added_Content_Entities.resx">
       <DependentUpon>201604270746443_Added_Content_Entities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604281021347_Added_Template_Entities.resx">
+      <DependentUpon>201604281021347_Added_Template_Entities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,8 @@ namespace DM.AbpZeroTemplate.Migrations.Seed
             new DefaultSettingsCreator(_context).Create();
 
             #region CMS
-            new DefaultAppChannelCreator(_context).Create(); 
+            new DefaultAppChannelCreator(_context).Create();
+            new DefaultTemplateCreator(_context).Create();
             #endregion
 
             _context.SaveChanges();

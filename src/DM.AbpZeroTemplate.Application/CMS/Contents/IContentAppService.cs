@@ -19,7 +19,7 @@ namespace DM.AbpZeroTemplate.CMS.Contents
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ListResultOutput<ContentDto>> GetContents(IdInput<long> input);
+        Task<PagedResultOutput<GetChannelContentDto>> GetContents(GetChannelContentsInput input);
 
         /// <summary>
         /// 创建内容

@@ -380,6 +380,14 @@
     <text name="ChannelsHeaderInfo" value="Class of Content"></text>
     <text name="ChannelTree" value="ChannelTree"></text>
     <text name="ChannelDeleteWarningMessage" value="Are you sure to delete channel {0}?" />
+
+
+    <text name="Contents" value="Contents"></text>
+    <text name="ContentDetail" value="Detail of Content"></text>
+    <text name="AddContent" value="AddContent"></text>
+    <text name="Title" value="Title"></text>
+    <text name="ContentText" value="ContentText"></text>
+    <text name="RemoveContentFromChannelWarningMessage" value="Are you sure to delete content {0} from channel {1}?"></text>
     <!--CMS END-->
   </texts>
 </localizationDictionary>
