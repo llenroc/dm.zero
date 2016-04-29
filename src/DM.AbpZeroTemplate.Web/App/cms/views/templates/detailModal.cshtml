@@ -1,28 +1,36 @@
 <div>
     <div class="modal-header">
         <h4 class="modal-title">
-            <span ng-if="!vm.user.id">@L("ContentDetail")</span>
+            <span ng-if="!vm.user.id">@L("TemplateDetail")</span>
         </h4>
     </div>
     <div class="modal-body">
         <form class="form-horizontal audit-log-detail-view" role="form">
             <div class="form-body">
-                <h3 class="form-section">@L("ContentDetail")</h3>
+                <h3 class="form-section">@L("TemplateDetail")</h3>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="control-label col-sm-3">@L("ContentTitle"):</label>
+                            <label class="control-label col-sm-3">@L("TemplateTitle"):</label>
                             <div class="col-sm-9">
                                 <p class="form-control-static">
-                                    {{vm.content.title}}
+                                    {{vm.template.title}}
                                 </p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-3">@L("ContentText"):</label>
+                            <label class="control-label col-sm-3">@L("TemplateName"):</label>
                             <div class="col-sm-9">
                                 <p class="form-control-static">
-                                    {{vm.content.contentText}}
+                                    {{vm.template.name}}.{{vm.template.extension}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">@L("TemplateType"):</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">
+                                    {{vm.getTypeText()}}
                                 </p>
                             </div>
                         </div>

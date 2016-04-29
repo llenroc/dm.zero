@@ -50,23 +50,47 @@ namespace DM.AbpZeroTemplate.CMS.Templates
         public async Task<PagedResultOutput<GetAppTemplateDto>> GetTemplates(GetAppTemplateInput input)
         {
             var channelId = input.Id;
-            var query = from t in _templateManager.TemplateRepository.GetAll()
-                        join a in _appManager.AppRepository.GetAll() on t.AppId equals a.Id
-                        where t.AppId == input.Id
-                        orderby input.Sorting
-                        select new { t, a };
-            var totalCount = await query.CountAsync();
-            var items = await query.PageBy(input).ToListAsync();
-            return new PagedResultOutput<GetAppTemplateDto>(
-                totalCount,
-                items.Select(
-                item =>
-                {
-                    var dto = item.t.MapTo<GetAppTemplateDto>();
-                    dto.AppName = item.a.DisplayName;
-                    return dto;
-                }
-                ).ToList());
+            if (!string.IsNullOrEmpty(input.Type))
+            {
+                var query = from t in _templateManager.TemplateRepository.GetAll()
+                            join a in _appManager.AppRepository.GetAll() on t.AppId equals a.Id
+                            where t.AppId == input.Id && t.Type == input.Type
+                            orderby input.Sorting
+                            select new { t, a };
+                var totalCount = await query.CountAsync();
+                var items = await query.PageBy(input).ToListAsync();
+                return new PagedResultOutput<GetAppTemplateDto>(
+                    totalCount,
+                    items.Select(
+                    item =>
+                    {
+                        var dto = item.t.MapTo<GetAppTemplateDto>();
+                        dto.AppName = item.a.DisplayName;
+                        return dto;
+                    }
+                    ).ToList());
+            }
+            else
+            {
+                var query = from t in _templateManager.TemplateRepository.GetAll()
+                            join a in _appManager.AppRepository.GetAll() on t.AppId equals a.Id
+                            where t.AppId == input.Id
+                            orderby input.Sorting
+                            select new { t, a };
+                var totalCount = await query.CountAsync();
+                var items = await query.PageBy(input).ToListAsync();
+                return new PagedResultOutput<GetAppTemplateDto>(
+                    totalCount,
+                    items.Select(
+                    item =>
+                    {
+                        var dto = item.t.MapTo<GetAppTemplateDto>();
+                        dto.AppName = item.a.DisplayName;
+                        return dto;
+                    }
+                    ).ToList());
+            }
+
         }
 
 

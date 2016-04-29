@@ -9,6 +9,8 @@ namespace DM.AbpZeroTemplate.CMS.Templates.Dto
         [Range(1, long.MaxValue)]
         public long Id { get; set; }
 
+        public string Type { get; set; }
+
         public void Normalize()
         {
             if (string.IsNullOrEmpty(Sorting))

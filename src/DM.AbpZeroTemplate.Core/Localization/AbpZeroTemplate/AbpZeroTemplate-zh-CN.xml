@@ -284,6 +284,8 @@
 
     <!--CMS STAET-->
     <text name="CMS" value="CMS管理"></text>
+    <text name="Detail" value="详情"></text>
+
     <text name="Channels" value="栏目"></text>
     <text name="ChannelsHeaderInfo" value="内容分类结构。"></text>
     <text name="ChannelTree" value="栏目结构"></text>
@@ -292,10 +294,23 @@
     <text name="Contents" value="内容"></text>
     <text name="ContentDetail" value="内容详情"></text>
     <text name="AddContent" value="添加内容"></text>
-    <text name="Title" value="标题"></text>
+    <text name="ContentTitle" value="标题"></text>
     <text name="ContentText" value="正文"></text>
     <text name="RemoveContentFromChannelWarningMessage" value="确定要删除 {1} 栏目下的内容 {0} 吗?"></text>
+
+    <text name="Templates" value="模板"></text>
+    <text name="TemplateDetail" value="模板详情"></text>
+    <text name="AddTemplate" value="添加模板"></text>
+    <text name="TemplateTitle" value="模板名称"></text>
+    <text name="TemplateName" value="模板文件名"></text>
+    <text name="TemplateType" value="模板类型"></text>
+    <text name="TemplateExtension" value="模板文件后缀"></text>
+    <text name="RemoveTemplateWarningMessage" value="确定要删除模板 {0} 吗?"></text>
+    <text name="IndexTemplate" value="首页模板"></text>
+    <text name="ChannleTemplate" value="栏目模板"></text>
+    <text name="ContentTemplate" value="内容模板"></text>
+    <text name="FileTemplate" value="单页模板"></text>
     <!--CMS END-->
-    
+
   </texts>
 </localizationDictionary>

@@ -329,7 +329,7 @@
                                 '</div>'
                         },
                         {
-                            name: app.localize('Title'),
+                            name: app.localize('ContentTitle'),
                             field: 'title',
                             cellTemplate:
                                 '<div class=\"ui-grid-cell-contents\" title="{{row.entity.channelName}}"> {{COL_FIELD CUSTOM_FILTERS}} &nbsp;</div>',

@@ -373,9 +373,11 @@
     <text name="Failed">Failed</text>
     <text name="NewTenant">New tenant</text>
     <text name="ResizedProfilePicture_Warn_SizeLimit" value="Resized picture size must be smalled than 100KB. Please resize down and try again." />
-    
+
     <!--CMS STAET-->
     <text name="CMS" value="CMS Manage"></text>
+    <text name="Detail" value="Detail"></text>
+
     <text name="Channels" value="Channels"></text>
     <text name="ChannelsHeaderInfo" value="Class of Content"></text>
     <text name="ChannelTree" value="ChannelTree"></text>
@@ -385,9 +387,22 @@
     <text name="Contents" value="Contents"></text>
     <text name="ContentDetail" value="Detail of Content"></text>
     <text name="AddContent" value="AddContent"></text>
-    <text name="Title" value="Title"></text>
+    <text name="ContentTitle" value="Title"></text>
     <text name="ContentText" value="ContentText"></text>
     <text name="RemoveContentFromChannelWarningMessage" value="Are you sure to delete content {0} from channel {1}?"></text>
+
+    <text name="Templates" value="Templates"></text>
+    <text name="TemplateDetail" value="Detail of Template"></text>
+    <text name="AddTemplate" value="AddTemplate"></text>
+    <text name="TemplateTitle" value="TemplateName"></text>
+    <text name="TemplateName" value="TemplateFileName"></text>
+    <text name="TemplateType" value="TemplateType"></text>
+    <text name="TemplateExtension" value="TemplateFileExtensionName"></text>
+    <text name="RemoveTemplateWarningMessage" value="Are you sure to delete template {0} ?"></text>
+    <text name="IndexTemplate" value="IndexTemplate"></text>
+    <text name="ChannleTemplate" value="ChannleTemplate"></text>
+    <text name="ContentTemplate" value="ContentTemplate"></text>
+    <text name="FileTemplate" value="FileTemplate"></text>
     <!--CMS END-->
   </texts>
 </localizationDictionary>

@@ -10,12 +10,22 @@
         <div class="modal-body">
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
                 <input auto-focus class="form-control" type="text" name="Title" ng-class="{'edited':vm.template.title}" ng-model="vm.template.title" required maxlength="@Template.MaxTitleLength" />
-                <label>@L("Title")</label>
+                <label>@L("TemplateTitle")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <textarea auto-focus class="form-control" name="TemplateText"  ng-class="{'edited':vm.template.templateText}" ng-model="vm.template.templateText" ></textarea>
-                <label>@L("TemplateText")</label>
+                <input auto-focus class="form-control" name="Name" ng-class="{'edited':vm.template.name}" ng-model="vm.template.name" required maxlength="@Template.MaxNameLength"></input>
+                <label>@L("TemplateName")</label>
             </div>
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <select auto-focus class="form-control" name="type" ng-class="{'edited':vm.template.type}" ng-model="vm.template.type" required maxlength="@Template.MaxTypeLength">
+                    <option value="@Template.Type_Index">@L("IndexTemplate")</option>
+                    <option value="@Template.Type_Channel">@L("ChannleTemplate")</option>
+                    <option value="@Template.Type_Content">@L("ContentTemplate")</option>
+                    <option value="@Template.Type_File">@L("FileTemplate")</option>
+                </select>
+                <label>@L("TemplateType")</label>
+            </div>
+            <input type="hidden" name="Extension" ng-model="vm.template.extension" required maxlength="@Template.MaxExtensionLength"/>
         </div>
         <div class="modal-footer">
             <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>

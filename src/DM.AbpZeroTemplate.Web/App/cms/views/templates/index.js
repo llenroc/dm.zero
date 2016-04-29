@@ -11,9 +11,16 @@
 
             vm.loading = false;
 
+            vm.permissions = {
+                manageTemplates: abp.auth.hasPermission('Pages.CMS.Templates'),
+                createTemplates: abp.auth.hasPermission('Pages.CMS.Templates.Create'),
+                editTemplates: abp.auth.hasPermission('Pages.CMS.Templates.Edit'),
+                deleteTemplates: abp.auth.hasPermission('Pages.CMS.Templates.Delete')
+            };
+
             vm.requestParams = {
                 id: $appSession.app.id,
-                templateType: '',
+                type: '',
                 skipCount: 0,
                 maxResultCount: app.consts.grid.defaultPageSize,
                 sorting: null
@@ -31,29 +38,37 @@
                     {
                         name: 'Actions',
                         enableSorting: false,
-                        width: 50,
+                        width: 150,
                         headerCellTemplate: '<span></span>',
                         cellTemplate:
-                            '<div class=\"ui-grid-cell-contents text-center\">' +
-                                '  <button class="btn btn-default btn-xs" ng-click="grid.appScope.showDetails(row.entity)"><i class="fa fa-search"></i></button>' +
+                                '<div class=\"ui-grid-cell-contents\">' +
+                                '  <div class="btn-group dropdown" uib-dropdown="">' +
+                                '    <button class="btn btn-xs btn-primary blue" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> ' + app.localize('Actions') + ' <span class="caret"></span></button>' +
+                                '    <ul uib-dropdown-menu>' +
+                                '      <li><a ng-if="grid.appScope.permissions.editTemplates" ng-click="grid.appScope.editTemplate(row.entity)">' + app.localize('Edit') + '</a></li>' +
+                                '      <li><a ng-if="grid.appScope.permissions.deleteTemplates" ng-click="grid.appScope.remove(row.entity)" >' + app.localize('Delete') + '</a></li>' +
+                                '      <li><a ng-click="grid.appScope.showDetails(row.entity)">' + app.localize('Detail') + '</a></li>' +
+                                '    </ul>' +
+                                '  </div>' +
                                 '</div>'
-                    },
+                    }
+                    ,
                     {
-                        name: app.localize('Title'),
+                        name: app.localize('TemplateTitle'),
                         field: 'title',
                         cellTemplate:
                                 '<div class=\"ui-grid-cell-contents\" title="{{row.entity.title}}"> {{COL_FIELD CUSTOM_FILTERS}} &nbsp;</div>',
-                        minWidth: 150
+                        width: 150
                     }
-                    //,
-                    //{
-                    //    name: app.localize('Name'),
-                    //    width: 150,
-                    //    cellTemplate:
-                    //        '<div class=\"ui-grid-cell-contents\">' +
-                    //          ' {{row.entity.name}}' + '{{row.entity.extension}}' +
-                    //         '</div>'
-                    //}
+                    ,
+                    {
+                        name: app.localize('TemplateName'),
+                        minwidth: 150,
+                        cellTemplate:
+                            '<div class=\"ui-grid-cell-contents\">' +
+                              ' {{row.entity.name}}' + '{{row.entity.extension}}' +
+                             '</div>'
+                    }
                 ],
                 onRegisterApi: function (gridApi) {
                     $scope.gridApi = gridApi;
@@ -104,6 +119,50 @@
                             return template;
                         }
                     }
+                });
+            };
+
+            vm.remove = function (template) {
+                abp.message.confirm(
+                    app.localize('RemoveTemplateWarningMessage', template.title),
+                    function (isConfirmed) {
+                        if (isConfirmed) {
+                            templateService.deleteTemplate({
+                                id: template.id
+                            }).success(function () {
+                                vm.getTemplates();
+                            });
+                        }
+                    });
+            };
+
+            vm.editTemplate = function (template) {
+                vm.openCreateOrEditTemplateModal($.extend({ appId: $appSession.app.id }, template), function (newTemplate) {
+                    vm.getTemplates();
+                })
+            };
+
+            vm.addTemplate = function (template) {
+                vm.openCreateOrEditTemplateModal($.extend({ appId: $appSession.app.id }, template), function (newTemplate) {
+                    vm.gridOptions.totalItems++;
+                    vm.gridOptions.data.push(newTemplate);
+                })
+            };
+
+            vm.openCreateOrEditTemplateModal = function (template, closeCallback) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: '~/App/cms/views/templates/createOrEditTemplateModal.cshtml',
+                    controller: 'cms.views.templates.createOrEditTemplateModal as vm',
+                    backdrop: 'static',
+                    resolve: {
+                        template: function () {
+                            return template;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (result) {
+                    closeCallback && closeCallback(result);
                 });
             };
 

@@ -5,7 +5,7 @@ namespace DM.AbpZeroTemplate.Migrations
     using System.Data.Entity.Infrastructure.Annotations;
     using System.Data.Entity.Migrations;
     
-    public partial class Added_Content_Entities1 : DbMigration
+    public partial class Added_Template_Entities : DbMigration
     {
         public override void Up()
         {
