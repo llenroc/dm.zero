@@ -1,4 +1,5 @@
 ﻿@using Abp.Templates
+@using Abp.Utils.Enums
 <div>
     <form name="templateForm" role="form" novalidate class="form-validation">
         <div class="modal-header">
@@ -18,14 +19,11 @@
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
                 <select auto-focus class="form-control" name="type" ng-class="{'edited':vm.template.type}" ng-model="vm.template.type" required maxlength="@Template.MaxTypeLength">
-                    <option value="@Template.Type_Index">@L("IndexTemplate")</option>
-                    <option value="@Template.Type_Channel">@L("ChannleTemplate")</option>
-                    <option value="@Template.Type_Content">@L("ContentTemplate")</option>
-                    <option value="@Template.Type_File">@L("FileTemplate")</option>
+                   @Html.Raw(ETemplateTypeUtils.GetCtrlStr(null))
                 </select>
                 <label>@L("TemplateType")</label>
             </div>
-            <input type="hidden" name="Extension" ng-model="vm.template.extension" required maxlength="@Template.MaxExtensionLength"/>
+            <input type="hidden" name="Extension" ng-model="vm.template.extension" required maxlength="@Template.MaxExtensionLength" />
         </div>
         <div class="modal-footer">
             <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>

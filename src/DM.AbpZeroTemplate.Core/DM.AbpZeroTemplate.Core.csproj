@@ -37,8 +37,8 @@
       <HintPath>..\packages\Abp.0.8.3.0\lib\net452\Abp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Abp.CMS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Abp.CMS.1.0.0.0\lib\net452\Abp.CMS.dll</HintPath>
+    <Reference Include="Abp.CMS, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.CMS.1.0.0.2\lib\net452\Abp.CMS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Abp.Zero, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">

@@ -79,7 +79,6 @@ namespace DM.AbpZeroTemplate.CMS.Channels
                     }
                 ).ToList()
                 );
-
         }
 
         /// <summary>

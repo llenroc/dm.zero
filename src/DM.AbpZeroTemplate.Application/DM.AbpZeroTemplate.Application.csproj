@@ -41,12 +41,12 @@
       <HintPath>..\packages\Abp.AutoMapper.0.8.3.0\lib\net452\Abp.AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Abp.CMS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Abp.CMS.1.0.0.0\lib\net452\Abp.CMS.dll</HintPath>
+    <Reference Include="Abp.CMS, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.CMS.1.0.0.2\lib\net452\Abp.CMS.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Abp.CMS.EntityFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Abp.CMS.EntityFramework.1.0.0.0\lib\net452\Abp.CMS.EntityFramework.dll</HintPath>
+    <Reference Include="Abp.CMS.EntityFramework, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.CMS.EntityFramework.1.0.0.2\lib\net452\Abp.CMS.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Abp.Zero, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
