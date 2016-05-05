@@ -11,6 +11,7 @@ using Abp.Channels;
 using System.Data.Entity;
 using Abp.Linq.Extensions;
 using Abp.Apps;
+using Abp.CMS;
 
 namespace DM.AbpZeroTemplate.CMS.Contents
 {

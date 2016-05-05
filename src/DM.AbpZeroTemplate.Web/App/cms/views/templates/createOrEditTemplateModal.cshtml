@@ -1,5 +1,5 @@
 ﻿@using Abp.Templates
-@using Abp.Utils.Enums
+@using Abp.Core.Enums
 <div>
     <form name="templateForm" role="form" novalidate class="form-validation">
         <div class="modal-header">
@@ -14,14 +14,18 @@
                 <label>@L("TemplateTitle")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <input auto-focus class="form-control" name="Name" ng-class="{'edited':vm.template.name}" ng-model="vm.template.name" required maxlength="@Template.MaxNameLength"></input>
+                <input auto-focus class="form-control" type="text" name="Name" ng-class="{'edited':vm.template.name}" ng-model="vm.template.name" required maxlength="@Template.MaxNameLength" />
                 <label>@L("TemplateName")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
                 <select auto-focus class="form-control" name="type" ng-class="{'edited':vm.template.type}" ng-model="vm.template.type" required maxlength="@Template.MaxTypeLength">
-                   @Html.Raw(ETemplateTypeUtils.GetCtrlStr(null))
+                    @Html.Raw(ETemplateTypeUtils.GetCtrlStr(null))
                 </select>
                 <label>@L("TemplateType")</label>
+            </div>
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <textarea auto-focus class="form-control" name="content" ng-class="{'edited':vm.template.content}" ng-model="vm.template.content"></textarea>
+                <label>@L("TemplateContent")</label>
             </div>
             <input type="hidden" name="Extension" ng-model="vm.template.extension" required maxlength="@Template.MaxExtensionLength" />
         </div>

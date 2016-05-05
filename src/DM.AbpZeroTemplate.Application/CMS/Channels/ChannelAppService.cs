@@ -13,6 +13,7 @@ using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using System.Data.Entity;
 using Abp.Contents;
+using Abp.CMS;
 
 namespace DM.AbpZeroTemplate.CMS.Channels
 {

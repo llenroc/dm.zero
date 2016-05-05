@@ -285,6 +285,7 @@
     <!--CMS STAET-->
     <text name="CMS" value="CMS管理"></text>
     <text name="Detail" value="详情"></text>
+    <text name="Refesh" value="刷新"></text>
 
     <text name="Channels" value="栏目"></text>
     <text name="ChannelsHeaderInfo" value="内容分类结构。"></text>
@@ -307,7 +308,7 @@
     <text name="TemplateExtension" value="模板文件后缀"></text>
     <text name="RemoveTemplateWarningMessage" value="确定要删除模板 {0} 吗?"></text>
     <text name="IndexTemplate" value="首页模板"></text>
-    <text name="ChannleTemplate" value="栏目模板"></text>
+    <text name="ChannelTemplate" value="栏目模板"></text>
     <text name="ContentTemplate" value="内容模板"></text>
     <text name="FileTemplate" value="单页模板"></text>
     <!--CMS END-->

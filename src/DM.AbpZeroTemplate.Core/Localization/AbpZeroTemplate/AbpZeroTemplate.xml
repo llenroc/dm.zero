@@ -32,7 +32,7 @@
     <text name="Static" value="Static" />
     <text name="Actions" value="Actions" />
     <text name="Delete" value="Delete" />
-    <text name="Add" value="添加" />
+    <text name="Add" value="Add" />
     <text name="SavedSuccessfully" value="Saved successfully." />
     <text name="AreYouSure" value="Are you sure?" />
     <text name="YesDelete" value="Yes, delete!" />
@@ -377,6 +377,7 @@
     <!--CMS STAET-->
     <text name="CMS" value="CMS Manage"></text>
     <text name="Detail" value="Detail"></text>
+    <text name="Refesh" value="Refesh"></text>
 
     <text name="Channels" value="Channels"></text>
     <text name="ChannelsHeaderInfo" value="Class of Content"></text>
@@ -400,9 +401,10 @@
     <text name="TemplateExtension" value="TemplateFileExtensionName"></text>
     <text name="RemoveTemplateWarningMessage" value="Are you sure to delete template {0} ?"></text>
     <text name="IndexTemplate" value="IndexTemplate"></text>
-    <text name="ChannleTemplate" value="ChannleTemplate"></text>
+    <text name="ChannelTemplate" value="ChannleTemplate"></text>
     <text name="ContentTemplate" value="ContentTemplate"></text>
     <text name="FileTemplate" value="FileTemplate"></text>
     <!--CMS END-->
+
   </texts>
 </localizationDictionary>

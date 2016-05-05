@@ -11,6 +11,7 @@ using Abp.Channels;
 using System.Data.Entity;
 using Abp.Linq.Extensions;
 using Abp.Apps;
+using Abp.CMS;
 
 namespace DM.AbpZeroTemplate.CMS.Templates
 {
@@ -39,6 +40,7 @@ namespace DM.AbpZeroTemplate.CMS.Templates
             var template = new Template(input.AppId, input.Title, input.Name, input.Type, input.Extension);
             await _templateManager.CreateAsync(template);
             await CurrentUnitOfWork.SaveChangesAsync();
+
             return template.MapTo<TemplateDto>();
         }
 
