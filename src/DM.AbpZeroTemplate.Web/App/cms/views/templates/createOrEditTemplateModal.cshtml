@@ -24,7 +24,11 @@
                 <label>@L("TemplateType")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <textarea auto-focus class="form-control" name="content" ng-class="{'edited':vm.template.content}" ng-model="vm.template.content"></textarea>
+                @*<textarea auto-focus class="form-control" name="content" ng-class="{'edited':vm.template.templateContent}" ng-model="vm.template.templateContent"></textarea>*@
+
+                <div  class="form-control" simditor ng-model="vm.template.templateContent"></div>
+
+
                 <label>@L("TemplateContent")</label>
             </div>
             <input type="hidden" name="Extension" ng-model="vm.template.extension" required maxlength="@Template.MaxExtensionLength" />
@@ -35,3 +39,24 @@
         </div>
     </form>
 </div>
+
+<script>
+    (function (window) {
+        debugger;
+      'use strict';
+      var angular = window.angular, appName = 'app';
+
+      angular
+        .module(appName, [
+          'simditor'
+        ])
+        .controller('cms.views.templates.createOrEditTemplateModal', function ($scope) {
+          $scope.editor = 'tom';
+
+          $scope.clearEditor = function () {
+            $scope.editor = 'jane....';
+          }
+        });
+
+    }(window));
+</script>

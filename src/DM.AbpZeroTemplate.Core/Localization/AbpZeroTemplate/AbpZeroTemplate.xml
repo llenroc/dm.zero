@@ -399,6 +399,7 @@
     <text name="TemplateName" value="TemplateFileName"></text>
     <text name="TemplateType" value="TemplateType"></text>
     <text name="TemplateExtension" value="TemplateFileExtensionName"></text>
+    <text name="TemplateContent" value="TemplateContent"></text>
     <text name="RemoveTemplateWarningMessage" value="Are you sure to delete template {0} ?"></text>
     <text name="IndexTemplate" value="IndexTemplate"></text>
     <text name="ChannelTemplate" value="ChannleTemplate"></text>

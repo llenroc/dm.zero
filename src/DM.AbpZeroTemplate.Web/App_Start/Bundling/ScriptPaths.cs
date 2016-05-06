@@ -61,6 +61,12 @@ namespace DM.AbpZeroTemplate.Web.Bundling
         public const string Angular_Moment = "~/libs/angular-moment/angular-moment.min.js";
         public const string Angular_Bootstrap_Switch = "~/libs/angular-bootstrap-switch/angular-bootstrap-switch.min.js";
 
+        public const string Angular_Editor = "~/libs/angular-editor/javascripts/angular-editor.js";
+        public const string Angular_Editor_Module = "~/libs/angular-editor/javascripts/simditor/module.js";
+        public const string Angular_Editor_SimditorAll = "~/libs/angular-editor/javascripts/simditor/simditor-all.js";
+        public const string Angular_Editor_Simditor = "~/libs/angular-editor/javascripts/simditor/simditor.js";
+        public const string Angular_Editor_Uploader = "~/libs/angular-editor/javascripts/simditor/uploader.js";
+
         public const string Abp = "~/Abp/Framework/scripts/abp.js";
         public const string Abp_JQuery = "~/Abp/Framework/scripts/libs/abp.jquery.js";
         public const string Abp_Toastr = "~/Abp/Framework/scripts/libs/abp.toastr.js";

@@ -41,5 +41,12 @@ namespace DM.AbpZeroTemplate.CMS.Templates
         /// <param name="input"></param>
         /// <returns></returns>
         Task DeleteTemplate(IdInput<long> input);
+
+        /// <summary>
+        /// 获取模板内容
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<string> GetTemplateContent(IdInput<long> input);
     }
 }

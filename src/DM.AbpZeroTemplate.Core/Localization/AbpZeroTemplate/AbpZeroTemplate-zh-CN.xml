@@ -306,6 +306,7 @@
     <text name="TemplateName" value="模板文件名"></text>
     <text name="TemplateType" value="模板类型"></text>
     <text name="TemplateExtension" value="模板文件后缀"></text>
+    <text name="TemplateContent" value="模板内容"></text>
     <text name="RemoveTemplateWarningMessage" value="确定要删除模板 {0} 吗?"></text>
     <text name="IndexTemplate" value="首页模板"></text>
     <text name="ChannelTemplate" value="栏目模板"></text>

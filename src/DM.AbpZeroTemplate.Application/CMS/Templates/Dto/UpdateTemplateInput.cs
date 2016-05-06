@@ -1,9 +1,11 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using Abp.Templates;
 using System.ComponentModel.DataAnnotations;
 
 namespace DM.AbpZeroTemplate.CMS.Templates.Dto
 {
+    [AutoMapFrom(typeof(Template))]
     public class UpdateTemplateInput : IInputDto
     {
         public long Id { get; set; }
@@ -39,7 +41,7 @@ namespace DM.AbpZeroTemplate.CMS.Templates.Dto
         /// <summary>
         /// 内容
         /// </summary>
-        public string Content { get; set; }
+        public string TemplateContent { get; set; }
 
     }
 }

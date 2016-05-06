@@ -19,5 +19,9 @@ namespace DM.AbpZeroTemplate.Web.Bundling
         public const string Bootstrap_Switch = "~/libs/bootstrap-switch/css/bootstrap-switch.min.css";
         public const string JQuery_jTable_Theme = "~/libs/jquery-jtable/themes/metro/blue/jtable.min.css";
         public const string JQuery_Jcrop = "~/libs/jcrop/css/jquery.Jcrop.min.css";
+
+
+        public const string Angular_Editor = "~/libs/angular-editor/stylesheets/font-awesome.css";
+        public const string Angular_Editor_Simditor = "~/libs/angular-editor/stylesheets/simditor.css";
     }
 }

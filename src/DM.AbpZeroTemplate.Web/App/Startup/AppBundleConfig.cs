@@ -52,6 +52,12 @@ namespace DM.AbpZeroTemplate.Web.App.Startup
                         ScriptPaths.Angular_DateRangePicker,
                         ScriptPaths.Angular_Moment,
                         ScriptPaths.Angular_Bootstrap_Switch,
+
+
+                        ScriptPaths.Angular_Editor_SimditorAll,
+                        ScriptPaths.Angular_Editor_Uploader,
+                        ScriptPaths.Angular_Editor,
+
                         ScriptPaths.Abp,
                         ScriptPaths.Abp_JQuery,
                         ScriptPaths.Abp_Toastr,
@@ -108,6 +114,8 @@ namespace DM.AbpZeroTemplate.Web.App.Startup
                     .Include(StylePaths.Bootstrap_Select)
                     .Include(StylePaths.Bootstrap_Switch)
                     .Include(StylePaths.JQuery_Jcrop)
+                    .Include(StylePaths.Angular_Editor)
+                    .Include(StylePaths.Angular_Editor_Simditor)
                     .ForceOrdered()
                 );
         }

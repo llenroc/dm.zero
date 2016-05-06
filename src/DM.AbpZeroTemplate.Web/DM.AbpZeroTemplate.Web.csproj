@@ -625,6 +625,14 @@
     <Content Include="libs\angular-bootstrap-switch\angular-bootstrap-switch.min.js" />
     <Content Include="libs\angular-daterangepicker\angular-daterangepicker.js" />
     <Content Include="libs\angular-daterangepicker\angular-daterangepicker.min.js" />
+    <Content Include="libs\angular-editor\example\index.html" />
+    <Content Include="libs\angular-editor\javascripts\angular-editor.js" />
+    <Content Include="libs\angular-editor\javascripts\simditor\module.js" />
+    <Content Include="libs\angular-editor\javascripts\simditor\simditor-all.js" />
+    <Content Include="libs\angular-editor\javascripts\simditor\simditor.js" />
+    <Content Include="libs\angular-editor\javascripts\simditor\uploader.js" />
+    <Content Include="libs\angular-editor\stylesheets\font-awesome.css" />
+    <Content Include="libs\angular-editor\stylesheets\simditor.css" />
     <Content Include="libs\angular-file-upload\angular-file-upload.min.js" />
     <Content Include="libs\angular-moment\angular-moment.js" />
     <Content Include="libs\angular-moment\angular-moment.min.js" />
@@ -2001,6 +2009,10 @@
     <Content Include="App\cms\views\templates\createOrEditTemplateModal.cshtml" />
     <Content Include="App\cms\views\templates\index.cshtml" />
     <Content Include="App\cms\views\templates\detailModal.cshtml" />
+    <Content Include="libs\angular-editor\bower.json" />
+    <Content Include="libs\angular-editor\fonts\fontawesome-webfont.woff" />
+    <Content Include="libs\angular-editor\LICENSE" />
+    <Content Include="libs\angular-editor\README.md" />
     <None Include="Properties\PublishProfiles\dm.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />

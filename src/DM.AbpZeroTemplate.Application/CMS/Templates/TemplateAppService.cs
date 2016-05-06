@@ -38,6 +38,7 @@ namespace DM.AbpZeroTemplate.CMS.Templates
                 input.Extension = Template.DefaultExtension;
 
             var template = new Template(input.AppId, input.Title, input.Name, input.Type, input.Extension);
+            template.TemplateContent = input.TemplateContent;
             await _templateManager.CreateAsync(template);
             await CurrentUnitOfWork.SaveChangesAsync();
 
@@ -103,11 +104,22 @@ namespace DM.AbpZeroTemplate.CMS.Templates
             template.Name = input.Name;
             template.Type = input.Type;
             template.Extension = input.Extension;
-
+            template.TemplateContent = input.TemplateContent;
             await _templateManager.UpdateAsync(template);
 
             await CurrentUnitOfWork.SaveChangesAsync();
             return template.MapTo<TemplateDto>();
+        }
+
+
+        public async Task<string> GetTemplateContent(IdInput<long> input)
+        {
+            var template = await _templateManager.TemplateRepository.GetAsync(input.Id);
+            if (template != null)
+            {
+                return _templateManager.GetTemplateContent(template);
+            }
+            return string.Empty;
         }
     }
 }
