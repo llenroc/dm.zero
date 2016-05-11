@@ -1,5 +1,5 @@
 ﻿(function () {
-    appModule.controller('cms.views.templates.createOrEditTemplateModal', ['$scope', '$uibModalInstance', 'abp.services.app.template', 'template', 
+    appModule.controller('cms.views.templates.createOrEditTemplateModal', ['$scope', '$uibModalInstance', 'abp.services.app.template', 'template',
     function ($scope, $uibModalInstance, templateService, template) {
         var vm = this;
         vm.template = template;

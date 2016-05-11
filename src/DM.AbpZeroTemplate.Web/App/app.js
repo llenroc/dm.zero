@@ -12,7 +12,8 @@ var appModule = angular.module("app", [
     'daterangepicker',
     'angularMoment',
     'frapontillo.bootstrap-switch',
-    'abp'
+    'abp',
+    'simditor'
 ]);
 
 /* LAZY LOAD CONFIG */
