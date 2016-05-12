@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html ng-app="app">
 <head>
   <meta charset="UTF-8">
@@ -35,7 +35,7 @@
 </head>
 <body>
   <h2>angular-editor demo</h2>
-  <div class="container" ng-controller="mainController">
+  <!--<div class="container" ng-controller="mainController">
     <div style="margin: 20px">
       <h4>the editor's value:</h4>
       <div>{{editor}}</div>
@@ -44,6 +44,7 @@
     <div class="btn-group">
       <button ng-click="clearEditor()">CLEAR</button>
     </div>
-  </div>
+  </div>-->
+    <div simditor ng-model="editor" placeholder="some placeholder"></div>
 </body>
 </html>

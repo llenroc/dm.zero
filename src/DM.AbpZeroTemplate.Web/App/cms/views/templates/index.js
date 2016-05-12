@@ -154,6 +154,7 @@
                     templateUrl: '~/App/cms/views/templates/createOrEditTemplateModal.cshtml',
                     controller: 'cms.views.templates.createOrEditTemplateModal as vm',
                     backdrop: 'static',
+                    size: "lg",
                     resolve: {
                         template: function () {
                             return template;
