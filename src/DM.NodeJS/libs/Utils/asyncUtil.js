@@ -10,7 +10,7 @@ asyncUtil.async = function(fn, callback, argv){
         return fn;
     }
     else{
-        setTimeout(function(fn, callback, argv){
+        setTimeout(function(){
             try{
                 callback(null, fn(argv));
             }

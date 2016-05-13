@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var asyncUtil = require('../utils/asyncUtil');
+var asyncUtil = require('./asyncUtil');
 var fsUtil = {};
 
 /* *
@@ -17,11 +17,7 @@ fsUtil.readFileSync = function(filePath){
  * @callback      回调函数
  * */
 fsUtil.readFile = function(filePath, callback){
-       if(err){
-           callback( err);
-       }
-       else{
-            fs.readFile(filePath, function(err,data){
+     fs.readFile(filePath, function(err,data){
             if(err){
                 callback( err);
             }
@@ -32,8 +28,7 @@ fsUtil.readFile = function(filePath, callback){
                 }
                 return callback(null, bin.toString('utf-8'));
             }
-        });
-     }
+     });
 };
 
 /* *
@@ -111,16 +106,24 @@ fsUtil.mkDirIfNotExistsSync = function (pathName) {
  * @callback      回调函数
  * */
 fsUtil.mkDirIfNotExists = function (pathName, callback) {
-    fsUtil.isExistsDir(pathName,function (exists) {
+    fsUtil.isExistsDir(path.dirname(pathName),function (exists) {
         if(exists){
-            return true;
+            return callback(null);
         }
         else{
-            fs.mkdir(pathName,function(err){
+            fs.mkdir(path.dirname(pathName),function(err){
                 callback(err);
             });
         }
     });
+}
+
+/* *
+ * 从相对路径获取到绝对路径
+ * @pathName      文件路径
+ * */
+fsUtil.mapPath = function(pathName){
+    return path.normalize(pathName);
 }
 
 module.exports = fsUtil;

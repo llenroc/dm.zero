@@ -1,7 +1,9 @@
 var domain = require('domain');
-var asyncUtil = require('../../libs/utils/asyncUtil');
-var parserUtil = require('../libs/TemplateEngine/parser/parserUtil');
-var fsUtil = require('../../libs/utils/fsUtil');
+var path = require('path');
+
+var asyncUtil = require('../../utils/asyncUtil');
+var parserUtil = require('./parserUtil');
+var fsUtil = require('../../utils/fsUtil');
 
 var domain = domain.create();
 
@@ -14,7 +16,7 @@ var parserManager = {};
  * @channelInfo   栏目
  * @contentInfo   内容
  * */
-parserManager.parseSync = function(templatePath, filePath, appInfo, channelInfo, contentInfo, fileInfo){
+parserManager.parseSync = function(templatePath, appInfo, channelInfo, contentInfo, fileInfo){
     var elementList = [];
         
     domain.on('error',function(err){
@@ -22,19 +24,19 @@ parserManager.parseSync = function(templatePath, filePath, appInfo, channelInfo,
     });
     
     domain.run(function(){
-        
-        var fileContent = fsUtil.readFile(templatePath,function(err,data){
-            elementList = parserUtil.GetElementList(fileContent);
+        var filePath = path.normalize([templatePath,'/../create/test.html'].join(''));
+        fsUtil.readFile(templatePath,function(err,data){
+            elementList = parserUtil.GetElementListSync(data);
             elementList.forEach(function(element) {
-                var startIndex = fileContent.indexOf(element.value);
+                var startIndex = data.indexOf(element.value);
                 if(startIndex !== -1){
                     //遍历标签，替换
-                    var replaceStr = require(element.key).parse(element.value, appInfo, channelInfo, contentInfo, fileInfo);
-                    fileContent.replace(element.value,replaceStr);
+                    var replaceStr = require(path.normalize(['../elements/', 't'+element.key].join(''))).parse(element.value, appInfo, channelInfo, contentInfo, fileInfo);
+                    data = data.replace(element.value,replaceStr);
                 }
             }, this);
             
-            fsUtil.writeFile(filePath, fileContent);
+            fsUtil.writeFile(filePath, data);
         });
     });
 
@@ -44,8 +46,8 @@ parserManager.parseSync = function(templatePath, filePath, appInfo, channelInfo,
  * 异步生成
  * @callback      回调函数
  * */
-parserManager.parse = function(filePath, appInfo, channelInfo, contentInfo, fileInfo, callback){
-    asyncUtil.async(parserManager.createSync(filePath, appInfo, channelInfo, contentInfo, fileInfo),callback);
+parserManager.parse = function(templatePath, appInfo, channelInfo, contentInfo, fileInfo, callback){
+    asyncUtil.async(parserManager.createSync, callback, templatePath, appInfo, channelInfo, contentInfo, fileInfo);
 };
 
 module.exports = parserManager;
