@@ -24,13 +24,13 @@ router.get('/createServer',function (req, res, next) {
             fileId,
             function(err, data){
                 if(err){
-                    console.log(err);
-                     res.end(err);
+                    console.log(err.message);
                 }
                 else{
                     //可以获取缓存id，得到执行情况
-                    res.end();
+                    console.log(data.totalCountKey);
                 }
+                res.end();
             })
 
 });

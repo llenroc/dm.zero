@@ -29,19 +29,24 @@ createServer.create = function(req,res,appId,channelId,contentId,fileId,callback
     
     if(fileId){
         //生成单页
-        createServer.createFile(fileId, callback);
+        createServer.createFile(appId, fileId, callback);
     }
     else if(contentId){
         //生成内容
-        createServer.createContent(contentId, callback);
+        createServer.createContent(appId, contentId, callback);
     }
     else if(channelId){
         //生成栏目
-        createServer.createChannel(channelId, callback);
+        createServer.createChannel(appId, channelId, callback);
     }
     else if(appId){
         //生成首页
         createServer.createIndex(appId, callback);
+    }
+    else{
+        var error = new Error("There is no parameter.This api must has parameters!");
+        error.status = 500;
+        callback&&callback(error);
     }
 }
 
@@ -49,21 +54,23 @@ createServer.create = function(req,res,appId,channelId,contentId,fileId,callback
  * 生成单页
  * @fileId      文件ID
  * */
-createServer.createFileSync = function (fileId) {
+createServer.createFileSync = function (appId, fileId) {
     var GUID = guid.create();
     
     //设置总数，完成数
     var totalCount = 1;
     var createCount = 0;
     cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+          
+        templateStore.getInfo(appId, fileId, function(err, appInfo, templateFileInfo){
+            
+            var templatePath = fsUtil.mapPath(templateFileInfo.path);
+            te.parseSync(templatePath, appInfo, null, null, templateFileInfo);
     
-    var appInfo = {};
-    var templateFileInfo = templateStore.getInfo(fileId);
-    var templatePath = fsUtil.mapPath(templateFileInfo.path);
-    te.parseSync(templatePath, appInfo, null, null, templateFileInfo);
-    
-    createCount = 1;
-    cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+            createCount = 1;
+            cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+        });
+
     
     var result =  {
         totalCountKey:cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
@@ -77,8 +84,8 @@ createServer.createFileSync = function (fileId) {
  * @fileId      文件ID
  * @callback    回调函数
  * */
-createServer.createFile = function (fileId, callback) {
-    asyncUtil.async(createServer.createFileSync,callback,fileId);
+createServer.createFile = function (appId, fileId, callback) {
+    asyncUtil.async(createServer.createFileSync,callback,appId, fileId);
 }
 
 
