@@ -53,6 +53,7 @@ createServer.create = function(req,res,appId,channelId,contentId,fileId,callback
 
 /* *
  * 生成单页
+ * @appId       应用ID
  * @fileId      文件ID
  * */
 createServer.createFileSync = function (appId, fileId) {
@@ -67,7 +68,7 @@ createServer.createFileSync = function (appId, fileId) {
             
             var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
             var filePath = fsUtil.mapPath(pageUtil.getSigleFilePath(appInfo, templateFileInfo));
-            te.parseSync(templatePath, appInfo, null, null, templateFileInfo);
+            te.parseSync(templatePath, filePath, appInfo, null, null, templateFileInfo);
     
             createCount = 1;
             cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
@@ -83,6 +84,7 @@ createServer.createFileSync = function (appId, fileId) {
 
 /* *
  * 生成单页(异步)
+ * @appId       应用ID
  * @fileId      文件ID
  * @callback    回调函数
  * */
@@ -90,7 +92,44 @@ createServer.createFile = function (appId, fileId, callback) {
     asyncUtil.async(createServer.createFileSync,callback,appId, fileId);
 }
 
+/* *
+ * 生成首页
+ * @appId      应用ID
+ * */
+createServer.createIndexSync = function (appId) {
+    var GUID = guid.create();
+    
+    //设置总数，完成数
+    var totalCount = 1;
+    var createCount = 0;
+    cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+          
+        templateStore.getIndexTemplateInfo(appId, function(err, appInfo, templateFileInfo){
+            
+            var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+            var filePath = fsUtil.mapPath(pageUtil.getIndexFilePath(appInfo, templateFileInfo));
+            te.parseSync(templatePath, filePath, appInfo, null, null, templateFileInfo);
+    
+            createCount = 1;
+            cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+        });
 
+    
+    var result =  {
+        totalCountKey:cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
+        createCountKey:cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_createCount)
+    };
+    return result;
+}
+
+/* *
+ * 生成首页(异步)
+ * @appId       应用ID
+ * @callback    回调函数
+ * */
+createServer.createIndex = function (appId, callback) {
+    asyncUtil.async(createServer.createIndexSync, callback,appId);
+}
 
 
 
