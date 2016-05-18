@@ -2,7 +2,7 @@
     "mssql":{
         "user": "sa",
         "password": "123456",
-        "server": "localhost",
+        "server": "127.0.0.1",
         "database": "AbpZeroTemplate",
         "pool": {
             "max": 100,

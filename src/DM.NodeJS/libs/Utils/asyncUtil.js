@@ -5,14 +5,17 @@ var asyncUtil = {};
  * @fn            方法
  * @callback      回调函数
  * */
-asyncUtil.async = function(fn, callback, argv){
+asyncUtil.async = function(){
+    var fn = arguments[0];
+    var callback = arguments[1];
+    var args = arguments;
     if(typeof(fn) !=='function'){
         return fn;
     }
     else{
         setTimeout(function(){
             try{
-                callback(null, fn(argv));
+                callback(null, fn.apply(this, Array.from(args).slice(2)));
             }
             catch(err){
                 callback(err);

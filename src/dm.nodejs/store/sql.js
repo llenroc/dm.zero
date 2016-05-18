@@ -11,17 +11,17 @@ var sqlConfg = config && config.mssql;
  * */
 sql.query = function(sqlStr, params, callback){
     if(!sqlConfg){
-        var error = new Error("There is no sql config!");
-        callback && callback(error);
+        var err = new Error("There is no sql config!");
+        callback && callback(err);
     }
     else if(!sqlStr){
-        var error = new Error("The Parameter sqlStr is null");
-        callback && callback(error);
+        var err = new Error("The Parameter sqlStr is null");
+        callback && callback(err);
     }
     else{
        var connection = new  sql.Connection(sqlConfg, function(err){
             if(err){
-                callback && callback(error);
+                callback && callback(err);
             }
             else{
                 var request = connection.request();

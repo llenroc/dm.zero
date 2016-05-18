@@ -4,6 +4,7 @@ var path = require('path');
 var asyncUtil = require('../../utils/asyncUtil');
 var parserUtil = require('./parserUtil');
 var fsUtil = require('../../utils/fsUtil');
+var pageUtil = require('../../utils/pageUtil');
 
 var domain = domain.create();
 
@@ -16,26 +17,25 @@ var parserManager = {};
  * @channelInfo   栏目
  * @contentInfo   内容
  * */
-parserManager.parseSync = function(templatePath, appInfo, channelInfo, contentInfo, fileInfo){
+parserManager.parseSync = function (templatePath, filePath, appInfo, channelInfo, contentInfo, fileInfo) {
     var elementList = [];
-        
-    domain.on('error',function(err){
+
+    domain.on('error', function (err) {
         //错误处理
     });
-    
-    domain.run(function(){
-        var filePath = path.normalize([templatePath,'/../create/test.html'].join(''));
-        fsUtil.readFile(templatePath,function(err,data){
+
+    domain.run(function () {
+        fsUtil.readFile(templatePath, function (err, data) {
             elementList = parserUtil.GetElementListSync(data);
-            elementList.forEach(function(element) {
+            elementList.forEach(function (element) {
                 var startIndex = data.indexOf(element.value);
-                if(startIndex !== -1){
+                if (startIndex !== -1) {
                     //遍历标签，替换
-                    var replaceStr = require(path.normalize(['../elements/', 't'+element.key].join(''))).parse(element.value, appInfo, channelInfo, contentInfo, fileInfo);
-                    data = data.replace(element.value,replaceStr);
+                    var replaceStr = require(path.normalize(['../elements/', 't' + element.key].join(''))).parse(element.value, appInfo, channelInfo, contentInfo, fileInfo);
+                    data = data.replace(element.value, replaceStr);
                 }
             }, this);
-            
+
             fsUtil.writeFile(filePath, data);
         });
     });
@@ -46,8 +46,8 @@ parserManager.parseSync = function(templatePath, appInfo, channelInfo, contentIn
  * 异步生成
  * @callback      回调函数
  * */
-parserManager.parse = function(templatePath, appInfo, channelInfo, contentInfo, fileInfo, callback){
-    asyncUtil.async(parserManager.createSync, callback, templatePath, appInfo, channelInfo, contentInfo, fileInfo);
+parserManager.parse = function (templatePath, filePath, appInfo, channelInfo, contentInfo, fileInfo, callback) {
+    asyncUtil.async(parserManager.createSync, callback, templatePath, filePath, appInfo, channelInfo, contentInfo, fileInfo);
 };
 
 module.exports = parserManager;

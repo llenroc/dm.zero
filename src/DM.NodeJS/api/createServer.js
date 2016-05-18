@@ -8,6 +8,7 @@ var contentStore = require('../store/contentStore');
 
 var cacheManager = require('../libs/utils/cacheManager');
 var fsUtil = require('../libs/utils/fsUtil');
+var pageUtil = require('../libs/utils/pageUtil');
 var asyncUtil = require('../libs/utils/asyncUtil');
 var te = require('../libs/templateEngine/parser/parserManager');
 
@@ -64,7 +65,8 @@ createServer.createFileSync = function (appId, fileId) {
           
         templateStore.getInfo(appId, fileId, function(err, appInfo, templateFileInfo){
             
-            var templatePath = fsUtil.mapPath(templateFileInfo.path);
+            var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+            var filePath = fsUtil.mapPath(pageUtil.getSigleFilePath(appInfo, templateFileInfo));
             te.parseSync(templatePath, appInfo, null, null, templateFileInfo);
     
             createCount = 1;

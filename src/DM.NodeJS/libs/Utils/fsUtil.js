@@ -50,15 +50,15 @@ fsUtil.writeFile = function(filePath, text){
 fsUtil.writeFile = function(filePath, text, callback){
    fsUtil.mkDirIfNotExists(filePath,function (err) {
        if(err){
-        callback(err);   
+        callback && callback(err);   
        }
        else{
             fs.writeFile(filePath,text,function(err,data){
                 if(err){
-                    callback(err);
+                    callback && callback(err);
                 }
                 else{
-                    callback(null,data);
+                    callback && callback(null,data);
                 }
            });
         }
@@ -108,11 +108,11 @@ fsUtil.mkDirIfNotExistsSync = function (pathName) {
 fsUtil.mkDirIfNotExists = function (pathName, callback) {
     fsUtil.isExistsDir(path.dirname(pathName),function (exists) {
         if(exists){
-            return callback(null);
+            return callback && callback(null);
         }
         else{
             fs.mkdir(path.dirname(pathName),function(err){
-                callback(err);
+                callback && callback(err);
             });
         }
     });

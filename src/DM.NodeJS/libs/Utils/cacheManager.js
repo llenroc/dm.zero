@@ -10,7 +10,7 @@ cacheManager.get = function(key){
 };
 
 cacheManager.remove = function(key){
-    cache.delete(key);
+    cache.del(key);
 };
 
 cacheManager.clear = function(){
@@ -27,6 +27,10 @@ cacheManager.createServerCache = {
      },
      getKey:function(guid,countType){
          [this.keyPre,guid,countType].join('');
+     },
+     remove:function(guid){
+         cacheManager.remove(this.getKey(guid,this.type_totalCount));
+         cacheManager.remove(this.getKey(guid,this.type_createCount));
      }
 };
 
