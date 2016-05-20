@@ -18,5 +18,14 @@ namespace DM.AbpZeroTemplate.CMS.Channels.Dto
         [StringLength(Channel.MaxDisplayNameLength)]
         public string DisplayName { get; set; }
 
+        /// <summary>
+        /// 栏目模板ID
+        /// </summary>
+        public long? ChannelTemplateId { get; set; }
+
+        /// <summary>
+        /// 内容模板ID
+        /// </summary>
+        public long? ContentTemplateId { get; set; }
     }
 }

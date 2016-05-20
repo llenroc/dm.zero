@@ -54,5 +54,18 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         /// <param name="input"></param>
         /// <returns></returns>
         Task<bool> IsInChannel(IsInChannelInput input);
+
+        /// <summary>
+        ///  获取添加编辑栏目时的初始值
+        /// </summary>
+        /// <returns></returns>
+        Task<GetChannelForEditOutput> GetChannelForEdit();
+
+        /// <summary>
+        /// 根据ID获取栏目
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<ChannelDto> GetChannel(IdInput<long> input);
     }
 }

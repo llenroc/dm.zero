@@ -289,6 +289,14 @@
     <Compile Include="Migrations\201604290222221_Added_Template_Entities.Designer.cs">
       <DependentUpon>201604290222221_Added_Template_Entities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605200731490_Added_IsDefault_To_Template_AND_Added_ChannelTemplateIdANDContentTemplateId_To_Channel.cs" />
+    <Compile Include="Migrations\201605200731490_Added_IsDefault_To_Template_AND_Added_ChannelTemplateIdANDContentTemplateId_To_Channel.Designer.cs">
+      <DependentUpon>201605200731490_Added_IsDefault_To_Template_AND_Added_ChannelTemplateIdANDContentTemplateId_To_Channel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605200848553_Added_IsIndex_To_Channel.cs" />
+    <Compile Include="Migrations\201605200848553_Added_IsIndex_To_Channel.Designer.cs">
+      <DependentUpon>201605200848553_Added_IsIndex_To_Channel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="AbpZeroTemplateDataModule.cs" />
     <Compile Include="Migrations\Seed\DefaultAppChannelCreator.cs" />
@@ -433,6 +441,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604290222221_Added_Template_Entities.resx">
       <DependentUpon>201604290222221_Added_Template_Entities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605200731490_Added_IsDefault_To_Template_AND_Added_ChannelTemplateIdANDContentTemplateId_To_Channel.resx">
+      <DependentUpon>201605200731490_Added_IsDefault_To_Template_AND_Added_ChannelTemplateIdANDContentTemplateId_To_Channel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605200848553_Added_IsIndex_To_Channel.resx">
+      <DependentUpon>201605200848553_Added_IsIndex_To_Channel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

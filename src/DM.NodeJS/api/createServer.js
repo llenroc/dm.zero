@@ -34,7 +34,7 @@ createServer.create = function (req, res, appId, channelId, contentId, fileId, c
     }
     else if (contentId) {
         //生成内容
-        createServer.createContent(appId, contentId, callback);
+        createServer.createContent(appId, channelId, contentId, callback);
     }
     else if (channelId) {
         //生成栏目
@@ -173,6 +173,51 @@ createServer.createChannel = function (appId, channelId, callback) {
     asyncUtil.async(createServer.createChannelSync, callback, appId, channelId);
 }
 
+
+/* *
+ * 生成内容页
+ * @appId      应用ID
+ * @channelId  栏目ID
+ * @contentId  内容ID
+ * */
+createServer.createContentSync = function (appId, channelId, contentId) {
+    var GUID = guid.create();
+
+    //设置总数，完成数
+    var totalCount = 1;
+    var createCount = 0;
+    cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+
+    templateStore.getContentTemplateInfo(appId, channelId, contentId, function (err, appInfo, channelInfo, templateFileInfo) {
+
+        contentStore.getInfo(contentId, function (err, contentInfo) {
+            var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+            var filePath = fsUtil.mapPath(pageUtil.getContentFilePath(appInfo, channelInfo, contentInfo, templateFileInfo));
+            te.parseSync(templatePath, filePath, appInfo, channelInfo, contentInfo, templateFileInfo);
+
+            createCount = createCount + 1;
+            cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+        });
+    });
+
+
+    var result = {
+        totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
+        createCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_createCount)
+    };
+    return result;
+}
+
+/* *
+ * 生成内容页(异步)
+ * @appId       应用ID
+ * @channelId   栏目ID
+ * @contentId   内容ID
+ * @callback    回调函数
+ * */
+createServer.createContent = function (appId, channelId, contentId, callback) {
+    asyncUtil.async(createServer.createContentSync, callback, appId, channelId, contentId);
+}
 
 
 module.exports = createServer;

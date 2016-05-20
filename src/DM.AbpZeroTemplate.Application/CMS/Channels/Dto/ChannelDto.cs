@@ -39,5 +39,18 @@ namespace DM.AbpZeroTemplate.CMS.Channels.Dto
         /// 内容数量
         /// </summary>
         public int ContentCount { get; set; }
+
+        /// <summary>
+        /// 栏目模板Id
+        /// </summary>
+        public long ChannelTemplateId { get; set; }
+
+        /// <summary>
+        /// 内容模板Id
+        /// </summary>
+        public long ContentTemplateId { get; set; }
+
+        //是否首页
+        public bool IsIndex { get; set; }
     }
 }

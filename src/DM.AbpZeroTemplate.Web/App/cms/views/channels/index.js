@@ -38,6 +38,9 @@
                 id: null,
                 displayName: null,
                 code: null,
+                channelTemplateId: null,
+                contentTemplateId: null,
+                isIndex: null,
 
                 set: function (ouInTree) {
                     if (!ouInTree) {

@@ -9,8 +9,34 @@
         </div>
         <div class="modal-body">
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <input auto-focus class="form-control" type="text" name="DisplayName" ng-class="{'edited':vm.channel.displayName}" ng-model="vm.channel.displayName" required maxlength="@Channel.MaxDisplayNameLength" />
+                <input auto-focus class="form-control" type="text" name="DisplayName" ng-disabled="vm.channel.isIndex" ng-class="{'edited':vm.channel.displayName}" ng-model="vm.channel.displayName" required maxlength="@Channel.MaxDisplayNameLength" />
                 <label>@L("Name")</label>
+            </div>
+        </div>
+        <div class="modal-body" ng-show="!vm.channel.isIndex">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <select id="channelTemplateSelectionCombobox"
+                        class="form-control" 
+                        ng-class="{'edited':vm.channel.channelTemplateId}"
+                        name="ChannelTemplateId" 
+                        required 
+                        ng-model="vm.channel.channelTemplateId"
+                        ng-options="template.id as template.title for template in vm.channelTemplates">
+                </select>
+                <label>@L("ChannelTemplate")</label>
+            </div>
+        </div>
+        <div class="modal-body" ng-show="!vm.channel.isIndex">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <select id="contentTemplateSelectionCombobox"
+                        class="form-control"
+                        ng-class="{'edited':vm.channel.contentTemplateId}"
+                        name="ContentTemplateId"
+                        required
+                        ng-model="vm.channel.contentTemplateId"
+                        ng-options="template.id as template.title for template in vm.contentTemplates">
+                </select>
+                <label>@L("ContentTemplate")</label>
             </div>
         </div>
         <div class="modal-footer">

@@ -162,6 +162,7 @@
     <Compile Include="Caching\Dto\CacheDto.cs" />
     <Compile Include="Caching\ICachingAppService.cs" />
     <Compile Include="CMS\Channels\ChannelAppService.cs" />
+    <Compile Include="CMS\Channels\Dto\GetChannelForEditOutput.cs" />
     <Compile Include="CMS\Channels\Dto\IsInChannelInput.cs" />
     <Compile Include="CMS\Channels\Dto\MoveChannelInput.cs" />
     <Compile Include="CMS\Channels\Dto\UpdateChannelInput.cs" />

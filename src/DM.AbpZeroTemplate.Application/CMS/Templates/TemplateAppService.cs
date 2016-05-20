@@ -37,7 +37,7 @@ namespace DM.AbpZeroTemplate.CMS.Templates
             if (string.IsNullOrEmpty(input.Extension))
                 input.Extension = Template.DefaultExtension;
 
-            var template = new Template(input.AppId, input.Title, input.Name, input.Type, input.Extension);
+            var template = new Template(input.AppId, input.Title, input.Name, input.Type, input.Extension, false);
             template.TemplateContent = input.TemplateContent;
             await _templateManager.CreateAsync(template);
             await CurrentUnitOfWork.SaveChangesAsync();
