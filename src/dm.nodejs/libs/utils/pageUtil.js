@@ -137,7 +137,7 @@ var pageUtil = {
             return "";
         }
         else {
-            return path.normalize([appInfo.AppDir, this.template.channleCreateFolder, channelInfo.Id + templateInfo.Extension].join('/'));
+            return path.normalize([appInfo.AppDir, this.template.channelCreateFolder, channelInfo.Id + templateInfo.Extension].join('/'));
         }
     },
 

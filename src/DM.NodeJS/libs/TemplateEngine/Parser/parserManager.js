@@ -6,25 +6,26 @@ var parserUtil = require('./parserUtil');
 var fsUtil = require('../../utils/fsUtil');
 var pageUtil = require('../../utils/pageUtil');
 
-var domain = domain.create();
+var dm = domain.create();
 
 var parserManager = {};
 
 /* *
  * 同步生成
- * @templatePath      文件路径
- * @appInfo       应用
- * @channelInfo   栏目
- * @contentInfo   内容
+ * @templatePath        文件路径
+ * @appInfo             应用
+ * @channelInfo         栏目
+ * @contentInfo         内容
  * */
 parserManager.parseSync = function (templatePath, filePath, appInfo, channelInfo, contentInfo, fileInfo) {
     var elementList = [];
 
-    domain.on('error', function (err) {
+    dm.on('error', function (err) {
         //错误处理
+        console.log(err);
     });
 
-    domain.run(function () {
+    dm.run(function () {
         fsUtil.readFile(templatePath, function (err, data) {
             elementList = parserUtil.GetElementListSync(data);
             elementList.forEach(function (element) {
