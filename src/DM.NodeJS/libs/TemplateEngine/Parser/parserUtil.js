@@ -2,16 +2,16 @@ var asyncUtil = require('../../utils/asyncUtil');
 
 var parserUtil = {};
 
-var str = "<t:(\w+?)[^>]*>";
+var str = "<t:(\\w+?)[^>]*>";
 str += "(?>";
-str += "<t:\1[^>]*> (?<LEVEL>)";
-str += "| ";
-str += "<\/t:\1[^>]*> (?<-LEVEL>)";
+str += "<t:\\1[^>]*>(?<LEVEL>)";
 str += "|";
-str += "(?! <t:\1[^>]*> | <\/t:\1[^>]*> ).";
+str += "<\/t:\\1[^>]*>(?<-LEVEL>)";
+str += "|";
+str += "(?!<t:\\1[^>]*>|<\/t:\\1[^>]*>).";
 str += ")*";
 str += "(?(LEVEL)(?!))";
-str += "<\/t:\1[^>]*>|<t:(\w+?)[^>]*\/>";
+str += "<\/t:\\1[^>]*>|<t:(\\w+?)[^>]*\/>";
 parserUtil.REGEX_T_ELEMENT = /<t:(\w+?)[^>]*><\/t:\1[^>]*>|<t:(\w+?)[^>]*\/>/gim;
 
 /* *

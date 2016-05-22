@@ -31,9 +31,14 @@ parserManager.parseSync = function (templatePath, filePath, appInfo, channelInfo
             elementList.forEach(function (element) {
                 var startIndex = data.indexOf(element.value);
                 if (startIndex !== -1) {
-                    //遍历标签，替换
-                    var replaceStr = require(path.normalize(['../elements/', 't' + element.key].join(''))).parse(element.value, appInfo, channelInfo, contentInfo, fileInfo);
-                    data = data.replace(element.value, replaceStr);
+
+                    xmlUtil.parseStrToObj(element.value, function (err, result) {
+                        //遍历标签，替换
+                        var replaceStr = require(path.normalize(['../elements/', 't' + element.key].join(''))).parse(element.value, nodeInfo, appInfo, channelInfo, contentInfo, fileInfo);
+                        data = data.replace(element.value, replaceStr);
+                    });
+
+
                 }
             }, this);
 
