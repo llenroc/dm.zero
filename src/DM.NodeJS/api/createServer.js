@@ -10,7 +10,7 @@ var cacheManager = require('../libs/utils/cacheManager');
 var fsUtil = require('../libs/utils/fsUtil');
 var pageUtil = require('../libs/utils/pageUtil');
 var asyncUtil = require('../libs/utils/asyncUtil');
-var te = require('../libs/templateEngine/parser/parserManager');
+var parserManager = require('../libs/templateEngine/parser/parserManager');
 
 var createServer = {};
 
@@ -19,26 +19,30 @@ var req,
 
 /* *
  * 生成服务
- * @appId       应用ID
- * @channelId   栏目ID
- * @contentId   内容ID
- * @fileId      文件ID
+ * @appId        应用ID
+ * @channelIds   栏目ID
+ * @contentIds   内容ID
+ * @fileIds      文件ID
  * */
-createServer.create = function (req, res, appId, channelId, contentId, fileId, callback) {
+createServer.create = function (req, res, appId, channelIds, contentIds, fileIds, callback) {
     req = req;
     res = res;
 
-    if (fileId) {
+    if (fileIds && fileIds.length > 0) {
         //生成单页
-        createServer.createFile(appId, fileId, callback);
+        createServer.createFile(appId, fileIds, callback);
     }
-    else if (contentId) {
-        //生成内容
-        createServer.createContent(appId, channelId, contentId, callback);
+    else if (contentIds && contentIds.length > 0) {
+        //生成选中内容
+        createServer.createContent(appId, channelIds, contentIds, callback);
     }
-    else if (channelId) {
+    else if (channelIds && channelIds.length > 0 && contentIds && contentIds.length > 0) {
+        //生成选中栏目的内容
+        createServer.createContent(appId, channelIds, contentIds, callback);
+    }
+    else if (channelIds && channelIds.length > 0 && !contentIds) {
         //生成栏目
-        createServer.createChannel(appId, channelId, callback);
+        createServer.createChannel(appId, channelIds, callback);
     }
     else if (appId) {
         //生成首页
@@ -54,27 +58,31 @@ createServer.create = function (req, res, appId, channelId, contentId, fileId, c
 /* *
  * 生成单页
  * @appId       应用ID
- * @fileId      文件ID
+ * @fileIds     文件ID
  * */
-createServer.createFileSync = function (appId, fileId) {
+createServer.createFileSync = function (appId, fileIds) {
     var GUID = guid.create();
 
     //设置总数，完成数
-    var totalCount = 1;
+    var totalCount = fileIds.length;
     var createCount = 0;
     cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
 
+
     appStore.getInfo(appId, function (err, appInfo) {
-        templateStore.getInfo(fileId, function (err, templateFileInfo) {
-            var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
-            var filePath = fsUtil.mapPath(pageUtil.getSigleFilePath(appInfo, templateFileInfo));
-            te.parseSync(templatePath, filePath, appInfo, null, null, templateFileInfo);
-
-            createCount = 1;
-            cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
-        });
-
+        fileIds.forEach(function (fileId) {
+            templateStore.getInfo(fileId, function (err, templateFileInfo) {
+                if (templateFileInfo) {
+                    var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+                    var filePath = fsUtil.mapPath(pageUtil.getSigleFilePath(appInfo, templateFileInfo));
+                    parserManager.parseSync(templatePath, filePath, appInfo, null, null, templateFileInfo);
+                }
+                createCount++;
+                cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+            });
+        }, this);
     });
+
 
     var result = {
         totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
@@ -86,11 +94,11 @@ createServer.createFileSync = function (appId, fileId) {
 /* *
  * 生成单页(异步)
  * @appId       应用ID
- * @fileId      文件ID
+ * @fileIds     文件ID
  * @callback    回调函数
  * */
-createServer.createFile = function (appId, fileId, callback) {
-    asyncUtil.async(createServer.createFileSync, callback, appId, fileId);
+createServer.createFile = function (appId, fileIds, callback) {
+    asyncUtil.async(createServer.createFileSync, callback, appId, fileIds);
 }
 
 /* *
@@ -109,7 +117,7 @@ createServer.createIndexSync = function (appId) {
 
         var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
         var filePath = fsUtil.mapPath(pageUtil.getIndexFilePath(appInfo, templateFileInfo));
-        te.parseSync(templatePath, filePath, appInfo, null, null, templateFileInfo);
+        parserManager.parseSync(templatePath, filePath, appInfo, null, null, templateFileInfo);
 
         createCount = 1;
         cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
@@ -134,10 +142,10 @@ createServer.createIndex = function (appId, callback) {
 
 /* *
  * 生成栏目页
- * @appId      应用ID
- * @channelId  栏目ID
+ * @appId       应用ID
+ * @channelIds  栏目ID
  * */
-createServer.createChannelSync = function (appId, channelId) {
+createServer.createChannelSync = function (appId, channelIds) {
     var GUID = guid.create();
 
     //设置总数，完成数
@@ -145,15 +153,18 @@ createServer.createChannelSync = function (appId, channelId) {
     var createCount = 0;
     cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
 
-    templateStore.getChannelTemplateInfo(appId, channelId, function (err, appInfo, channelInfo, templateFileInfo) {
+    channelIds.forEach(function (channelId) {
+        templateStore.getChannelTemplateInfo(appId, channelId, function (err, appInfo, channelInfo, templateFileInfo) {
 
-        var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
-        var filePath = fsUtil.mapPath(pageUtil.getChannelFilePath(appInfo, channelInfo, templateFileInfo));
-        te.parseSync(templatePath, filePath, appInfo, channelInfo, null, templateFileInfo);
+            var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+            var filePath = fsUtil.mapPath(pageUtil.getChannelFilePath(appInfo, channelInfo, templateFileInfo));
+            parserManager.parseSync(templatePath, filePath, appInfo, channelInfo, null, templateFileInfo);
 
-        createCount = 1;
-        cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
-    });
+            createCount = 1;
+            cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+        });
+    }, this);
+
 
 
     var result = {
@@ -165,41 +176,74 @@ createServer.createChannelSync = function (appId, channelId) {
 
 /* *
  * 生成栏目页(异步)
- * @appId       应用ID
- * @channelId   栏目ID
- * @callback    回调函数
+ * @appId        应用ID
+ * @channelIds   栏目ID
+ * @callback     回调函数
  * */
-createServer.createChannel = function (appId, channelId, callback) {
-    asyncUtil.async(createServer.createChannelSync, callback, appId, channelId);
+createServer.createChannel = function (appId, channelIds, callback) {
+    asyncUtil.async(createServer.createChannelSync, callback, appId, channelIds);
 }
 
 
 /* *
  * 生成内容页
- * @appId      应用ID
- * @channelId  栏目ID
- * @contentId  内容ID
+ * @appId       应用ID
+ * @channelIds  栏目ID
+ * @contentId   内容ID
  * */
-createServer.createContentSync = function (appId, channelId, contentId) {
+createServer.createContentSync = function (appId, channelIds, contentIds) {
     var GUID = guid.create();
 
-    //设置总数，完成数
-    var totalCount = 1;
-    var createCount = 0;
-    cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+    if (contentIds) {
+        //选中内容直接生成
 
-    templateStore.getContentTemplateInfo(appId, channelId, contentId, function (err, appInfo, channelInfo, templateFileInfo) {
+        //设置总数，完成数
+        var totalCount = contentIds.length;
+        var createCount = 0;
+        cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
 
-        contentStore.getInfo(contentId, function (err, contentInfo) {
-            var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
-            var filePath = fsUtil.mapPath(pageUtil.getContentFilePath(appInfo, channelInfo, contentInfo, templateFileInfo));
-            te.parseSync(templatePath, filePath, appInfo, channelInfo, contentInfo, templateFileInfo);
+        var channelId = channelIds[0];
+        contentIds.forEach(function (contentId) {
+            templateStore.getContentTemplateInfo(appId, channelId, contentId, function (err, appInfo, channelInfo, templateFileInfo) {
 
-            createCount = createCount + 1;
-            cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
-        });
-    });
+                contentStore.getInfo(contentId, function (err, contentInfo) {
+                    var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+                    var filePath = fsUtil.mapPath(pageUtil.getContentFilePath(appInfo, channelInfo, contentInfo, templateFileInfo));
+                    parserManager.parseSync(templatePath, filePath, appInfo, channelInfo, contentInfo, templateFileInfo);
 
+                    createCount++;
+                    cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+                });
+            });
+        }, this);
+
+    }
+    else if (channelIds) {
+        //选中栏目生成内容
+
+        //设置总数，完成数
+        var totalCount = contentIds.length;
+        var createCount = 0;
+        cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+
+        channelIds.forEach(function (channelId) {
+            contentStore.getContentIdsByChannelId(channelId, function (err, contentIds) {
+                templateStore.getContentTemplateInfo(appId, channelId, contentId, function (err, appInfo, channelInfo, templateFileInfo) {
+
+                    contentStore.getInfo(contentId, function (err, contentInfo) {
+                        var templatePath = fsUtil.mapPath(pageUtil.getTemplatePath(appInfo, templateFileInfo));
+                        var filePath = fsUtil.mapPath(pageUtil.getContentFilePath(appInfo, channelInfo, contentInfo, templateFileInfo));
+                        parserManager.parseSync(templatePath, filePath, appInfo, channelInfo, contentInfo, templateFileInfo);
+
+                        createCount++;
+                        cacheManager.createServerCache.setCount(GUID, totalCount, createCount);
+                    });
+                });
+            });
+
+
+        }, this);
+    }
 
     var result = {
         totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
@@ -210,13 +254,13 @@ createServer.createContentSync = function (appId, channelId, contentId) {
 
 /* *
  * 生成内容页(异步)
- * @appId       应用ID
- * @channelId   栏目ID
- * @contentId   内容ID
- * @callback    回调函数
+ * @appId        应用ID
+ * @channelIds   栏目ID
+ * @contentIds   内容ID
+ * @callback     回调函数
  * */
-createServer.createContent = function (appId, channelId, contentId, callback) {
-    asyncUtil.async(createServer.createContentSync, callback, appId, channelId, contentId);
+createServer.createContent = function (appId, channelIds, contentIds, callback) {
+    asyncUtil.async(createServer.createContentSync, callback, appId, channelIds, contentIds);
 }
 
 

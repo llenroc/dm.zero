@@ -1,8 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var domain = require('domain');
+var path = require('path');
 
-var createServer = require('./createServer');
+var translateUtil = require('../libs/utils/translateUtil');
+
+var config = require('../conf/config.json');
+var apiConfig = config && config.api;
+
+
+var createServer = require(['./', apiConfig.createServer].join(''));
+var testServer = require('./testServer');
 
 var dm = domain.create();
 
@@ -12,7 +20,7 @@ router.get('/', function (req, res, next) {
 });
 
 /*createServer web api */
-router.get('/createServer', function (req, res, next) {
+router.get(['/', apiConfig.createServer].join(''), function (req, res, next) {
 
     dm.on('error', function (err) {
 
@@ -25,18 +33,18 @@ router.get('/createServer', function (req, res, next) {
     });
 
     dm.run(function () {
-        var appId = parseInt(req.query['appId'] || "0");
-        var channelId = parseInt(req.query['channelId'] || "0");
-        var contentId = parseInt(req.query['contentId'] || "0");
-        var fileId = parseInt(req.query['fileId'] || "0");
+        var appId = parseInt(req.query['appId']) || "0";
+        var channelIds = translateUtil.convertStringToArray(req.query['channelIds']) || [];
+        var contentIds = translateUtil.convertStringToArray(req.query['contentIds']) || [];
+        var fileIds = translateUtil.convertStringToArray(req.query['fileIds']) || [];
 
         createServer.create(
             req,
             res,
             appId,
-            channelId,
-            contentId,
-            fileId,
+            channelIds,
+            contentIds,
+            fileIds,
             function (err, data) {
                 if (err) {
                     throw err;
@@ -49,6 +57,12 @@ router.get('/createServer', function (req, res, next) {
             })
     });
 
+});
+
+router.get('/test',function(req, res, next){
+    var appId = parseInt(req.query['appId']) || "0";
+    var channelId = parseInt(req.query['channelId']) || "0";
+    testServer.test(appId,channelId);
 });
 
 module.exports = router;

@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var asyncUtil = require('./asyncUtil');
+var config = require('../../conf/config.json');
 var fsUtil = {};
 
 /* *
@@ -90,19 +91,19 @@ fsUtil.isExistsDir = function (pathName, callback) {
  * @pathName      文件夹路径
  * */
 fsUtil.mkDirIfNotExistsSync = function (pathName) {
-     pathName = path.dirname(pathName);
+    pathName = path.dirname(pathName);
 
     var pathNames = pathName.split(path.sep);
     var pathtmp;
-    pathNames.forEach(function(dirname){
-        if(pathtmp){
-            pathtmp = path.join(pathtmp,dirname);
+    pathNames.forEach(function (dirname) {
+        if (pathtmp) {
+            pathtmp = path.join(pathtmp, dirname);
         }
-        else{
+        else {
             pathtmp = dirname;
         }
-        if(!fsUtil.isExistsDirSync(pathtmp)){
-            if(!fs.mkdirSync(pathtmp)){
+        if (!fsUtil.isExistsDirSync(pathtmp)) {
+            if (!fs.mkdirSync(pathtmp)) {
                 return false;
             }
         }
@@ -128,33 +129,33 @@ fsUtil.mkDirIfNotExistsSync = function (pathName) {
 fsUtil.mkDirIfNotExists = function (dirpath, callback) {
     dirpath = path.dirname(dirpath);
     callback = callback ||
-    function() {};
+        function () { };
 
     fs.exists(dirpath,
-    function(exitsmain) {
-        if (!exitsmain) {
-            //目录不存在
-            var pathtmp;
-            var pathlist = dirpath.split(path.sep);
-            var pathlistlength = pathlist.length;
-            var pathlistlengthseed = 0;
+        function (exitsmain) {
+            if (!exitsmain) {
+                //目录不存在
+                var pathtmp;
+                var pathlist = dirpath.split(path.sep);
+                var pathlistlength = pathlist.length;
+                var pathlistlengthseed = 0;
 
-            mkdir_auto_next(pathlist, pathlist.length,
-            function(callresult) {
-                if (callresult) {
-                    callback(null, true);
-                }
-                else {
-                    callback(false);
-                }
-            });
+                mkdir_auto_next(pathlist, pathlist.length,
+                    function (callresult) {
+                        if (callresult) {
+                            callback(null, true);
+                        }
+                        else {
+                            callback(false);
+                        }
+                    });
 
-        }
-        else {
-            callback(null, true);
-        }
+            }
+            else {
+                callback(null, true);
+            }
 
-    });
+        });
     // fsUtil.isExistsDir(path.dirname(pathName), function (exists) {
     //     if (exists) {
     //         return callback && callback(null);
@@ -170,7 +171,7 @@ fsUtil.mkDirIfNotExists = function (dirpath, callback) {
 // 异步文件夹创建 递归方法
 function mkdir_auto_next(pathlist, pathlistlength, callback, pathlistlengthseed, pathtmp) {
     callback = callback ||
-    function() {};
+        function () { };
     if (pathlistlength > 0) {
 
         if (!pathlistlengthseed) {
@@ -190,30 +191,30 @@ function mkdir_auto_next(pathlist, pathlistlength, callback, pathlistlengthseed,
             }
 
             fs.exists(pathtmp,
-            function(exists) {
-                if (!exists) {
-                    fs.mkdir(pathtmp,
-                    function(isok) {
-                        if (!isok) {
-                            mkdir_auto_next(pathlist, pathlistlength,
-                            function(callresult) {
+                function (exists) {
+                    if (!exists) {
+                        fs.mkdir(pathtmp,
+                            function (isok) {
+                                if (!isok) {
+                                    mkdir_auto_next(pathlist, pathlistlength,
+                                        function (callresult) {
+                                            callback(callresult);
+                                        },
+                                        pathlistlengthseed + 1, pathtmp);
+                                }
+                                else {
+                                    callback(false);
+                                }
+                            });
+                    }
+                    else {
+                        mkdir_auto_next(pathlist, pathlistlength,
+                            function (callresult) {
                                 callback(callresult);
                             },
                             pathlistlengthseed + 1, pathtmp);
-                        }
-                        else {
-                            callback(false);
-                        }
-                    });
-                }
-                else {
-                    mkdir_auto_next(pathlist, pathlistlength,
-                    function(callresult) {
-                        callback(callresult);
-                    },
-                    pathlistlengthseed + 1, pathtmp);
-                }
-            });
+                    }
+                });
 
         }
 
@@ -229,7 +230,10 @@ function mkdir_auto_next(pathlist, pathlistlength, callback, pathlistlengthseed,
  * @pathName      文件路径
  * */
 fsUtil.mapPath = function (pathName) {
-    return path.normalize(pathName);
+    return path.normalize(
+        path.join(config.root,pathName)
+        );
+
 }
 
 module.exports = fsUtil;

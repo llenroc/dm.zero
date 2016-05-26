@@ -1,18 +1,8 @@
 var asyncUtil = require('../../utils/asyncUtil');
-
+var xmlUtil = require('../../utils/xmlUtil');
 var parserUtil = {};
 
-var str = "<t:(\\w+?)[^>]*>";
-str += "(?>";
-str += "<t:\\1[^>]*>(?<LEVEL>)";
-str += "|";
-str += "<\/t:\\1[^>]*>(?<-LEVEL>)";
-str += "|";
-str += "(?!<t:\\1[^>]*>|<\/t:\\1[^>]*>).";
-str += ")*";
-str += "(?(LEVEL)(?!))";
-str += "<\/t:\\1[^>]*>|<t:(\\w+?)[^>]*\/>";
-parserUtil.REGEX_T_ELEMENT = /<t:(\w+?)[^>]*><\/t:\1[^>]*>|<t:(\w+?)[^>]*\/>/gim;
+parserUtil.REGEX_T_ELEMENT = /<t:(\w+?)[^>]*>(<\/t:\1>)|<t:(\w+?)\s+[^>]*>[^\2]*<\/t:\3>|<t:(\w+?)[^>]*\/>/gim;
 
 /* *
  * 获取模板标签列表
@@ -25,17 +15,16 @@ parserUtil.GetElementListSync = function (fileContent) {
     }
     else {
         //通过正则表达式，获取标签
-        var element = {
-            key: '',
-            value: ''
-        };
 
         var m = fileContent.match(parserUtil.REGEX_T_ELEMENT);
         if (m) {
             m.forEach(function (el) {
-                element.key = "app";
-                element.value = el;
-                elementList.push(element);
+                xmlUtil.parseStrToObj(el, function (err, node) {
+                    for (var pro in node) {
+                        elementList.push({ key: pro, value: el });
+                        break;
+                    }
+                });
             }, this);
         }
         return elementList;
