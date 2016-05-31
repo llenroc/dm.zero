@@ -5,34 +5,30 @@ var sync = require('simplesync');
 var xmlUtil = require('../../utils/xmlUtil');
 var appStore = require('../../../store/appStore');
 var channelStore = require('../../../store/channelStore');
-var contentStore = require('../../../store/contentStore');
 var tDynamic = require('./tDynamic');
 var parserManager = require('../parser/parserManager');
+var eScopeType = require('../../enum/eScopeType');
 
 
-var contents = {
+var channels = {
     /**
-     * t:contents 的属性
+     * t:channels 的属性
      */
     attrs: {
         channelname: { key: 'channelname' },
-        scope: { key: 'scope' },
+        uplevel: { key: 'uplevel' },
+        toplevel: { key: 'toplevel' },
+        istotal: { key: 'istotal' },
+        isallchildren: { key: 'isallchildren' },
+
         groupChannel: { key: 'groupChannel' },
         groupChannelNot: { key: 'groupChannelNot' },
-
-        istop: { key: 'istop' },
-        isrecommend: { key: 'isrecommend' },
-        ishot: { key: 'ishot' },
-        iscolor: { key: 'iscolor' },
 
         totalnum: { key: 'totalnum' },
         startnum: { key: 'startnum' },
         order: { key: 'order' },
 
         wordnum: { key: 'wordnum' },
-        isimage: { key: 'isimage' },
-        isvideo: { key: 'isvideo' },
-        isfile: { key: 'isfile' },
 
         where: { key: 'where' },
         isdynamic: { key: 'isdynamic' }
@@ -97,37 +93,27 @@ var contents = {
             }
 
             //获取数据集
-
+            var channelScope = eScopeType.self;
+            if (this.attrs.isallchildren.toLowerCase() == 'true') {
+                channelScope = eScopeType.descendant;
+            }
             result = sync.wait(
-                contentStore.getInfoForElement(
-                appInfo,
-                channelInfo,
-                _scope.attrs.scope.value,
-                _scope.attrs.groupChannel.value,
-                _scope.attrs.groupChannelNot.value,
-                !!_scope.attrs.isimage.value,
-                _scope.attrs.isimage.value,
-                !!_scope.attrs.isvideo.value,
-                _scope.attrs.isvideo.value,
-                !!_scope.attrs.isfile.value,
-                _scope.attrs.isfile.value,
-                !!_scope.attrs.istop.value,
-                _scope.attrs.istop.value,
-                !!_scope.attrs.isrecommend.value,
-                _scope.attrs.isrecommend.value,
-                !!_scope.attrs.ishot.value,
-                _scope.attrs.ishot.value,
-                !!_scope.attrs.iscolor.value,
-                _scope.attrs.iscolor.value,
-                _scope.attrs.totalnum.value,
-                _scope.attrs.startnum.value,
-                _scope.attrs.order.value,
-                _scope.attrs.where.value,
-                sync.cb('err', 'contentInfos')));
+                channelStore.getInfoForElement(
+                    appInfo,
+                    channelInfo,
+                    _scope.attrs.groupChannel.value,
+                    _scope.attrs.groupChannelNot.value,
+                    _scope.attrs.totalnum.value,
+                    _scope.attrs.startnum.value,
+                    _scope.attrs.order.value,
+                    channelScope,
+                    _scope.attrs.istotal.value,
+                    _scope.attrs.where.value,
+                    sync.cb('err', 'channelInfos')));
 
             if (!result.err) {
 
-                async.mapSeries(result.contentInfos, function (contentInfo, ck) {
+                async.mapSeries(result.channelInfos, function (channelInfo, ck) {
                     if (nodeInfo.innserXml) {
                         //解析内部xml
                         parserManager.parseContent(nodeInfo.innserXml, appInfo, channelInfo, contentInfo, fileInfo, ck);
@@ -136,7 +122,7 @@ var contents = {
                     if (err) callback && callback(err);
                     else {
 
-                        results.forEach(function(result) {
+                        results.forEach(function (result) {
                             parsedContent += result;
                         }, this);
 
@@ -145,11 +131,10 @@ var contents = {
                     }
                 });
             }
-
         });
     }
 
 
 };
 
-module.exports = contents;
+module.exports = channels;

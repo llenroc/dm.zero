@@ -14,7 +14,7 @@ var channel = {
      */
     attrs: {
         type: { key: 'type' },
-        displayname: { key: 'displayname' },
+        channelname: { key: 'channelname' },
         hostname: { key: 'hostname' },
         isdynamic: { key: 'isdynamic' }
     },
@@ -57,9 +57,9 @@ var channel = {
 
         sync.block(function () {
 
-            if (displayName = _scope.attrs.displayname.value) {
-                _scope.attrs.displayname.value = null;
-                var result = sync.wait(channelStore.getInfoByName(displayName, sync.cb('err', 'channelInfo')));
+            if (channelname = _scope.attrs.channelname.value) {
+                _scope.attrs.channelname.value = null;
+                var result = sync.wait(channelStore.getInfoByName(channelname, sync.cb('err', 'channelInfo')));
                 if (result.err) callback && callback(result.err);
                 else {
                     _scope.parseImpl(nodeInfo, appInfo, result.channelInfo, contentInfo, fileInfo, callback);

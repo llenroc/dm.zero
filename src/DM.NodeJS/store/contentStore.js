@@ -85,81 +85,75 @@ var contentStore = {
      * @param orderStr              排序条件
      * @param where                 where条件
      */
-    getInfoForElement: function (appInfo, 
-    channelInfo, 
-    scope, 
-    groupChannel, 
-    groupChannelNot, 
-    isImageExists, 
-    isImage, 
-    isVideoExists, 
-    isVideo, 
-    isFileExists, 
-    isFile, 
-    isTopExists, 
-    isTop, 
-    isRecommendExists, 
-    isRecommend, 
-    isHotExists, 
-    isHot, 
-    isColorExists, 
-    isColor, 
-    totalNum, 
-    startNum, 
-    orderStr, 
-    where, 
-    callback) {
+    getInfoForElement: function (
+        appInfo,
+        channelInfo,
+        scope,
+        groupChannel,
+        groupChannelNot,
+        isImageExists,
+        isImage,
+        isVideoExists,
+        isVideo,
+        isFileExists,
+        isFile,
+        isTopExists,
+        isTop,
+        isRecommendExists,
+        isRecommend,
+        isHotExists,
+        isHot,
+        isColorExists,
+        isColor,
+        totalNum,
+        startNum,
+        orderStr,
+        where,
+        callback) {
         var _scope = this;
-        // channelStore.getTableName(appInfo, channelInfo, function (err, tableName) {
-        //     if (!err) {
-        //         _scope.getInfoSqlStrForElement(appInfo, channelInfo, groupChannel, groupChannelNot, isImageExists, isImage, isVideoExists, isVideo, isFileExists, isFile, isTopExists, isTop, isRecommendExists, isRecommend, isHotExists, isHot, isColorExists, isColor, totalNum, startNum, where, tableName, function (err, whereStr, sqlParams) {
-        //             if (!err) {
-        //                 channelStore.getChannelIds(channelInfo.Id, scope, groupChannel, groupChannelNot, function (err, channelIds) {
-        //                     if (err) {
-        //                         return null;
-        //                     }
-        //                     if (!channelIds || channelIds.length == 0) {
-        //                         return null;
-        //                     }
-        //                     var sqlWhereString = '';
-        //                     if (channelIds.length == 1) {
-        //                         sqlWhereString += "WHERE (ChannelId = @ChannelId AND IsChecked = 'True' " + whereStr + ")";
-        //                         sqlParams.push(sql.param('ChannelId', channelIds[0]));
-        //                     }
-        //                     else {
-        //                         sqlWhereString += "WHERE (ChannelId IN (" + translateUtil.ObjectCollectionToSqlInStringWithoutQuote(channelIds) + ") AND IsChecked = 'True' " + whereStr + ")";
-        //                     }
+        channelStore.getTableName(appInfo, channelInfo, function (err, tableName) {
+            if (!err) {
+                _scope.getInfoSqlStrForElement(appInfo, channelInfo, groupChannel, groupChannelNot, isImageExists, isImage, isVideoExists, isVideo, isFileExists, isFile, isTopExists, isTop, isRecommendExists, isRecommend, isHotExists, isHot, isColorExists, isColor, totalNum, startNum, where, tableName, function (err, whereStr, sqlParams) {
+                    if (!err) {
+                        channelStore.getChannelIds(channelInfo.Id, scope, groupChannel, groupChannelNot, function (err, channelIds) {
+                            if (err) {
+                                return null;
+                            }
+                            if (!channelIds || channelIds.length == 0) {
+                                return null;
+                            }
+                            var sqlWhereString = '';
+                            if (channelIds.length == 1) {
+                                sqlWhereString += "WHERE (ChannelId = @ChannelId AND IsChecked = 'True' " + whereStr + ")";
+                                sqlParams.push(sql.param('ChannelId', channelIds[0]));
+                            }
+                            else {
+                                sqlWhereString += "WHERE (ChannelId IN (" + translateUtil.ObjectCollectionToSqlInStringWithoutQuote(channelIds) + ") AND IsChecked = 'True' " + whereStr + ")";
+                            }
 
-        //                     if ((!!startNum && startNum <= 1) || !startNum) {
-        //                         sql.getSelectSqlStringWithoutStartNum(tableName, totalNum, '*', sqlWhereString, orderStr, function (err, sqlStr) {
-        //                             if (!err) {
-        //                                 _scope.getInfoForElementActionSql(sqlStr, sqlParams, _callback);
-        //                             }
-        //                         });
-        //                     }
-        //                     else {
-        //                         sqlStr = sql.getSelectSqlString(tableName, startNum, totalNum, '*', sqlWhereString, orderStr, function (err, sqlStr) {
-        //                             if (!err) {
-        //                                 _scope.getInfoForElementActionSql(sqlStr, sqlParams, _callback);
-        //                             }
-        //                         });
-        //                     }
-        //                 });
+                            if ((!!startNum && startNum <= 1) || !startNum) {
+                                sql.getSelectSqlStringWithoutStartNum(tableName, totalNum, '*', sqlWhereString, orderStr, function (err, sqlStr) {
+                                    if (!err) {
+                                        _scope.getInfoForElementActionSql(sqlStr, sqlParams, _callback);
+                                        return;
+                                    }
+                                });
+                            }
+                            else {
+                                sqlStr = sql.getSelectSqlString(tableName, startNum, totalNum, '*', sqlWhereString, orderStr, function (err, sqlStr) {
+                                    if (!err) {
+                                        _scope.getInfoForElementActionSql(sqlStr, sqlParams, _callback);
+                                        return;
+                                    }
+                                });
+                            }
+                        });
 
-        //             }
-        //         });
-        //     }
-        // });
-
-        var sqlStr = "SELECT * FROM [dm_Contents] WHERE (ChannelId = @ChannelId  AND AppId = @AppId )";
-        var sqlParams = [sql.param('AppId', 2), sql.param('ChannelId', 3)];
-        sync.block(function () {
-            var result = sync.wait(sql.query(sqlStr, sqlParams, sync.cb('err', 'recordSet')));
-            if (!result.err) {
-                var contentInfos = result.recordSet && result.recordSet[0] || [];
-                callback && callback(null, contentInfos);
+                    }
+                });
             }
         });
+
     },
 
     getInfoForElementActionSql: function (sqlStr, sqlParams, callback) {
@@ -168,6 +162,7 @@ var contentStore = {
             if (!result.err) {
                 var contentInfos = result.recordSet[0];
                 callback && callback(null, contentInfos);
+                return;
             }
         });
     },
