@@ -91,6 +91,10 @@ namespace DM.AbpZeroTemplate.Web
             appFolders.TempFileDownloadFolder = server.MapPath("~/Temp/Downloads");
             appFolders.WebLogsFolder = server.MapPath("~/Logs");
 
+            appFolders.AppFileFolder = "Upload/Files";
+            appFolders.AppImageFolder = "Upload/Images";
+            appFolders.AppVideoFolder = "Upload/Videos";
+
             try { DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder); } catch { }
         }
     }

@@ -139,6 +139,7 @@
                     templateUrl: '~/App/cms/views/channels/createOrEditChannelModal.cshtml',
                     controller: 'cms.views.channels.createOrEditChannelModal as vm',
                     backdrop: 'static',
+                    size: "lg",
                     resolve: {
                         channel: function () {
                             return channel;

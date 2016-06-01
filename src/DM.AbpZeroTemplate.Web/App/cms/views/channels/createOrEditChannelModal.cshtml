@@ -1,4 +1,5 @@
 ﻿@using Abp.Channels
+@using Abp.Core.Enums
 <div>
     <form name="channelForm" role="form" novalidate class="form-validation">
         <div class="modal-header">
@@ -7,38 +8,100 @@
                 <span ng-if="!vm.channel.Id">@L("AddSubChannel")</span>
             </h4>
         </div>
-        <div class="modal-body">
-            <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <input auto-focus class="form-control" type="text" name="DisplayName" ng-disabled="vm.channel.isIndex" ng-class="{'edited':vm.channel.displayName}" ng-model="vm.channel.displayName" required maxlength="@Channel.MaxDisplayNameLength" />
-                <label>@L("Name")</label>
-            </div>
-        </div>
-        <div class="modal-body" ng-show="!vm.channel.isIndex">
-            <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <select id="channelTemplateSelectionCombobox"
-                        class="form-control" 
-                        ng-class="{'edited':vm.channel.channelTemplateId}"
-                        name="ChannelTemplateId" 
-                        required 
-                        ng-model="vm.channel.channelTemplateId"
-                        ng-options="template.id as template.title for template in vm.channelTemplates">
-                </select>
-                <label>@L("ChannelTemplate")</label>
-            </div>
-        </div>
-        <div class="modal-body" ng-show="!vm.channel.isIndex">
-            <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <select id="contentTemplateSelectionCombobox"
-                        class="form-control"
-                        ng-class="{'edited':vm.channel.contentTemplateId}"
-                        name="ContentTemplateId"
-                        required
-                        ng-model="vm.channel.contentTemplateId"
-                        ng-options="template.id as template.title for template in vm.contentTemplates">
-                </select>
-                <label>@L("ContentTemplate")</label>
-            </div>
-        </div>
+        <uib-tabset class="tab-container tabbable-line">
+            <uib-tab heading="@L("BaseSetting")">
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="DisplayName" ng-disabled="vm.channel.isIndex" ng-class="{'edited':vm.channel.displayName}" ng-model="vm.channel.displayName" required maxlength="@Channel.MaxDisplayNameLength" />
+                        <label>@L("Name")</label>
+                    </div>
+                </div>
+                <div class="modal-body" ng-show="!vm.channel.isIndex">
+                    <div class="form-group form-md-line-input">
+                        <select id="channelTemplateSelectionCombobox"
+                                class="form-control"
+                                ng-class="{'edited':vm.channel.channelTemplateId}"
+                                name="ChannelTemplateId"
+                                required
+                                ng-model="vm.channel.channelTemplateId"
+                                ng-options="template.key as template.value for template in vm.channelTemplates"></select>
+                        <label>@L("ChannelTemplate")</label>
+                    </div>
+                </div>
+                <div class="modal-body" ng-show="!vm.channel.isIndex">
+                    <div class="form-group form-md-line-input">
+                        <select id="contentTemplateSelectionCombobox"
+                                class="form-control"
+                                ng-class="{'edited':vm.channel.contentTemplateId}"
+                                name="ContentTemplateId"
+                                required
+                                ng-model="vm.channel.contentTemplateId"
+                                ng-options="template.key as template.value for template in vm.contentTemplates"></select>
+                        <label>@L("ContentTemplate")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <select id="modelTypeSelectionCombobox"
+                                class="form-control"
+                                ng-class="{'edited':vm.channel.modelType}"
+                                name="ModelType"
+                                ng-model="vm.channel.modelType"
+                                ng-options="mt.key as mt.value for mt in vm.modelTypes"></select>
+                        <label>@L("ModelType")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div simditor ng-model="vm.channel.content" placeholder="@L("ChannelContent")"></div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="@L("AdvancedSetting")">
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input class="form-control" type="text" name="FilePath" ng-model="vm.channel.filePath" ng-class="{'edited':vm.channel.filePath}" maxlength="@Channel.MaxFilePathLength" />
+                        <label>@L("FilePath")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input class="form-control" type="text" name="LinkUrl" ng-model="vm.channel.linkUrl" ng-class="{'edited':vm.channel.linkUrl}" maxlength="@Channel.MaxLinkUrlLength" />
+                        <label>@L("LinkUrl")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <select id="TypeSelectionCombobox"
+                                class="form-control"
+                                ng-class="{'edited':vm.channel.linkType}"
+                                name="LinkType"
+                                ng-model="vm.channel.linkType"
+                                ng-options="lt.key as lt.value for lt in vm.linkTypes"></select>
+                        <label>@L("LinkType")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="ImageUrl" nv-file-select uploader="vm.imageUploader" ng-model="vm.channel.imageUrl" ng-class="{'edited':vm.channel.imageUrl}" maxlength="@Channel.MaxImageUrlLength" />
+                        <label>@L("ImageUrl")</label>
+                    </div>
+
+                    <img id="imageUrl" width="50px" height="50px" src="{{vm.channel.imageUrl}}" ng-show="vm.channel.imageUrl" />
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input class="form-control" type="text" name="Keywords" ng-model="vm.channel.keywords" ng-class="{'edited':vm.channel.keywords}" maxlength="@Channel.MaxDefaultLength" />
+                        <label>@L("Keywords")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <textarea class="form-control" name="Description" ng-model="vm.channel.description" ng-class="{'edited':vm.channel.description}" maxlength="@Channel.MaxDefaultLength"></textarea>
+                        <label>@L("Description")</label>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
         <div class="modal-footer">
             <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>
             <button type="submit" button-busy="vm.saving" busy-text="@L("SavingWithThreeDot")" class="btn btn-primary blue" ng-click="vm.save()" ng-disabled="channelForm.$invalid"><i class="fa fa-save"></i><span>@L("Save")</span></button>

@@ -52,5 +52,45 @@ namespace DM.AbpZeroTemplate.CMS.Channels.Dto
 
         //是否首页
         public bool IsIndex { get; set; }
+
+        /// <summary>
+        /// 内容模型
+        /// </summary>
+        public string ModelType { get; set; }
+
+        /// <summary>
+        /// 栏目生成文件名称
+        /// </summary>
+        public string FilePath { get; set; }
+
+        /// <summary>
+        /// 栏目链接
+        /// </summary>
+        public string LinkUrl { get; set; }
+
+        /// <summary>
+        /// 栏目链接类型
+        /// </summary>
+        public string LinkType { get; set; }
+
+        /// <summary>
+        /// 栏目图片
+        /// </summary>
+        public string ImageUrl { get; set; }
+
+        /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Keywords { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// 栏目内容
+        /// </summary>
+        public string Content { get; set; }
     }
 }

@@ -72,11 +72,11 @@ var channelStore = {
     * @param callback  回调函数
     * */
     getTableName: function (appInfo, channelInfo, callback) {
-        if (channelInfo.ModelType == 'cms') {
+        if (channelInfo.ModelType == 'Content') {
             callback && callback(null, 'dm_Contents');
             return;
         }
-        else if (channelInfo.ModelType == 'b2c') {
+        else if (channelInfo.ModelType == 'Good') {
             callback && callback(null, 'dm_B2CContents');
             return;
         }

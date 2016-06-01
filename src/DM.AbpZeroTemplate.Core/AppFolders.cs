@@ -9,5 +9,9 @@ namespace DM.AbpZeroTemplate
         public string SampleProfileImagesFolder { get; set; }
 
         public string WebLogsFolder { get; set; }
+
+        public string AppImageFolder { get; set; }
+        public string AppVideoFolder { get; set; }
+        public string AppFileFolder { get; set; }
     }
 }

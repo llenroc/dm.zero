@@ -7,16 +7,112 @@
                 <span ng-if="!vm.content.Id">@L("AddContent")</span>
             </h4>
         </div>
-        <div class="modal-body">
-            <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <input auto-focus class="form-control" type="text" name="Title" ng-class="{'edited':vm.content.title}" ng-model="vm.content.title" required maxlength="@Content.MaxTitleLength" />
-                <label>@L("ContentTitle")</label>
-            </div>
-            <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                <textarea auto-focus class="form-control" name="ContentText"  ng-class="{'edited':vm.content.contentText}" ng-model="vm.content.contentText" ></textarea>
-                <label>@L("ContentText")</label>
-            </div>
-        </div>
+        <uib-tabset class="tab-container tabbable-line">
+            <uib-tab heading="@L("BaseSetting")">
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="Title" ng-class="{'edited':vm.content.title}" ng-model="vm.content.title" required maxlength="@Content.MaxTitleLength" />
+                        <label>@L("ContentTitle")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="SubTitle" ng-class="{'edited':vm.content.subTitle}" ng-model="vm.content.subTitle" required maxlength="@Content.MaxSubTitleLength" />
+                        <label>@L("SubTitle")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="ImageUrl" nv-file-select uploader="vm.imageUploader" ng-model="vm.content.imageUrl" ng-class="{'edited':vm.content.imageUrl}" maxlength="@Content.MaxImageUrlLength" />
+                        <label>@L("ImageUrl")</label>
+                    </div>
+                    <label ng-show="vm.content.imageUrl">{{vm.content.imageUrl}}</label>
+                </div>
+                @*<div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="VideoUrl" nv-file-select uploader="vm.videoUploader" ng-model="vm.content.videoUrl" ng-class="{'edited':vm.content.videoUrl}" maxlength="@Content.MaxVideoUrlLength" />
+                        <label>@L("VideoUrl")</label>
+                    </div>
+                    <label ng-show="vm.content.videoUrl">{{vm.content.videoUrl}}</label>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="FileUrl" nv-file-select uploader="vm.fileUploader" ng-model="vm.content.fileUrl" ng-class="{'edited':vm.content.fileUrl}" maxlength="@Content.MaxFileUrlLength" />
+                        <label>@L("FileUrl")</label>
+                    </div>
+                    <label ng-show="vm.content.fileUrl">{{vm.content.fileUrl}}</label>
+                </div>*@
+                <div class="modal-body">
+                    <div simditor ng-model="vm.content.contentText" placeholder="@L("ContentText")"></></div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="Author" ng-class="{'edited':vm.content.author}" ng-model="vm.content.author" required maxlength="@Content.MaxDefaultLength" />
+                        <label>@L("Author")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="Source" ng-class="{'edited':vm.content.source}" ng-model="vm.content.source" required maxlength="@Content.MaxDefaultLength" />
+                        <label>@L("Source")</label>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="@L("AdvancedSetting")">
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="LinkUrl" ng-class="{'edited':vm.content.linkUrl}" ng-model="vm.content.linkUrl" required maxlength="@Content.MaxLinkUrlLength" />
+                        <label>@L("LinkUrl")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="Summary" ng-class="{'edited':vm.content.summary}" ng-model="vm.content.Summary" required maxlength="@Content.MaxDefaultLength" />
+                        <label>@L("Summary")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="md-checkbox-list">
+                        <div class="md-checkbox">
+                            <input id="IsTop" class="md-check" type="checkbox" name="IsTop" ng-model="vm.content.isTop">
+                            <label for="IsTop">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsTop")
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input id="IsRecommend" class="md-check" type="checkbox" name="IsRecommend" ng-model="vm.content.isRecommend">
+                            <label for="IsRecommend">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsRecommend")
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input id="IsHot" class="md-check" type="checkbox" name="IsHot" ng-model="vm.content.isHot">
+                            <label for="IsHot">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsHot")
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input id="IsColor" class="md-check" type="checkbox" name="IsColor" ng-model="vm.content.isColor">
+                            <label for="IsColor">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsColor")
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
         <div class="modal-footer">
             <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>
             <button type="submit" button-busy="vm.saving" busy-text="@L("SavingWithThreeDot")" class="btn btn-primary blue" ng-click="vm.save()" ng-disabled="contentForm.$invalid"><i class="fa fa-save"></i><span>@L("Save")</span></button>

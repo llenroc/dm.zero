@@ -12,6 +12,7 @@ using System.Data.Entity;
 using Abp.Linq.Extensions;
 using Abp.Apps;
 using Abp.CMS;
+using Abp.Core.Utils;
 
 namespace DM.AbpZeroTemplate.CMS.Contents
 {
@@ -35,6 +36,25 @@ namespace DM.AbpZeroTemplate.CMS.Contents
         public async Task<ContentDto> CreateContent(CreateContentInput input)
         {
             var content = new Content(input.AppId, input.ChannelId, input.Title, input.ContentText);
+            var app = await _appManager.GetByIdAsync(content.AppId);
+
+            content.Author = input.Author;
+            content.CheckedLevel = input.CheckedLevel;
+            content.Comments = input.Comments;
+            content.ContentGroupNameCollection = input.ContentGroupNameCollection;
+            content.FileUrl = PageUtils.GetSaveUrlByApp(app, input.FileUrl);
+            content.Hits = input.Hits;
+            content.HitsByDay = input.HitsByDay;
+            content.HitsByMonth = input.HitsByMonth;
+            content.HitsByWeek = input.HitsByWeek;
+            content.ImageUrl = PageUtils.GetSaveUrlByApp(app, input.ImageUrl);
+            content.IsChecked = input.IsChecked;
+            content.IsColor = input.IsColor;
+            content.IsHot = input.IsHot;
+            content.IsRecommend = input.IsRecommend;
+            content.IsTop = input.IsTop;
+            content.VideoUrl = PageUtils.GetSaveUrlByApp(app, input.VideoUrl);
+
             await _contentManager.CreateAsync(content);
             await CurrentUnitOfWork.SaveChangesAsync();
             return content.MapTo<ContentDto>();
@@ -80,8 +100,25 @@ namespace DM.AbpZeroTemplate.CMS.Contents
         public async Task<ContentDto> UpdateContent(UpdateContentInput input)
         {
             var content = await _contentManager.ContentRepository.GetAsync(input.Id);
+            var app = await _appManager.GetByIdAsync(content.AppId);
             content.Title = input.Title;
             content.ContentText = input.ContentText;
+            content.Author = input.Author;
+            content.CheckedLevel = input.CheckedLevel;
+            content.Comments = input.Comments;
+            content.ContentGroupNameCollection = input.ContentGroupNameCollection;
+            content.FileUrl = PageUtils.GetSaveUrlByApp(app, input.FileUrl);
+            content.Hits = input.Hits;
+            content.HitsByDay = input.HitsByDay;
+            content.HitsByMonth = input.HitsByMonth;
+            content.HitsByWeek = input.HitsByWeek;
+            content.ImageUrl = PageUtils.GetSaveUrlByApp(app, input.ImageUrl);
+            content.IsChecked = input.IsChecked;
+            content.IsColor = input.IsColor;
+            content.IsHot = input.IsHot;
+            content.IsRecommend = input.IsRecommend;
+            content.IsTop = input.IsTop;
+            content.VideoUrl = PageUtils.GetSaveUrlByApp(app, input.VideoUrl);
 
             await _contentManager.UpdateAsync(content);
 

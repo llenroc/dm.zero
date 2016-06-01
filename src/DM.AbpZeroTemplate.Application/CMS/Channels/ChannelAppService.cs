@@ -17,18 +17,22 @@ using Abp.CMS;
 using Abp.Templates;
 using Abp.Core.Enums;
 using DM.AbpZeroTemplate.CMS.Templates.Dto;
+using Abp.Core.Utils;
+using Abp.Core.IO;
 
 namespace DM.AbpZeroTemplate.CMS.Channels
 {
     [AbpAuthorize(AppPermissions.Pages_CMS_Channels)]
     public class ChannelAppService : AbpZeroTemplateAppServiceBase, IChannelAppService
     {
+        private readonly AppManager _appManager;
         private readonly ChannelManager _channelManager;
         private readonly ContentManager _contentManager;
         private readonly TemplateManager _templateManager;
 
-        public ChannelAppService(ChannelManager channelManager, ContentManager contentManager, TemplateManager templateManager)
+        public ChannelAppService(AppManager appManager, ChannelManager channelManager, ContentManager contentManager, TemplateManager templateManager)
         {
+            _appManager = appManager;
             _channelManager = channelManager;
             _contentManager = contentManager;
             _templateManager = templateManager;
@@ -43,6 +47,8 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         public async Task<ChannelDto> CreateChannel(CreateChannelInput input)
         {
             var channel = new Channel(AppId, input.DisplayName, input.ParentId);
+            var app = await _appManager.GetByIdAsync(channel.AppId);
+
             if (input.ChannelTemplateId.HasValue)
             {
                 channel.ChannelTemplateId = input.ChannelTemplateId.Value;
@@ -51,6 +57,16 @@ namespace DM.AbpZeroTemplate.CMS.Channels
             {
                 channel.ContentTemplateId = input.ContentTemplateId.Value;
             }
+
+            channel.Content = input.Content;
+            channel.Description = input.Description;
+            channel.FilePath = input.FilePath;
+            channel.ImageUrl = PageUtils.GetSaveUrlByApp(app, input.ImageUrl);
+            channel.Keywords = input.Keywords;
+            channel.LinkType = input.LinkType;
+            channel.LinkUrl = input.LinkUrl;
+            channel.ModelType = input.ModelType;
+
             await _channelManager.CreateAsync(channel);
             await CurrentUnitOfWork.SaveChangesAsync();
             return channel.MapTo<ChannelDto>();
@@ -70,6 +86,11 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         public async Task<ChannelDto> GetChannel(IdInput<long> input)
         {
             var channel = await _channelManager.ChannelRepository.GetAsync(input.Id);
+            var app = await _appManager.GetByIdAsync(channel.AppId);
+            if (!string.IsNullOrEmpty(channel.ImageUrl))
+            {
+                channel.ImageUrl = PageUtils.GetShowUrlByApp(app, channel.ImageUrl);
+            }
             return channel.MapTo<ChannelDto>();
         }
 
@@ -94,15 +115,18 @@ namespace DM.AbpZeroTemplate.CMS.Channels
             channelTems.ForEach(
                 item =>
                 {
-                    result.ChannelTemplates.Add(item.MapTo<TemplateDto>());
+                    result.ChannelTemplates.Add(new { Key = item.Id, Value = item.Title });
                 }
                 );
             contentTems.ForEach(
                 item =>
                 {
-                    result.ContentTemplates.Add(item.MapTo<TemplateDto>());
+                    result.ContentTemplates.Add(new { Key = item.Id, Value = item.Title });
                 }
             );
+
+            EModelTypeUtils.LoadList(result.ModelTypes);
+            ELinkTypeUtils.LoadList(result.LinkTypes);
 
             return result;
         }
@@ -168,6 +192,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         public async Task<ChannelDto> UpdateChannel(UpdateChannelInput input)
         {
             var channel = await _channelManager.ChannelRepository.GetAsync(input.Id);
+            var app = await _appManager.GetByIdAsync(channel.AppId);
             if (channel != null)
             {
                 if (input.ChannelTemplateId.HasValue)
@@ -180,6 +205,15 @@ namespace DM.AbpZeroTemplate.CMS.Channels
                 }
 
                 channel.DisplayName = input.DisplayName;
+                channel.Content = input.Content;
+                channel.Description = input.Description;
+                channel.FilePath = input.FilePath;
+                channel.ImageUrl = PageUtils.GetSaveUrlByApp(app, input.ImageUrl);
+                channel.Keywords = input.Keywords;
+                channel.LinkType = input.LinkType;
+                channel.LinkUrl = input.LinkUrl;
+                channel.ModelType = input.ModelType;
+
                 await _channelManager.UpdateAsync(channel);
             }
             return await CreateChannelDto(channel);

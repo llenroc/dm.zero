@@ -82,7 +82,7 @@
                         trueSize: [response.result.width, response.result.height],
                         setSelect: [0, 0, 100, 100],
                         aspectRatio: 1
-                    });
+                    }); 
                 } else {
                     abp.message.error(response.error.message);
                 }
