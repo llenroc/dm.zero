@@ -1,9 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using DM.AbpZeroTemplate.Authorization.Users;
+using Abp.MultiTenancy;
+using Abp.AutoMapper;
 
 namespace DM.AbpZeroTemplate.MultiTenancy.Dto
 {
+    [AutoMapTo(typeof(Tenant))]
     public class CreateTenantInput : IInputDto
     {
         [Required]
@@ -30,5 +33,8 @@ namespace DM.AbpZeroTemplate.MultiTenancy.Dto
         public int? EditionId { get; set; }
 
         public bool IsActive { get; set; }
+
+        [MaxLength(AbpTenantBase.MaxConnectionStringLength)]
+        public string ConnectionString { get; set; }
     }
 }

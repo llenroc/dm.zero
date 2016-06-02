@@ -245,7 +245,8 @@ namespace DM.AbpZeroTemplate.Authorization.Users
             await CurrentUnitOfWork.SaveChangesAsync(); //To get new user's Id.
 
             //Notifications
-            await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(user.TenantId, user.Id);
+            var userIdentifier = new Abp.UserIdentifier(user.TenantId, user.Id);
+            await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(userIdentifier);
             await _appNotifier.WelcomeToTheApplicationAsync(user);
 
             //Send activation email

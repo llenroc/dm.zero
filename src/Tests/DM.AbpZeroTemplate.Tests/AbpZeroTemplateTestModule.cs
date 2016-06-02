@@ -1,5 +1,8 @@
 ﻿using Abp.Modules;
+using Abp.MultiTenancy;
 using Abp.Zero.Configuration;
+using Castle.MicroKernel.Registration;
+using NSubstitute;
 
 namespace DM.AbpZeroTemplate.Tests
 {
@@ -12,6 +15,12 @@ namespace DM.AbpZeroTemplate.Tests
         {
             //Use database as language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
+
+            IocManager.IocContainer.Register(
+                Component.For<IAbpZeroDbMigrator>()
+                .UsingFactoryMethod(() => Substitute.For<IAbpZeroDbMigrator>())
+                .LifestyleSingleton()
+            );
         }
     }
 }

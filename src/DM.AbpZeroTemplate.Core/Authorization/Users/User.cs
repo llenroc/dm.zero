@@ -9,8 +9,10 @@ namespace DM.AbpZeroTemplate.Authorization.Users
     /// <summary>
     /// Represents a user in the system.
     /// </summary>
-    public class User : AbpUser<Tenant, User>
+    public class User : AbpUser<User>
     {
+        public const string DefaultPassword = "123qwe";
+
         public const int MinPlainPasswordLength = 6;
 
         public virtual Guid? ProfilePictureId { get; set; }

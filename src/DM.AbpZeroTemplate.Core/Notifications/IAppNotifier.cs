@@ -13,6 +13,6 @@ namespace DM.AbpZeroTemplate.Notifications
 
         Task NewTenantRegisteredAsync(Tenant tenant);
 
-        Task SendMessageAsync(long userId, string message, NotificationSeverity severity = NotificationSeverity.Info);
+        Task SendMessageAsync(int? tenantId, long userId, string message, NotificationSeverity severity = NotificationSeverity.Info);
     }
 }

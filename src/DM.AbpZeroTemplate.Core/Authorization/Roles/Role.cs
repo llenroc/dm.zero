@@ -7,7 +7,7 @@ namespace DM.AbpZeroTemplate.Authorization.Roles
     /// <summary>
     /// Represents a role in the system.
     /// </summary>
-    public class Role : AbpRole<Tenant, User>
+    public class Role : AbpRole<User>
     {
         public Role()
         {

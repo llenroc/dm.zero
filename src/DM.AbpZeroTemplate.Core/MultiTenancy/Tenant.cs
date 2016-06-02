@@ -8,7 +8,7 @@ namespace DM.AbpZeroTemplate.MultiTenancy
     /// A tenant is a isolated customer for the application
     /// which has it's own users, roles and other application entities.
     /// </summary>
-    public class Tenant : AbpTenant<Tenant, User>
+    public class Tenant : AbpTenant<User>
     {
         protected Tenant()
         {

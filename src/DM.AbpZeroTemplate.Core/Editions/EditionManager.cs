@@ -9,14 +9,13 @@ namespace DM.AbpZeroTemplate.Editions
         public const string DefaultEditionName = "Standard";
 
         public EditionManager(
-            IRepository<Edition> editionRepository, 
-            IRepository<EditionFeatureSetting, long> editionFeatureRepository) 
+            IRepository<Edition> editionRepository,
+            IAbpZeroFeatureValueStore featureValueStore)
             : base(
-                editionRepository, 
-                editionFeatureRepository
+                editionRepository,
+                featureValueStore
             )
         {
-
         }
     }
 }

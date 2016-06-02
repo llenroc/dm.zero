@@ -11,7 +11,7 @@ namespace DM.AbpZeroTemplate.Authorization.Users
     /// Used to perform database operations for <see cref="UserManager"/>.
     /// Extends <see cref="AbpUserStore{TTenant,TRole,TUser}"/>.
     /// </summary>
-    public class UserStore : AbpUserStore<Tenant, Role, User>
+    public class UserStore : AbpUserStore<Role, User>
     {
         public UserStore(
             IRepository<User, long> userRepository,

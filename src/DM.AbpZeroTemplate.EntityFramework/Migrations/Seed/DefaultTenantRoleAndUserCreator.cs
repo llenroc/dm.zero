@@ -63,7 +63,7 @@ namespace DM.AbpZeroTemplate.Migrations.Seed
                 _context.SaveChanges();
 
                 //Assign Admin role to admin user
-                _context.UserRoles.Add(new UserRole(adminUserForHost.Id, adminRoleForHost.Id));
+                _context.UserRoles.Add(new UserRole(adminUserForHost.TenantId, adminUserForHost.Id, adminRoleForHost.Id));
                 _context.SaveChanges();
 
                 //Grant all permissions
@@ -141,7 +141,7 @@ namespace DM.AbpZeroTemplate.Migrations.Seed
                 _context.SaveChanges();
 
                 //Assign Admin role to admin user
-                _context.UserRoles.Add(new UserRole(adminUserForDefaultTenant.Id, adminRoleForDefaultTenant.Id));
+                _context.UserRoles.Add(new UserRole(adminUserForDefaultTenant.TenantId, adminUserForDefaultTenant.Id, adminRoleForDefaultTenant.Id));
                 _context.SaveChanges();
 
                 //Grant all permissions

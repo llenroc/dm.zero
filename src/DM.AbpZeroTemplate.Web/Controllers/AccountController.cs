@@ -75,12 +75,12 @@ namespace DM.AbpZeroTemplate.Web.Controllers
             RoleManager roleManager,
             TenantManager tenantManager,
             IUnitOfWorkManager unitOfWorkManager,
-            ITenancyNameFinder tenancyNameFinder, 
-            ICacheManager cacheManager, 
+            ITenancyNameFinder tenancyNameFinder,
+            ICacheManager cacheManager,
             IAppNotifier appNotifier,
             IWebUrlService webUrlService,
             AbpLoginResultTypeHelper abpLoginResultTypeHelper,
-            IUserLinkManager userLinkManager, 
+            IUserLinkManager userLinkManager,
             INotificationSubscriptionManager notificationSubscriptionManager)
         {
             _userManager = userManager;
@@ -141,7 +141,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                         "ResetPassword",
                         new ResetPasswordViewModel
                         {
-                            UserId = SimpleStringCipher.Encrypt(loginResult.User.Id.ToString()),
+                            UserId = Security.SimpleStringCipher.Encrypt(loginResult.User.Id.ToString()),
                             ResetCode = loginResult.User.PasswordResetCode
                         })
                 });
@@ -291,14 +291,14 @@ namespace DM.AbpZeroTemplate.Web.Controllers
 
                     if (string.Equals(externalLoginInfo.Email, model.EmailAddress, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        user.IsEmailConfirmed = true;                        
+                        user.IsEmailConfirmed = true;
                     }
                 }
                 else
                 {
                     if (model.UserName.IsNullOrEmpty() || model.Password.IsNullOrEmpty())
                     {
-                        throw new UserFriendlyException(L("FormIsNotValidMessage"));                        
+                        throw new UserFriendlyException(L("FormIsNotValidMessage"));
                     }
                 }
 
@@ -324,7 +324,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                 }
 
                 //Notifications
-                await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(user.TenantId, user.Id);
+                await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(new Abp.UserIdentifier(user.TenantId, user.Id));
                 await _appNotifier.WelcomeToTheApplicationAsync(user);
                 await _appNotifier.NewUserRegisteredAsync(user);
 
@@ -442,7 +442,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
 
             _unitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant);
 
-            var userId = Convert.ToInt64(SimpleStringCipher.Decrypt(model.UserId));
+            var userId = Convert.ToInt64(Security.SimpleStringCipher.Decrypt(model.UserId));
 
             var user = await _userManager.GetUserByIdAsync(userId);
             if (user == null || user.PasswordResetCode.IsNullOrEmpty() || user.PasswordResetCode != model.ResetCode)
@@ -461,7 +461,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
 
             _unitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant);
 
-            var userId = Convert.ToInt64(SimpleStringCipher.Decrypt(model.UserId));
+            var userId = Convert.ToInt64(Security.SimpleStringCipher.Decrypt(model.UserId));
 
             var user = await _userManager.GetUserByIdAsync(userId);
             if (user == null || user.PasswordResetCode.IsNullOrEmpty() || user.PasswordResetCode != model.ResetCode)
@@ -518,7 +518,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
 
             _unitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant);
 
-            var userId = Convert.ToInt64(SimpleStringCipher.Decrypt(model.UserId));
+            var userId = Convert.ToInt64(Security.SimpleStringCipher.Decrypt(model.UserId));
 
             var user = await _userManager.GetUserByIdAsync(userId);
             if (user == null || user.EmailConfirmationCode.IsNullOrEmpty() || user.EmailConfirmationCode != model.ConfirmationCode)
@@ -538,11 +538,11 @@ namespace DM.AbpZeroTemplate.Web.Controllers
             return RedirectToAction(
                 "Login",
                 new
-                                             {
-                                                 successMessage = L("YourEmailIsConfirmedMessage"),
-                                                 tenancyName = tenancyName,
-                                                 userNameOrEmailAddress = user.UserName
-                                             });
+                {
+                    successMessage = L("YourEmailIsConfirmedMessage"),
+                    tenancyName = tenancyName,
+                    userNameOrEmailAddress = user.UserName
+                });
         }
 
         #endregion
@@ -601,7 +601,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
 
             return tenant;
         }
-        
+
         #endregion
 
         #region External Login
@@ -994,10 +994,11 @@ namespace DM.AbpZeroTemplate.Web.Controllers
         {
             if (message.IsNullOrEmpty())
             {
-                message = "This is a test notification, created at " + Clock.Now;                
+                message = "This is a test notification, created at " + Clock.Now;
             }
 
             await _appNotifier.SendMessageAsync(
+                AbpSession.TenantId,
                 AbpSession.GetUserId(),
                 message,
                 severity.ToPascalCase(CultureInfo.InvariantCulture).ToEnum<NotificationSeverity>()

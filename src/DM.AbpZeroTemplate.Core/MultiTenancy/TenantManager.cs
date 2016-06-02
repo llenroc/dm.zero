@@ -12,6 +12,7 @@ using DM.AbpZeroTemplate.MultiTenancy.Demo;
 using Abp.Extensions;
 using Abp.Notifications;
 using DM.AbpZeroTemplate.Notifications;
+using Abp.Application.Features;
 
 namespace DM.AbpZeroTemplate.MultiTenancy
 {
@@ -35,14 +36,16 @@ namespace DM.AbpZeroTemplate.MultiTenancy
             IUnitOfWorkManager unitOfWorkManager,
             RoleManager roleManager,
             IUserEmailer userEmailer,
-            TenantDemoDataBuilder demoDataBuilder, 
-            UserManager userManager, 
-            INotificationSubscriptionManager notificationSubscriptionManager, 
-            IAppNotifier appNotifier) :
+            TenantDemoDataBuilder demoDataBuilder,
+            UserManager userManager,
+            INotificationSubscriptionManager notificationSubscriptionManager,
+            IAppNotifier appNotifier,
+            IAbpZeroFeatureValueStore featureValueStore) :
             base(
                 tenantRepository,
                 tenantFeatureRepository,
-                editionManager
+                editionManager,
+                featureValueStore
             )
         {
             _unitOfWorkManager = unitOfWorkManager;
@@ -124,7 +127,9 @@ namespace DM.AbpZeroTemplate.MultiTenancy
             {
                 using (_unitOfWorkManager.Current.SetFilterParameter(AbpDataFilters.MayHaveTenant, AbpDataFilters.Parameters.TenantId, newTenantId))
                 {
-                    await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(newTenantId, newAdminId);
+
+                    var userIdentifier = new Abp.UserIdentifier(newTenantId, newAdminId);
+                    await _notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(userIdentifier);
                     await _unitOfWorkManager.Current.SaveChangesAsync();
                 }
 

@@ -11,6 +11,7 @@ using Abp.Domain.Uow;
 using Abp.Runtime.Session;
 using Abp.UI;
 using DM.AbpZeroTemplate.Authorization.Users.Dto;
+using DM.AbpZeroTemplate.MultiTenancy;
 
 namespace DM.AbpZeroTemplate.Authorization.Users
 {
@@ -19,13 +20,16 @@ namespace DM.AbpZeroTemplate.Authorization.Users
     {
         private readonly AbpLoginResultTypeHelper _abpLoginResultTypeHelper;
         private readonly IUserLinkManager _userLinkManager;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         public UserLinkAppService(
             AbpLoginResultTypeHelper abpLoginResultTypeHelper,
-            IUserLinkManager userLinkManager)
+            IUserLinkManager userLinkManager,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _abpLoginResultTypeHelper = abpLoginResultTypeHelper;
             _userLinkManager = userLinkManager;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         public async Task LinkToUser(LinkToUserInput input)
@@ -108,16 +112,38 @@ namespace DM.AbpZeroTemplate.Authorization.Users
             var currentUserId = AbpSession.GetUserId();
             var currentUser = UserManager.Users.Single(u => u.Id == currentUserId);
 
-            return UserManager.Users.Include(user => user.Tenant)
-                .Where(user => user.UserLinkId.HasValue && user.Id != currentUserId && user.UserLinkId == currentUser.UserLinkId )
-                .OrderBy(sorting)
-                .Select(user => new LinkedUserDto
-                {
-                    Id = user.Id,
-                    ProfilePictureId = user.ProfilePictureId,
-                    TenancyName = user.Tenant.TenancyName,
-                    Username = user.UserName
-                });
+            return UserManager.Users
+    .Where(user => user.UserLinkId.HasValue && user.Id != currentUserId && user.UserLinkId == currentUser.UserLinkId)
+    .OrderBy(sorting)
+    .Select(user => new LinkedUserDto
+    {
+        Id = user.Id,
+        ProfilePictureId = user.ProfilePictureId,
+        TenancyName = user.TenantId.ToString(),
+        Username = user.UserName
+    });
+
+            //return UserManager.Users
+            //    .Join(TenantManager.Tenants, u => u.TenantId, t => t.Id, (u, t) => new { Id = u.Id, ProfilePictureId = u.ProfilePictureId, TenancyName = t.TenancyName, UserName = u.UserName, UserLinkId = u.UserLinkId, LastLoginTime = u.LastLoginTime })
+            //    // .Include(user => user.TenantId)
+            //    .Where(user => user.UserLinkId.HasValue && user.Id != currentUserId && user.UserLinkId == currentUser.UserLinkId)
+            //    .OrderBy(sorting)
+            //    .Select(user => new LinkedUserDto
+            //    {
+            //        Id = user.Id,
+            //        ProfilePictureId = user.ProfilePictureId,
+            //        TenancyName = user.TenancyName,
+            //        Username = user.UserName
+            //    });
+        }
+
+        [UnitOfWork]
+        private string GetTenancyNameById(int? tenantId)
+        {
+            using (_unitOfWorkManager.Current.SetTenantId(null))
+            {
+                return TenantManager.Tenants.FirstOrDefault(t => t.Id == tenantId).TenancyName;
+            }
         }
 
     }

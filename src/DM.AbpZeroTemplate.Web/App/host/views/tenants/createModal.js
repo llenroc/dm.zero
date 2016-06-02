@@ -7,6 +7,16 @@
             vm.saving = false;
             vm.setRandomPassword = true;
             vm.editions = [];
+
+            vm.isUseHostDB = false;
+            vm.connectString = '';
+            vm.onTenancyNameChange = function () {
+                if (vm.isUseHostDB) {
+                    vm.connectString = 'Server=localhost; Database=' + vm.tenant.tenancyName + '; Trusted_Connection=True;Integrated Security=True;';
+                }
+            }
+
+
             vm.tenant = {
                 isActive: true,
                 shouldChangePasswordOnNextLogin: true,

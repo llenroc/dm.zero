@@ -3,6 +3,7 @@ using Abp.Localization;
 using Abp.Notifications;
 using DM.AbpZeroTemplate.Authorization.Users;
 using DM.AbpZeroTemplate.MultiTenancy;
+using Abp.Runtime.Session;
 
 namespace DM.AbpZeroTemplate.Notifications
 {
@@ -10,7 +11,7 @@ namespace DM.AbpZeroTemplate.Notifications
     {
         private readonly INotificationPublisher _notificationPublisher;
 
-        public AppNotifier(INotificationPublisher notificationPublisher)
+        public AppNotifier(INotificationPublisher notificationPublisher, IAbpSession abpSession)
         {
             _notificationPublisher = notificationPublisher;
         }
@@ -21,7 +22,7 @@ namespace DM.AbpZeroTemplate.Notifications
                 AppNotificationNames.WelcomeToTheApplication,
                 new MessageNotificationData(L("WelcomeToTheApplicationNotificationMessage")),
                 severity: NotificationSeverity.Success,
-                userIds: new[] { user.Id }
+                userIds: new[] { new Abp.UserIdentifier(user.TenantId, user.Id) }
                 );
         }
 
@@ -54,13 +55,13 @@ namespace DM.AbpZeroTemplate.Notifications
         }
 
         //This is for test purposes
-        public async Task SendMessageAsync(long userId, string message, NotificationSeverity severity = NotificationSeverity.Info)
+        public async Task SendMessageAsync(int? tenantId, long userId, string message, NotificationSeverity severity = NotificationSeverity.Info)
         {
             await _notificationPublisher.PublishAsync(
                 "App.SimpleMessage",
                 new MessageNotificationData(message),
                 severity: severity,
-                userIds: new[] { userId }
+                userIds: new[] { new Abp.UserIdentifier(tenantId, userId) }
                 );
         }
     }
