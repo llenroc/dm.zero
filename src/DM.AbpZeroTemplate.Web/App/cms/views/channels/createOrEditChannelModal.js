@@ -1,6 +1,6 @@
 ﻿(function () {
-    appModule.controller('cms.views.channels.createOrEditChannelModal', ['$scope', '$uibModalInstance', 'abp.services.app.channel', 'channel', 'FileUploader',
-    function ($scope, $uibModalInstance, channelService, channel, fileUploader) {
+    appModule.controller('cms.views.channels.createOrEditChannelModal', ['$scope', '$uibModalInstance', 'abp.services.app.channel', 'channel', 'FileUploader', 'appSession',
+    function ($scope, $uibModalInstance, channelService, channel, fileUploader, $appSession) {
         var vm = this;
         vm.channel = channel;
         vm.channelTemplates = [];
@@ -31,14 +31,14 @@
         };
 
         vm.imageUploader = new fileUploader({
-            url: abp.appPath + 'channel/UploadChannelImage?channelId=' + vm.channel.id,
+            url: abp.appPath + 'channel/UploadChannelImage?appId=' + $appSession.app.id + '&channelId=' + vm.channel.id,
             queueLimit: 1,
             autoUpload: true,
             removeAfterUpload: true,
             filters: [{
                 name: 'imageFilter',
                 fn: function (item, options) {
-                    return filter(item, options, '|jpg|jpeg|png|');
+                    return filter(item, options, '|jpg|jpeg|png|gif|bmp|tiff|tga|', 5242880);
                 }
             }]
         });
@@ -58,16 +58,18 @@
 
             //File type check
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            if (fileTypes.indexOf(type) === -1) {
-                abp.message.warn(app.localize('ProfilePicture_Warn_FileType'));
+            if (type.indexOf(type) === -1) {
+                abp.message.warn(app.localize('CMS_Warn_FileType', fileTypes));
                 return false;
             }
 
-            //File size check
-            if (item.size > fileSize) //1MB
-            {
-                abp.message.warn(app.localize('ProfilePicture_Warn_SizeLimit'));
-                return false;
+            if (fileSize) {
+                //File size check
+                if (item.size > fileSize) //1MB
+                {
+                    abp.message.warn(app.localize('CMS_Warn_SizeLimit', fileSize / 5242880));
+                    return false;
+                }
             }
 
             return true;

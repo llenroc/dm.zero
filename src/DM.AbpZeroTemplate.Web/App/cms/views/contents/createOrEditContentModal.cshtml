@@ -17,7 +17,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <input auto-focus class="form-control" type="text" name="SubTitle" ng-class="{'edited':vm.content.subTitle}" ng-model="vm.content.subTitle" required maxlength="@Content.MaxSubTitleLength" />
+                        <input auto-focus class="form-control" type="text" name="SubTitle" ng-class="{'edited':vm.content.subTitle}" ng-model="vm.content.subTitle" maxlength="@Content.MaxSubTitleLength" />
                         <label>@L("SubTitle")</label>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                     </div>
                     <label ng-show="vm.content.imageUrl">{{vm.content.imageUrl}}</label>
                 </div>
-                @*<div class="modal-body">
+                <div class="modal-body">
                     <div class="form-group form-md-line-input">
                         <input class="form-control" type="file" name="VideoUrl" nv-file-select uploader="vm.videoUploader" ng-model="vm.content.videoUrl" ng-class="{'edited':vm.content.videoUrl}" maxlength="@Content.MaxVideoUrlLength" />
                         <label>@L("VideoUrl")</label>
@@ -41,19 +41,19 @@
                         <label>@L("FileUrl")</label>
                     </div>
                     <label ng-show="vm.content.fileUrl">{{vm.content.fileUrl}}</label>
-                </div>*@
+                </div>
                 <div class="modal-body">
-                    <div simditor ng-model="vm.content.contentText" placeholder="@L("ContentText")"></></div>
+                    <div simditor ng-model="vm.content.contentText" placeholder="@L("ContentText")"></div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <input auto-focus class="form-control" type="text" name="Author" ng-class="{'edited':vm.content.author}" ng-model="vm.content.author" required maxlength="@Content.MaxDefaultLength" />
+                        <input auto-focus class="form-control" type="text" name="Author" ng-class="{'edited':vm.content.author}" ng-model="vm.content.author" maxlength="@Content.MaxDefaultLength" />
                         <label>@L("Author")</label>
                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <input auto-focus class="form-control" type="text" name="Source" ng-class="{'edited':vm.content.source}" ng-model="vm.content.source" required maxlength="@Content.MaxDefaultLength" />
+                        <input auto-focus class="form-control" type="text" name="Source" ng-class="{'edited':vm.content.source}" ng-model="vm.content.source" maxlength="@Content.MaxDefaultLength" />
                         <label>@L("Source")</label>
                     </div>
                 </div>
@@ -61,13 +61,13 @@
             <uib-tab heading="@L("AdvancedSetting")">
                 <div class="modal-body">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <input auto-focus class="form-control" type="text" name="LinkUrl" ng-class="{'edited':vm.content.linkUrl}" ng-model="vm.content.linkUrl" required maxlength="@Content.MaxLinkUrlLength" />
+                        <input auto-focus class="form-control" type="text" name="LinkUrl" ng-class="{'edited':vm.content.linkUrl}" ng-model="vm.content.linkUrl" maxlength="@Content.MaxLinkUrlLength" />
                         <label>@L("LinkUrl")</label>
                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <input auto-focus class="form-control" type="text" name="Summary" ng-class="{'edited':vm.content.summary}" ng-model="vm.content.Summary" required maxlength="@Content.MaxDefaultLength" />
+                        <input auto-focus class="form-control" type="text" name="Summary" ng-class="{'edited':vm.content.summary}" ng-model="vm.content.Summary" maxlength="@Content.MaxDefaultLength" />
                         <label>@L("Summary")</label>
                     </div>
                 </div>

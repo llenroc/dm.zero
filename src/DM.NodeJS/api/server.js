@@ -10,7 +10,7 @@ var apiConfig = config && config.api;
 
 
 var createServer = require(['./', apiConfig.createServer].join(''));
-var testServer = require('./testServer');
+var getGenerateProgressServer = require(['./', apiConfig.getGenerateProgressServer].join(''));
 
 var dm = domain.create();
 
@@ -51,7 +51,8 @@ router.get(['/', apiConfig.createServer].join(''), function (req, res, next) {
                 }
                 else {
                     //可以获取缓存id，得到执行情况
-                    console.log(data.totalCountKey);
+                    res.status(200);
+                    res.write(JSON.stringify(data));
                 }
                 res.end();
             })
@@ -59,10 +60,13 @@ router.get(['/', apiConfig.createServer].join(''), function (req, res, next) {
 
 });
 
-router.get('/test',function(req, res, next){
-    var appId = parseInt(req.query['appId']) || "0";
-    var channelId = parseInt(req.query['channelId']) || "0";
-    testServer.test(appId,channelId);
+router.get(['/', apiConfig.getGenerateProgressServer].join(''), function (req, res, next) {
+    var totalCountKey = req.query['totalCountKey'] || "";
+    var createCountKey = req.query['createCountKey'] || "";
+    var result = getGenerateProgressServer.progress(totalCountKey, createCountKey);
+    res.status(200);
+    res.write(JSON.stringify(result));
+    res.end();
 });
 
 module.exports = router;

@@ -79,5 +79,11 @@
         public const string Pages_CMS_Templates_Create = "Pages.CMS.Templates.Create";
         public const string Pages_CMS_Templates_Edit = "Pages.CMS.Templates.Edit";
         public const string Pages_CMS_Templates_Delete = "Pages.CMS.Templates.Delete";
+
+        public const string Pages_CMS_Generate = "Pages.CMS.Generate";
+        public const string Pages_CMS_Generate_Index = "Pages.CMS.Generate.Index";
+        public const string Pages_CMS_Generate_Channel = "Pages.CMS.Generate.Channel";
+        public const string Pages_CMS_Generate_Content = "Pages.CMS.Generate.Content";
+        public const string Pages_CMS_Generate_File = "Pages.CMS.Generate.File";
     }
 }

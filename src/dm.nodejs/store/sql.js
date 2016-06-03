@@ -129,12 +129,13 @@ sql.queryWithTrans = function (trans, sqlStr, params, callback) {
 
 sql.getSelectSqlString = function (tableName, startNum, totalNum, columns, whereStr, orderStr, callback) {
 
+    var _scope = this;
 
     if (startNum <= 1) {
-        return getSelectSqlStringWithoutStartNum(tableName, totalNum, columns, whereStr, orderStr, callback);
+        return _scope.getSelectSqlStringWithoutStartNum(tableName, totalNum, columns, whereStr, orderStr, callback);
     }
 
-    var countSqlString = "SELECT Count(*) FROM [" + tableName + "] " + whereStr;
+    var countSqlString = "SELECT Count(*) FROM " + tableName + " " + whereStr;
 
     sync.block(function (params) {
 
@@ -153,7 +154,7 @@ sql.getSelectSqlString = function (tableName, startNum, totalNum, columns, where
             if (count < topNum) {
                 totalNum = count - startNum + 1;
                 if (totalNum < 1) {
-                    return getSelectSqlStringWithoutStartNum(tableName, totalNum, columns, whereStr, orderStr, callback);
+                    return _scope.getSelectSqlStringWithoutStartNum(tableName, totalNum, columns, whereStr, orderStr, callback);
                 }
             }
 
@@ -162,11 +163,11 @@ sql.getSelectSqlString = function (tableName, startNum, totalNum, columns, where
             var sqlString = '';
 
 
-            sqlString += "SELECT " + columns;
-            sqlString += "FROM(SELECT TOP " + totalNum + " " + columns;
-            sqlString += "FROM (SELECT TOP " + topNum + " " + columns;
-            sqlString += "FROM [" + tableName + "] " + whereStr + " " + orderStr + ") tmp";
-            sqlString += orderByStringOpposite + ") tmp";
+            sqlString += " SELECT " + columns;
+            sqlString += " FROM(SELECT TOP " + totalNum + " " + columns;
+            sqlString += " FROM (SELECT TOP " + topNum + " " + columns;
+            sqlString += " FROM " + tableName + " " + whereStr + " " + orderStr + ") tmp ";
+            sqlString += orderByStringOpposite + ") tmp ";
             sqlString += orderStr;
 
             callback && callback(null, sqlString);
@@ -190,10 +191,10 @@ sql.getSelectSqlStringWithoutStartNum = function (tableName, totalNum, columns, 
     }
 
     if (totalNum > 0) {
-        sqlString = "SELECT TOP " + totalNum + " " + columns + " FROM [" + tableName + "] " + whereStr + " " + orderStr;
+        sqlString = " SELECT TOP " + totalNum + " " + columns + " FROM " + tableName + " " + whereStr + " " + orderStr;
     }
     else {
-        sqlString = "SELECT " + columns + " FROM [" + tableName + "] " + whereStr + " " + orderStr;
+        sqlString = " SELECT " + columns + " FROM " + tableName + " " + whereStr + " " + orderStr;
     }
 
     callback && callback(null, sqlString);
@@ -201,7 +202,7 @@ sql.getSelectSqlStringWithoutStartNum = function (tableName, totalNum, columns, 
 
 sql.GetOrderByStringOpposite = function (orderStr) {
     var retval = '';
-    if (!orderStr) {
+    if (orderStr) {
         retval = orderStr.replace(" DESC", " DESC_OPPOSITE").Replace(" ASC", " DESC").Replace(" DESC_OPPOSITE", " ASC");
     }
     return retval;

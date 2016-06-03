@@ -26,7 +26,7 @@ cacheManager.createServerCache = {
          cacheManager.set(this.getKey(guid,this.type_createCount),createCount);
      },
      getKey:function(guid,countType){
-         [this.keyPre,guid,countType].join('');
+        return [this.keyPre,guid,countType].join('');
      },
      remove:function(guid){
          cacheManager.remove(this.getKey(guid,this.type_totalCount));

@@ -61,7 +61,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
             channel.Content = input.Content;
             channel.Description = input.Description;
             channel.FilePath = input.FilePath;
-            channel.ImageUrl = PageUtils.GetSaveUrlByApp(app, input.ImageUrl);
+            channel.ImageUrl = PageUtils.GetUrlWithoutAppDir(app, input.ImageUrl);
             channel.Keywords = input.Keywords;
             channel.LinkType = input.LinkType;
             channel.LinkUrl = input.LinkUrl;
@@ -89,7 +89,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
             var app = await _appManager.GetByIdAsync(channel.AppId);
             if (!string.IsNullOrEmpty(channel.ImageUrl))
             {
-                channel.ImageUrl = PageUtils.GetShowUrlByApp(app, channel.ImageUrl);
+                channel.ImageUrl = PageUtils.GetUrlWithAppDir(app, channel.ImageUrl);
             }
             return channel.MapTo<ChannelDto>();
         }
@@ -208,7 +208,7 @@ namespace DM.AbpZeroTemplate.CMS.Channels
                 channel.Content = input.Content;
                 channel.Description = input.Description;
                 channel.FilePath = input.FilePath;
-                channel.ImageUrl = PageUtils.GetSaveUrlByApp(app, input.ImageUrl);
+                channel.ImageUrl = PageUtils.GetUrlWithoutAppDir(app, input.ImageUrl);
                 channel.Keywords = input.Keywords;
                 channel.LinkType = input.LinkType;
                 channel.LinkUrl = input.LinkUrl;

@@ -34,6 +34,7 @@ namespace DM.AbpZeroTemplate.Web.Navigation
                 public const string Channels = "CMS.Channels";
                 public const string Contents = "CMS.Contents";
                 public const string Templates = "CMS.Templates";
+                public const string Generate = "CMS.Generate";
             }
         }
 

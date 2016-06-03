@@ -1,0 +1,48 @@
+﻿@using Abp.Web.Mvc.Extensions
+@Html.IncludeScript("~/App/cms.nodejs.js")
+<script>
+    abp.nodejsPath = 'http://localhost:8001/';
+</script>
+<div>
+    <div class="row margin-bottom-5">
+        <div class="col-xs-12">
+            <div class="page-head">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold uppercase">
+                            @L("GenerateOptions")
+                        </span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <button ui-sref="cms.generate.webIndex" type="button" class="btn btn-outline btn-primary">@L("GenerateIndex")</button>
+                        </li>
+                        <li class="list-group-item">
+                            <button ui-sref="cms.generate.channel" type="button" class="btn btn-outline btn-primary">@L("GenerateChannel")</button>
+                        </li>
+                        <li class="list-group-item">
+                            <button ui-sref="cms.generate.content" type="button" class="btn btn-outline btn-primary">@L("GenerateContent")</button>
+                        </li>
+                        <li class="list-group-item">
+                            <button ui-sref="cms.generate.file" type="button" class="btn btn-outline btn-primary">@L("GenerateFile")</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="portlet light">
+                <div ui-view class="fade-in-up">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

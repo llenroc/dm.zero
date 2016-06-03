@@ -55,49 +55,55 @@ parserManager.parse = function (templatePath, filePath, appInfo, channelInfo, co
  * */
 parserManager.parseContent = function (content, appInfo, channelInfo, contentInfo, fileInfo, callback) {
 
-    var elementList = parserUtil.GetElementListSync(content);
+    try {
+        var elementList = parserUtil.GetElementListSync(content);
 
-    async.mapSeries(elementList, function (element, ck) {
-        var startIndex = content.indexOf(element.value);
-        if (startIndex !== -1) {
-            xmlUtil.parseStrToObj(element.value, function (err, nodeInfo) {
-                //遍历标签，替换
-                var parser = require(path.normalize(['../elements/', element.key.replace(':', '')].join('')));
+        async.mapSeries(elementList, function (element, ck) {
+            var startIndex = content.indexOf(element.value);
+            if (startIndex !== -1) {
+                xmlUtil.parseStrToObj(element.value, function (err, nodeInfo) {
+                    //遍历标签，替换
+                    var parser = require(path.normalize(['../elements/', element.key.replace(':', '')].join('')));
 
-                if (parser) {
-                    parser.parse(element.value, nodeInfo[element.key], appInfo, channelInfo, contentInfo, fileInfo, function (err, parsedContent) {
-                        if (err) ck(err);
-                        else ck(null, { oldStr: element.value, newStr: parsedContent });
-                    });
-                }
+                    if (parser) {
+                        parser.parse(element.value, nodeInfo[element.key], appInfo, channelInfo, contentInfo, fileInfo, function (err, parsedContent) {
+                            if (err) ck(err);
+                            else ck(null, { oldStr: element.value, newStr: parsedContent });
+                        });
+                    }
 
-            });
-        }
-    }, function (err, results) {
-        if (err) callback(err);
-        else {
-            results.forEach(function (result) {
-                content = content.replace(result.oldStr, result.newStr);
-            }, this);
-            callback(null, content);
-        }
-    });
+                });
+            }
+        }, function (err, results) {
+            if (err) callback(err);
+            else {
+                results.forEach(function (result) {
+                    content = content.replace(result.oldStr, result.newStr);
+                }, this);
+                callback(null, content);
+            }
+        });
 
 
-    // elementList.forEach(function (element) {
-    //     var startIndex = content.indexOf(element.value);
-    //     if (startIndex !== -1) {
-    //         xmlUtil.parseStrToObj(element.value, function (err, nodeInfo) {
-    //             //遍历标签，替换
-    //             var parser = require(path.normalize(['../elements/', element.key.replace(':', '')].join('')));
-    //             var replaceStr = element.value;
-    //             if (parser) {
-    //                 replaceStr = parser.parse(element.value, nodeInfo[element.key], appInfo, channelInfo, contentInfo, fileInfo);
-    //             }
-    //             content = content.replace(element.value, replaceStr);
-    //         });
-    //     }
-    // }, this);
+        // elementList.forEach(function (element) {
+        //     var startIndex = content.indexOf(element.value);
+        //     if (startIndex !== -1) {
+        //         xmlUtil.parseStrToObj(element.value, function (err, nodeInfo) {
+        //             //遍历标签，替换
+        //             var parser = require(path.normalize(['../elements/', element.key.replace(':', '')].join('')));
+        //             var replaceStr = element.value;
+        //             if (parser) {
+        //                 replaceStr = parser.parse(element.value, nodeInfo[element.key], appInfo, channelInfo, contentInfo, fileInfo);
+        //             }
+        //             content = content.replace(element.value, replaceStr);
+        //         });
+        //     }
+        // }, this);
+
+    }
+    catch (ex) {
+        console.log(JSON.stringify(ex));
+    }
 
 };
 

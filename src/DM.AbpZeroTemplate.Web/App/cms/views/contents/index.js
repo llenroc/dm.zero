@@ -1,5 +1,5 @@
 ﻿(function () {
-    appModule.controller('cms.views.channels.index', [
+    appModule.controller('cms.views.contents.index', [
         '$scope', '$uibModal', '$q', 'uiGridConstants', 'abp.services.app.channel', 'abp.services.app.content', 'abp.services.app.commonLookup', 'lookupModal', 'appSession',
         function ($scope, $uibModal, $q, uiGridConstants, channelService, contentService, commonLookupService, lookupModal, $appSession) {
             var vm = this;
@@ -45,16 +45,19 @@
                     id: null,
                     displayName: null,
                     code: null,
+                    isIndex: null,
                     defaultIndex: 0, //默认加载第一个节点的内容
                     set: function (ouInTree) {
                         if (!ouInTree) {
                             vm.channelTree.selectedChannel.id = null;
                             vm.channelTree.selectedChannel.displayName = null;
                             vm.channelTree.selectedChannel.code = null;
+                            vm.channelTree.selectedChannel.isIndex = null;
                         } else {
                             vm.channelTree.selectedChannel.id = ouInTree.id;
                             vm.channelTree.selectedChannel.displayName = ouInTree.displayName;
                             vm.channelTree.selectedChannel.code = ouInTree.code;
+                            vm.channelTree.selectedChannel.isIndex = ouInTree.isIndex;
                         }
                         vm.contents.load();
                     }
@@ -90,7 +93,7 @@
                         ,
                         'delete': {
                             label: app.localize('Delete'),
-                            _disabled: !vm.permissions.deleteChannelTree,
+                            _disabled: !vm.permissions.deleteChannelTree || node.original.isIndex,
                             action: function (data) {
                                 var instance = $.jstree.reference(data.reference);
 
@@ -183,6 +186,7 @@
                                 code: item.code,
                                 displayName: item.displayName,
                                 contentCount: item.contentCount,
+                                isIndex: item.isIndex,
                                 text: vm.channelTree.generateTextOnTree(item),
                                 state: {
                                     opened: true
@@ -428,6 +432,7 @@
                         templateUrl: '~/App/cms/views/contents/createOrEditContentModal.cshtml',
                         controller: 'cms.views.contents.createOrEditContentModal as vm',
                         backdrop: 'static',
+                        size: "lg",
                         resolve: {
                             content: function () {
                                 return content;

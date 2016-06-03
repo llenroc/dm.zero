@@ -88,7 +88,7 @@ createServer.createFileSync = function (appId, fileIds) {
         totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
         createCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_createCount)
     };
-    return result;
+    return { success: true, result: result };
 }
 
 /* *
@@ -128,7 +128,7 @@ createServer.createIndexSync = function (appId) {
         totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
         createCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_createCount)
     };
-    return result;
+    return { success: true, result: result };
 }
 
 /* *
@@ -171,7 +171,7 @@ createServer.createChannelSync = function (appId, channelIds) {
         totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
         createCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_createCount)
     };
-    return result;
+    return { success: true, result: result };
 }
 
 /* *
@@ -249,7 +249,7 @@ createServer.createContentSync = function (appId, channelIds, contentIds) {
         totalCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_totalCount),
         createCountKey: cacheManager.createServerCache.getKey(GUID, cacheManager.createServerCache.type_createCount)
     };
-    return result;
+    return { success: true, result: result };
 }
 
 /* *

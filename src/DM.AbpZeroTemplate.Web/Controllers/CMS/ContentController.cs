@@ -87,14 +87,13 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                 //Delete old picture
                 if (!string.IsNullOrEmpty(content.ImageUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_contentManager.GetImageUrl(contentId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, content.ImageUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("content_{0}{1}", contentId, fileInfo.Extension);
-                _contentManager.SetImageUrl(content, fileName);
-                var imageUrl = _contentManager.GetImageUrl(app, content);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var imageUrl = _contentManager.GetImageUrlWithAppDir(app, fileName);//包含AppDir
                 var absoluteImageUrl = PathUtils.MapPath(imageUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteImageUrl);
                 file.SaveAs(absoluteImageUrl);
@@ -109,7 +108,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
             }
         }
 
-        public async Task<JsonResult> UploadContentImage(long contentId)
+        public async Task<JsonResult> UploadContentImage(long appId, long? contentId)
         {
             try
             {
@@ -133,20 +132,27 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                     throw new ApplicationException("Uploaded file is not an accepted image file !");
                 }
 
-                var content = await _contentManager.ContentRepository.GetAsync(contentId);
-                var app = await _appManager.AppRepository.GetAsync(content.AppId);
+                Content content = null;
+                if (contentId.HasValue)
+                {
+                    content = await _contentManager.ContentRepository.GetAsync(contentId.Value);
+                }
+                if (content == null)
+                {
+                    content = new Content();
+                }
+                var app = await _appManager.AppRepository.GetAsync(appId);
 
                 //Delete old picture
                 if (!string.IsNullOrEmpty(content.ImageUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_contentManager.GetImageUrl(contentId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, content.ImageUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("content_{0}{1}", contentId, fileInfo.Extension);
-                _contentManager.SetImageUrl(content, fileName);
-                var imageUrl = _contentManager.GetImageUrl(app, content);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var imageUrl = _contentManager.GetImageUrlWithAppDir(app, fileName);//包含AppDir
                 var absoluteImageUrl = PathUtils.MapPath(imageUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteImageUrl);
                 file.SaveAs(absoluteImageUrl);
@@ -190,7 +196,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
         }
 
         [UnitOfWork]
-        public virtual async Task<JsonResult> ChangeContentVideo(long contentId)
+        public virtual async Task<JsonResult> ChangeContentVideo(long appId, long? contentId)
         {
             try
             {
@@ -208,20 +214,27 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                 }
 
                 //Get content
-                var content = await _contentManager.ContentRepository.GetAsync(contentId);
-                var app = await _appManager.AppRepository.GetAsync(content.AppId);
+                Content content = null;
+                if (contentId.HasValue)
+                {
+                    content = await _contentManager.ContentRepository.GetAsync(contentId.Value);
+                }
+                if (content == null)
+                {
+                    content = new Content();
+                }
+                var app = await _appManager.AppRepository.GetAsync(appId);
 
                 //Delete old picture
                 if (!string.IsNullOrEmpty(content.VideoUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_contentManager.GetVideoUrl(contentId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, content.VideoUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("content_{0}{1}", contentId, fileInfo.Extension);
-                _contentManager.SetVideoUrl(content, fileName);
-                var videoUrl = _contentManager.GetVideoUrl(app, content);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var videoUrl = _contentManager.GetVideoUrlWithAppDir(app, fileName);//包含AppDir
                 var absoluteVideoUrl = PathUtils.MapPath(videoUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteVideoUrl);
                 file.SaveAs(absoluteVideoUrl);
@@ -236,7 +249,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
             }
         }
 
-        public async Task<JsonResult> UploadContentVideo(long contentId)
+        public async Task<JsonResult> UploadContentVideo(long appId, long? contentId)
         {
             try
             {
@@ -253,20 +266,27 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                     throw new UserFriendlyException(L("ContentPicture_Warn_SizeLimit"));
                 }
 
-                var content = await _contentManager.ContentRepository.GetAsync(contentId);
-                var app = await _appManager.AppRepository.GetAsync(content.AppId);
+                Content content = null;
+                if (contentId.HasValue)
+                {
+                    content = await _contentManager.ContentRepository.GetAsync(contentId.Value);
+                }
+                if (content == null)
+                {
+                    content = new Content();
+                }
+                var app = await _appManager.AppRepository.GetAsync(appId);
 
                 //Delete old picture
                 if (!string.IsNullOrEmpty(content.VideoUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_contentManager.GetVideoUrl(contentId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, content.VideoUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("content_{0}{1}", contentId, fileInfo.Extension);
-                _contentManager.SetVideoUrl(content, fileName);
-                var videoUrl = _contentManager.GetVideoUrl(app, content);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var videoUrl = _contentManager.GetVideoUrlWithAppDir(app, fileName);//包含AppDir
                 var absoluteVideoUrl = PathUtils.MapPath(videoUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteVideoUrl);
                 file.SaveAs(absoluteVideoUrl);
@@ -335,14 +355,13 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                 //Delete old picture
                 if (!string.IsNullOrEmpty(content.FileUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_contentManager.GetFileUrl(contentId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, content.FileUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("content_{0}{1}", contentId, fileInfo.Extension);
-                _contentManager.SetFileUrl(content, fileName);
-                var fileUrl = _contentManager.GetFileUrl(app, content);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var fileUrl = _contentManager.GetFileUrlWithAppDir(app, fileName);//包含AppDir
                 var absoluteFileUrl = PathUtils.MapPath(fileUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteFileUrl);
                 file.SaveAs(absoluteFileUrl);
@@ -357,7 +376,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
             }
         }
 
-        public async Task<JsonResult> UploadContentFile(long contentId)
+        public async Task<JsonResult> UploadContentFile(long appId, long? contentId)
         {
             try
             {
@@ -374,20 +393,27 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                     throw new UserFriendlyException(L("ContentPicture_Warn_SizeLimit"));
                 }
 
-                var content = await _contentManager.ContentRepository.GetAsync(contentId);
-                var app = await _appManager.AppRepository.GetAsync(content.AppId);
+                Content content = null;
+                if (contentId.HasValue)
+                {
+                    content = await _contentManager.ContentRepository.GetAsync(contentId.Value);
+                }
+                if (content == null)
+                {
+                    content = new Content();
+                }
+                var app = await _appManager.AppRepository.GetAsync(appId);
 
                 //Delete old picture
                 if (!string.IsNullOrEmpty(content.FileUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_contentManager.GetFileUrl(contentId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, content.FileUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("content_{0}{1}", contentId, fileInfo.Extension);
-                _contentManager.SetFileUrl(content, fileName);
-                var fileUrl = _contentManager.GetFileUrl(app, content);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var fileUrl = _contentManager.GetFileUrlWithAppDir(app, fileName);//包含AppDir
                 var absoluteFileUrl = PathUtils.MapPath(fileUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteFileUrl);
                 file.SaveAs(absoluteFileUrl);

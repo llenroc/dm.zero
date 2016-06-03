@@ -80,6 +80,10 @@ var channelStore = {
             callback && callback(null, 'dm_B2CContents');
             return;
         }
+        else {
+            callback && callback(null, 'dm_Contents');
+            return;
+        }
     },
 
     /* *
@@ -87,34 +91,37 @@ var channelStore = {
     * @param displayName   应用名称
     * @param callback  回调函数
     * */
-    getChannelIds: function (channelInfo, scope, channelGroup, channelGroupNot, [modelType = ''], callback) {
+    getChannelIds: function (channelInfo, scopeType, channelGroup, channelGroupNot, modelType, callback) {
 
         var channelId = channelInfo.Id;
         var channelCode = channelInfo.Code;
 
         var arraylist = [];
-        var sqlString = null;
+        var sqlString = '';
+
+        var _scope = this;
+
         sync.block(function () {
 
-            var result = sync.wait(getGroupWhereString(channelGroup, channelGroupNot, sync.cb('err', 'sqlStr', 'sqlParams')));
+            var result = sync.wait(_scope.getGroupWhereString(channelGroup, channelGroupNot, sync.cb('err', 'sqlStr', 'sqlParams')));
             if (result.err) callback && callback(result.err);
             else {
                 var sqlParams = result.sqlParams;
 
                 if (modelType) {
-                    result.sqlStr += " AND ModelType = @ModelType";
+                    result.sqlStr += " AND ModelType = @ModelType ";
                     sqlParams.push(sql.param('ModelType', modelType));
                 }
 
                 if (scopeType == eScopeType.all) {
-                    sqlString += "SELECT Id";
+                    sqlString += "SELECT Id ";
                     sqlString += "FROM dm_Channels ";
                     sqlString += "WHERE((Id = @Id) OR";
                     sqlString += "(ParentId = @ParentId) OR";
                     sqlString += "(Code = @Code) OR";
                     sqlString += "(Code LIKE @Code+'.%') OR";
                     sqlString += "(Code LIKE '%.'+@Code+'.%') OR";
-                    sqlString += "(Code LIKE '%.'+@Code')) " + result.sqlStr;
+                    sqlString += "(Code LIKE '%.'+@Code)) " + result.sqlStr;
                     sqlString += "ORDER BY Id";
 
                     sqlParams.push(sql.param('Id', channelId));
@@ -127,7 +134,7 @@ var channelStore = {
                     return;
                 }
                 else if (scopeType == eScopeType.children) {
-                    sqlString += "SELECT Id";
+                    sqlString += "SELECT Id ";
                     sqlString += "FROM dm_Channels ";
                     sqlString += "WHERE(ParentId = @ParentId) " + result.sqlStr;
                     sqlString += "ORDER BY Id";
@@ -135,24 +142,24 @@ var channelStore = {
                     sqlParams.push(sql.param('ParentId', channelId));
                 }
                 else if (scopeType == eScopeType.descendant) {
-                    sqlString += "SELECT Id";
+                    sqlString += "SELECT Id ";
                     sqlString += "FROM dm_Channels ";
                     sqlString += "WHERE((ParentId = @ParentId) OR";
                     sqlString += "(Code = @Code) OR";
                     sqlString += "(Code LIKE @Code+'.%') OR";
                     sqlString += "(Code LIKE '%.'+@Code+'.%') OR";
-                    sqlString += "(Code LIKE '%.'+@Code')) " + result.sqlStr;
+                    sqlString += "(Code LIKE '%.'+@Code)) " + result.sqlStr;
                     sqlString += "ORDER BY Id";
 
                     sqlParams.push(sql.param('ParentId', channelId));
                     sqlParams.push(sql.param('Code', channelCode));
                 }
                 else if (scopeType == eScopeType.SelfAndChildren) {
-                    sqlString += "SELECT Id";
+                    sqlString += "SELECT Id ";
                     sqlString += "FROM dm_Channels ";
                     sqlString += "WHERE((Id = @Id) OR";
                     sqlString += "(ParentId = @ParentId)) " + result.sqlStr;
-                    sqlString += "ORDER BY Taxis";
+                    sqlString += "ORDER BY Id";
 
                     sqlParams.push(sql.param('Id', channelId));
                     sqlParams.push(sql.param('ParentId', channelId));
@@ -162,7 +169,12 @@ var channelStore = {
                 if (result.err) callback && callback(err);
                 else {
                     var channelIds = result.recordSet[0];
-
+                    if (channelIds) {
+                        channelIds = channelIds.toTable().rows;
+                    }
+                    else {
+                        channelIds = [];
+                    }
                     callback && callback(null, channelIds);
                     return;
                 }
@@ -240,21 +252,28 @@ var channelStore = {
         where,
         callback
     ) {
+
+        if (!where) where = '';
+        if (!orderStr) orderStr = '';
+        if (!totalNum) totalNum = '';
+        if (!startNum) startNum = '';
+
         if (isTotal) {
             //所有，包括首页栏目
-            this.getInfoForElementWithApp(appInfo, startNum, totalNum, whereString, orderByString, callback);
+            this.getInfoForElementWithApp(appInfo, startNum, totalNum, where, orderStr, callback);
             return;
         } else {
             //当前栏目
-            this.getInfoForElementWithChannel(channelInfo, startNum, totalNum, whereString, scopeType, orderByString, callback);
+            this.getInfoForElementWithChannel(channelInfo, startNum, totalNum, where, channelScope, orderStr, callback);
             return;
         }
     },
 
     getWhereString: function (group, groupNot, where, callback) {
+        var _scope = this;
 
         sync.block(function () {
-            var result = sync.wait(this.getGroupWhereString(group, groupNot, sync.cb('err', 'sqlStr', 'sqlParams')));
+            var result = sync.wait(_scope.getGroupWhereString(group, groupNot, sync.cb('err', 'sqlStr', 'sqlParams')));
             if (result.err) return '';
             else {
                 var whereStringBuilder = '';
@@ -276,17 +295,18 @@ var channelStore = {
     },
 
     getInfoForElementWithChannel: function (channelInfo, startNum, totalNum, whereString, scopeType, orderByString, callback) {
+        var _scope = this;
 
-        this.getchannelIds(channelInfo, scopeType, '', '', '', function (err, channelIds) {
+        this.getChannelIds(channelInfo, scopeType, '', '', '', function (err, channelIds) {
 
             if (channelIds == null || channelIds.length == 0) {
                 callback && callback(null, []);
                 return;
             }
 
-            var sqlWhereString = "WHERE (Id IN (" + translateUtil.objectCollectionToSqlInStringWithoutQuote(channelIds) + ") " + whereString + ")";
+            var sqlWhereString = "WHERE (Id IN (" + translateUtil.ObjectCollectionToSqlInStringWithoutQuote(channelIds) + ") " + whereString + ")";
 
-            sql.getSelectSqlString(this.TABLENAME, startNum, totalNum, "*", sqlWhereString, orderByString, function (err, sqlStr) {
+            sql.getSelectSqlString(_scope.TABLENAME, startNum, totalNum, "*", sqlWhereString, orderByString, function (err, sqlStr) {
                 sync.block(function () {
                     var result = sync.wait(sql.query(sqlStr, [], sync.cb('err', 'recordSet')));
                     if (result.err) {

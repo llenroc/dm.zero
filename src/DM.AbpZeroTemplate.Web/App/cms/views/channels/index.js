@@ -38,8 +38,6 @@
                 id: null,
                 displayName: null,
                 code: null,
-                channelTemplateId: null,
-                contentTemplateId: null,
                 isIndex: null,
 
                 set: function (ouInTree) {
@@ -47,10 +45,12 @@
                         vm.channelTree.selectedChannel.id = null;
                         vm.channelTree.selectedChannel.displayName = null;
                         vm.channelTree.selectedChannel.code = null;
+                        vm.channelTree.selectedChannel.isIndex = null;
                     } else {
                         vm.channelTree.selectedChannel.id = ouInTree.id;
                         vm.channelTree.selectedChannel.displayName = ouInTree.displayName;
                         vm.channelTree.selectedChannel.code = ouInTree.code;
+                        vm.channelTree.selectedChannel.isIndex = ouInTree.isIndex;
                     }
                     // vm.members.load();
                 }
@@ -86,7 +86,7 @@
                     ,
                     'delete': {
                         label: app.localize('Delete'),
-                        _disabled: !vm.permissions.deleteChannelTree,
+                        _disabled: !vm.permissions.deleteChannelTree || node.original.isIndex,
                         action: function (data) {
                             var instance = $.jstree.reference(data.reference);
 
@@ -166,6 +166,7 @@
                             code: item.code,
                             displayName: item.displayName,
                             contentCount: item.contentCount,
+                            isIndex: item.isIndex,
                             text: vm.channelTree.generateTextOnTree(item),
                             state: {
                                 opened: true

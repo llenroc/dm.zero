@@ -68,6 +68,10 @@ namespace DM.AbpZeroTemplate.Authorization.Users
                 var totalCount = await query.CountAsync();
                 var linkedUsers = await query.ToListAsync();
 
+                linkedUsers.ForEach(u=> {
+                    u.TenancyName = GetTenancyNameById(u.TenantId);
+                });
+
                 return new PagedResultOutput<LinkedUserDto>(
                     totalCount,
                     linkedUsers
@@ -81,6 +85,10 @@ namespace DM.AbpZeroTemplate.Authorization.Users
             {
                 var query = CreateLinkedUsersQuery("LastLoginTime DESC");
                 var recentlyUsedlinkedUsers = await query.Skip(0).Take(3).ToListAsync();
+
+                recentlyUsedlinkedUsers.ForEach(u => {
+                    u.TenancyName = GetTenancyNameById(u.TenantId);
+                });
 
                 return new ListResultOutput<LinkedUserDto>(recentlyUsedlinkedUsers);
             }
@@ -113,15 +121,15 @@ namespace DM.AbpZeroTemplate.Authorization.Users
             var currentUser = UserManager.Users.Single(u => u.Id == currentUserId);
 
             return UserManager.Users
-    .Where(user => user.UserLinkId.HasValue && user.Id != currentUserId && user.UserLinkId == currentUser.UserLinkId)
-    .OrderBy(sorting)
-    .Select(user => new LinkedUserDto
-    {
-        Id = user.Id,
-        ProfilePictureId = user.ProfilePictureId,
-        TenancyName = user.TenantId.ToString(),
-        Username = user.UserName
-    });
+                .Where(user => user.UserLinkId.HasValue && user.Id != currentUserId && user.UserLinkId == currentUser.UserLinkId)
+                .OrderBy(sorting)
+                .Select(user => new LinkedUserDto
+                {
+                    Id = user.Id,
+                    ProfilePictureId = user.ProfilePictureId,
+                    TenantId = user.TenantId,
+                    Username = user.UserName
+                });
 
             //return UserManager.Users
             //    .Join(TenantManager.Tenants, u => u.TenantId, t => t.Id, (u, t) => new { Id = u.Id, ProfilePictureId = u.ProfilePictureId, TenancyName = t.TenancyName, UserName = u.UserName, UserLinkId = u.UserLinkId, LastLoginTime = u.LastLoginTime })

@@ -2,7 +2,7 @@ var asyncUtil = require('../../utils/asyncUtil');
 var xmlUtil = require('../../utils/xmlUtil');
 var parserUtil = {};
 
-parserUtil.REGEX_T_ELEMENT = /<t:(\w+?)[^>]*>(<\/t:\1>)|<t:(\w+?)\s+[^>]*>[^\2]*<\/t:\3>|<t:(\w+?)[^>]*\/>/gim;
+parserUtil.REGEX_T_ELEMENT = /<t:(\w+?)[^>]*>(<\/t:\1>)|<t:(\w+?)\s+[^>]*>[^\123]*<\/t:\3>|<t:(\w+?)[^>]*\/>/gim;
 
 /* *
  * 获取模板标签列表

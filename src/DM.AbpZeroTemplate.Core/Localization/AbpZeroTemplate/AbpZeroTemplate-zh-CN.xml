@@ -312,6 +312,9 @@
     <text name="ChannelTemplate" value="栏目模板"></text>
     <text name="ContentTemplate" value="内容模板"></text>
     <text name="FileTemplate" value="单页模板"></text>
+
+    <text name="CMS_Warn_FileType" value="只能选择{0}类型的文件，请重新选择." />
+    <text name="CMS_Warn_SizeLimit" value="只能选择{0}mb内的文件，请重新选择." />
     <!--CMS END-->
 
   </texts>

@@ -22,7 +22,6 @@
                                 class="form-control"
                                 ng-class="{'edited':vm.channel.channelTemplateId}"
                                 name="ChannelTemplateId"
-                                required
                                 ng-model="vm.channel.channelTemplateId"
                                 ng-options="template.key as template.value for template in vm.channelTemplates"></select>
                         <label>@L("ChannelTemplate")</label>
@@ -34,13 +33,12 @@
                                 class="form-control"
                                 ng-class="{'edited':vm.channel.contentTemplateId}"
                                 name="ContentTemplateId"
-                                required
                                 ng-model="vm.channel.contentTemplateId"
                                 ng-options="template.key as template.value for template in vm.contentTemplates"></select>
                         <label>@L("ContentTemplate")</label>
                     </div>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body"  ng-show="!vm.channel.isIndex">
                     <div class="form-group form-md-line-input">
                         <select id="modelTypeSelectionCombobox"
                                 class="form-control"
@@ -56,19 +54,19 @@
                 </div>
             </uib-tab>
             <uib-tab heading="@L("AdvancedSetting")">
-                <div class="modal-body">
+                <div class="modal-body"  ng-show="!vm.channel.isIndex">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
                         <input class="form-control" type="text" name="FilePath" ng-model="vm.channel.filePath" ng-class="{'edited':vm.channel.filePath}" maxlength="@Channel.MaxFilePathLength" />
                         <label>@L("FilePath")</label>
                     </div>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body"  ng-show="!vm.channel.isIndex">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
                         <input class="form-control" type="text" name="LinkUrl" ng-model="vm.channel.linkUrl" ng-class="{'edited':vm.channel.linkUrl}" maxlength="@Channel.MaxLinkUrlLength" />
                         <label>@L("LinkUrl")</label>
                     </div>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body"  ng-show="!vm.channel.isIndex">
                     <div class="form-group form-md-line-input">
                         <select id="TypeSelectionCombobox"
                                 class="form-control"

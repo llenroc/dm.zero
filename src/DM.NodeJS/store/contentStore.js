@@ -1,6 +1,7 @@
 var sql = require('./sql');
 var sync = require('simplesync');
 var channelStore = require('./channelStore');
+var translateUtil = require('../libs/utils/translateUtil');
 
 var contentStore = {
     SQL_GET: "select * from [dbo].[dm_Contents] where Id=@Id",
@@ -115,7 +116,7 @@ var contentStore = {
             if (!err) {
                 _scope.getInfoSqlStrForElement(appInfo, channelInfo, groupChannel, groupChannelNot, isImageExists, isImage, isVideoExists, isVideo, isFileExists, isFile, isTopExists, isTop, isRecommendExists, isRecommend, isHotExists, isHot, isColorExists, isColor, totalNum, startNum, where, tableName, function (err, whereStr, sqlParams) {
                     if (!err) {
-                        channelStore.getChannelIds(channelInfo.Id, scope, groupChannel, groupChannelNot, function (err, channelIds) {
+                        channelStore.getChannelIds(channelInfo, scope, groupChannel, groupChannelNot, channelInfo.modelType, function (err, channelIds) {
                             if (err) {
                                 return null;
                             }
@@ -124,17 +125,17 @@ var contentStore = {
                             }
                             var sqlWhereString = '';
                             if (channelIds.length == 1) {
-                                sqlWhereString += "WHERE (ChannelId = @ChannelId AND IsChecked = 'True' " + whereStr + ")";
+                                sqlWhereString += "WHERE (ChannelId = @ChannelId AND IsChecked = 1 " + whereStr + ")";
                                 sqlParams.push(sql.param('ChannelId', channelIds[0]));
                             }
                             else {
-                                sqlWhereString += "WHERE (ChannelId IN (" + translateUtil.ObjectCollectionToSqlInStringWithoutQuote(channelIds) + ") AND IsChecked = 'True' " + whereStr + ")";
+                                sqlWhereString += "WHERE (ChannelId IN (" + translateUtil.ObjectCollectionToSqlInStringWithoutQuote(channelIds) + ") AND IsChecked = 1 " + whereStr + ")";
                             }
 
                             if ((!!startNum && startNum <= 1) || !startNum) {
                                 sql.getSelectSqlStringWithoutStartNum(tableName, totalNum, '*', sqlWhereString, orderStr, function (err, sqlStr) {
                                     if (!err) {
-                                        _scope.getInfoForElementActionSql(sqlStr, sqlParams, _callback);
+                                        _scope.getInfoForElementActionSql(sqlStr, sqlParams, callback);
                                         return;
                                     }
                                 });
@@ -142,7 +143,7 @@ var contentStore = {
                             else {
                                 sqlStr = sql.getSelectSqlString(tableName, startNum, totalNum, '*', sqlWhereString, orderStr, function (err, sqlStr) {
                                     if (!err) {
-                                        _scope.getInfoForElementActionSql(sqlStr, sqlParams, _callback);
+                                        _scope.getInfoForElementActionSql(sqlStr, sqlParams, callback);
                                         return;
                                     }
                                 });

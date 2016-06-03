@@ -86,14 +86,13 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                 //Delete old picture
                 if (!string.IsNullOrEmpty(channel.ImageUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_channelManager.GetImageUrl(channelId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, channel.ImageUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("channel_{0}{1}", channelId, fileInfo.Extension);
-                _channelManager.SetImageUrl(channel, fileName);
-                var imageUrl = _channelManager.GetImageUrl(app, channel);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var imageUrl = _channelManager.GetImageUrlWithAppDir(app, fileName);//°üº¬AppDir
                 var absoluteImageUrl = PathUtils.MapPath(imageUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteImageUrl);
                 file.SaveAs(absoluteImageUrl);
@@ -108,7 +107,7 @@ namespace DM.AbpZeroTemplate.Web.Controllers
             }
         }
 
-        public async Task<JsonResult> UploadChannelImage(long channelId)
+        public async Task<JsonResult> UploadChannelImage(long appId, long? channelId)
         {
             try
             {
@@ -132,25 +131,35 @@ namespace DM.AbpZeroTemplate.Web.Controllers
                     throw new ApplicationException("Uploaded file is not an accepted image file !");
                 }
 
-                var channel = await _channelManager.ChannelRepository.GetAsync(channelId);
-                var app = await _appManager.AppRepository.GetAsync(channel.AppId);
+                Channel channel = null;
+                if (channelId.HasValue)
+                {
+                    channel = await _channelManager.ChannelRepository.GetAsync(channelId.Value);
+                }
+                if (channel == null)
+                {
+                    channel = new Channel();
+                }
+                var app = await _appManager.AppRepository.GetAsync(appId);
+
+
 
                 //Delete old picture
                 if (!string.IsNullOrEmpty(channel.ImageUrl))
                 {
-                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(_channelManager.GetImageUrl(channelId)));
+                    FileUtils.DeleteFileIfExists(PathUtils.MapPath(PageUtils.GetUrlWithAppDir(app, channel.ImageUrl)));
                 }
 
                 //Save new picture
                 var fileInfo = new FileInfo(file.FileName);
-                string fileName = string.Format("channel_{0}{1}", channelId, fileInfo.Extension);
-                _channelManager.SetImageUrl(channel, fileName);
-                var imageUrl = _channelManager.GetImageUrl(app, channel);
+                string fileName = string.Format("{0}{1}", Guid.NewGuid(), fileInfo.Extension);
+                var imageUrl = _channelManager.GetImageUrlWithAppDir(app, fileName);//°üº¬AppDir
                 var absoluteImageUrl = PathUtils.MapPath(imageUrl);
                 DirectoryUtils.CreateDirectoryIfNotExists(absoluteImageUrl);
                 file.SaveAs(absoluteImageUrl);
 
                 return Json(new MvcAjaxResponse(new { fileName = imageUrl }));
+
             }
             catch (UserFriendlyException ex)
             {

@@ -405,6 +405,9 @@
     <text name="ChannelTemplate" value="ChannleTemplate"></text>
     <text name="ContentTemplate" value="ContentTemplate"></text>
     <text name="FileTemplate" value="FileTemplate"></text>
+
+    <text name="CMS_Warn_FileType" value="You can only select {0} file. Please select another file." />
+    <text name="CMS_Warn_SizeLimit" value="Picture size must be smalled than {0}MB. Please select another file." />
     <!--CMS END-->
 
   </texts>

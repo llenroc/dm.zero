@@ -230,6 +230,8 @@ function mkdir_auto_next(pathlist, pathlistlength, callback, pathlistlengthseed,
  * @pathName      文件路径
  * */
 fsUtil.mapPath = function (pathName) {
+    if(!pathName)
+        return '';
     return path.normalize(
         path.join(config.root,pathName)
         );

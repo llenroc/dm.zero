@@ -16,6 +16,7 @@ var channels = {
      */
     attrs: {
         channelname: { key: 'channelname' },
+        scope: { key: 'scope' },
         uplevel: { key: 'uplevel' },
         toplevel: { key: 'toplevel' },
         istotal: { key: 'istotal' },
@@ -94,7 +95,7 @@ var channels = {
 
             //获取数据集
             var channelScope = eScopeType.self;
-            if (this.attrs.isallchildren.toLowerCase() == 'true') {
+            if (_scope.attrs.isallchildren.value && _scope.attrs.isallchildren.value.toLowerCase() == 'true') {
                 channelScope = eScopeType.descendant;
             }
             result = sync.wait(

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace DM.AbpZeroTemplate.CMS.Contents
 {
@@ -19,6 +20,7 @@ namespace DM.AbpZeroTemplate.CMS.Contents
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpGet]
         Task<PagedResultOutput<GetChannelContentDto>> GetContents(GetChannelContentsInput input);
 
         /// <summary>
@@ -48,5 +50,12 @@ namespace DM.AbpZeroTemplate.CMS.Contents
         /// <param name="input"></param>
         /// <returns></returns>
         Task DeleteContent(IdInput<long> input);
+
+        /// <summary>
+        /// 获取内容信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<ContentDto> GetContent(IdInput<long> input);
     }
 }

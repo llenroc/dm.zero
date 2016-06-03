@@ -219,6 +219,34 @@ appModule.config([
                 menu: 'CMS.Templates'
             });
         }
+
+        if (abp.auth.hasPermission('Pages.CMS.Generate')) {
+            $stateProvider.state('cms.generate', {
+                url: '/generate',
+                templateUrl: '~/App/cms/views/generate/index.cshtml',
+                menu: 'CMS.Generate'
+            })
+            .state('cms.generate.webIndex', {
+                url: '/webIndex?v=' + new Date().getTime(),
+                templateUrl: '~/App/cms/views/generate/webIndex.cshtml',
+                menu: 'CMS.Generate.Index'
+            })
+            .state('cms.generate.channel', {
+                url: '/channel',
+                templateUrl: '~/App/cms/views/generate/channel.cshtml',
+                menu: 'CMS.Generate.Channel'
+            })
+            .state('cms.generate.content', {
+                url: '/content',
+                templateUrl: '~/App/cms/views/generate/content.cshtml',
+                menu: 'CMS.Generate.Content'
+            })
+            .state('cms.generate.file', {
+                url: '/file',
+                templateUrl: '~/App/cms/views/generate/file.cshtml',
+                menu: 'CMS.Generate.File'
+            });
+        }
     }
 ]);
 

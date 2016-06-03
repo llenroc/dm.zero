@@ -11,7 +11,7 @@ var dm = domain.create();
 var templateStore = {
     TABLENAME: "[dbo].[dm_Templates]",
     SQL_GET: "select * from [dbo].[dm_Templates] where Id=@Id",
-    SQL_GET_INDEX: "select * from [dbo].[dm_Templates] where AppId=@AppId and Type='IndexTemplate' and IsDefault='True'",
+    SQL_GET_INDEX: "select * from [dbo].[dm_Templates] where AppId=@AppId and Type='IndexTemplate' and IsDefault=1",
 
     /* *
     * 获取templateInfo
