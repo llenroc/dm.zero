@@ -286,11 +286,17 @@
     <text name="CMS" value="CMS管理"></text>
     <text name="Detail" value="详情"></text>
     <text name="Refesh" value="刷新"></text>
+    <text name="BaseSetting" value="基本设置"></text>
+    <text name="AdvancedSetting" value="高级设置"></text>
 
     <text name="Channels" value="栏目"></text>
     <text name="ChannelsHeaderInfo" value="内容分类结构。"></text>
     <text name="ChannelTree" value="栏目结构"></text>
     <text name="ChannelDeleteWarningMessage" value="确定要删除当前栏目 {0} 吗?" />
+    <text name="ChannelName" value="栏目名称"></text>
+    <text name="SelectChannel" value="选择栏目"></text>
+    <text name="UnSelectChannel" value="取消选择栏目"></text>
+    <text name="ToggleChannel" value="反选栏目"></text>
 
     <text name="Contents" value="内容"></text>
     <text name="ContentDetail" value="内容详情"></text>
@@ -298,6 +304,22 @@
     <text name="ContentTitle" value="标题"></text>
     <text name="ContentText" value="正文"></text>
     <text name="RemoveContentFromChannelWarningMessage" value="确定要删除 {1} 栏目下的内容 {0} 吗?"></text>
+
+    <text name="ImageUrl" value="图片"></text>
+    <text name="VideoUrl" value="视频"></text>
+    <text name="FileUrl" value="附件"></text>
+    <text name="SubTitle" value="子标题"></text>
+    <text name="Author" value="作者"></text>
+    <text name="FromSource" value="来源"></text>
+    <text name="LinkUrl" value="外链"></text>
+    <text name="Summary" value="简介"></text>
+    <text name="IsTop" value="置顶"></text>
+    <text name="IsRecommend" value="推荐"></text>
+    <text name="IsHot" value="热点"></text>
+    <text name="IsColor" value="高亮"></text>
+
+    <text name="AddGood" value="添加商品"></text>
+    <text name="GoodTitle" value="商品名称"></text>
 
     <text name="Templates" value="模板"></text>
     <text name="TemplateDetail" value="模板详情"></text>
@@ -312,6 +334,19 @@
     <text name="ChannelTemplate" value="栏目模板"></text>
     <text name="ContentTemplate" value="内容模板"></text>
     <text name="FileTemplate" value="单页模板"></text>
+
+    <text name="SelectTemplate" value="选择单页模板"></text>
+    <text name="UnSelectTemplate" value="取消选择单页模板"></text>
+    <text name="ToggleTemplate" value="反选单页模板"></text>
+
+
+    <text name="Generate" value="生成"></text>
+    <text name="GenerateOptions" value="生成选项"></text>
+    <text name="GenerateIndex" value="生成首页"></text>
+    <text name="GenerateChannel" value="生成栏目"></text>
+    <text name="GenerateContent" value="生成内容"></text>
+    <text name="GenerateFile" value="生成单页"></text>
+    <text name="GenerateProcess" value="生成进度"></text>
 
     <text name="CMS_Warn_FileType" value="只能选择{0}类型的文件，请重新选择." />
     <text name="CMS_Warn_SizeLimit" value="只能选择{0}mb内的文件，请重新选择." />

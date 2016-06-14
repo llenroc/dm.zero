@@ -13,49 +13,48 @@ namespace DM.AbpZeroTemplate.CMS.Contents
     /// <summary>
     /// 内容领域服务
     /// </summary>
-    public interface IContentAppService : IApplicationService
+    public interface IGoodAppService : IApplicationService
     {
         /// <summary>
         /// 根据栏目ID，获取内容
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpGet]
-        Task<PagedResultOutput<GetChannelContentDto>> GetContents(GetChannelContentsInput input);
+        Task<PagedResultOutput<GetChannelGoodDto>> GetGoods(GetChannelGoodsInput input);
 
         /// <summary>
         /// 创建内容
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ContentDto> CreateContent(CreateContentInput input);
+        Task<GoodDto> CreateGood(CreateGoodInput input);
 
         /// <summary>
         /// 更新内容
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ContentDto> UpdateContent(UpdateContentInput input);
+        Task<GoodDto> UpdateGood(UpdateGoodInput input);
 
         /// <summary>
         ///  转移内容
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ContentDto> MoveContent(MoveContentInput input);
+        Task<GoodDto> MoveGood(MoveGoodInput input);
 
         /// <summary>
         /// 删除栏目
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task DeleteContent(IdInput<long> input);
+        Task DeleteGood(IdInput<long> input);
 
         /// <summary>
         /// 获取内容信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ContentDto> GetContent(IdInput<long> input);
+        Task<GoodDto> GetGood(IdInput<long> input);
     }
 }

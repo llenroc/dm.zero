@@ -313,6 +313,18 @@
     <Compile Include="Migrations\201606030733573_Change_Content_LastHitDate_Null.Designer.cs">
       <DependentUpon>201606030733573_Change_Content_LastHitDate_Null.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606120335396_Added_Good.cs" />
+    <Compile Include="Migrations\201606120335396_Added_Good.Designer.cs">
+      <DependentUpon>201606120335396_Added_Good.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606130336273_Added_DMUser.cs" />
+    <Compile Include="Migrations\201606130336273_Added_DMUser.Designer.cs">
+      <DependentUpon>201606130336273_Added_DMUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606141257278_Added_DMUser1.cs" />
+    <Compile Include="Migrations\201606141257278_Added_DMUser1.Designer.cs">
+      <DependentUpon>201606141257278_Added_DMUser1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="AbpZeroTemplateDataModule.cs" />
@@ -476,6 +488,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606030733573_Change_Content_LastHitDate_Null.resx">
       <DependentUpon>201606030733573_Change_Content_LastHitDate_Null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606120335396_Added_Good.resx">
+      <DependentUpon>201606120335396_Added_Good.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606130336273_Added_DMUser.resx">
+      <DependentUpon>201606130336273_Added_DMUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606141257278_Added_DMUser1.resx">
+      <DependentUpon>201606141257278_Added_DMUser1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

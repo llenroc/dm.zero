@@ -8,7 +8,7 @@ namespace DM.AbpZeroTemplate
     /// <summary>
     /// Entity framework module of the application.
     /// </summary>
-    [DependsOn(typeof(AbpZeroEntityFrameworkModule), typeof(AbpZeroTemplateCoreModule), typeof(AbpCMSEntityFrameworkModule))]
+    [DependsOn(typeof(AbpCMSEntityFrameworkModule), typeof(AbpZeroTemplateCoreModule))]
     public class AbpZeroTemplateDataModule : AbpModule
     {
         public override void PreInitialize()

@@ -21,7 +21,7 @@ namespace DM.AbpZeroTemplate
     /// <summary>
     /// Core (domain) module of the application.
     /// </summary>
-    [DependsOn(typeof(AbpZeroCoreModule), typeof(AbpZeroLdapModule), typeof(AbpCMSCoreModule))]
+    [DependsOn(typeof(AbpCMSCoreModule), typeof(AbpZeroLdapModule))]
     public class AbpZeroTemplateCoreModule : AbpModule
     {
         public override void PreInitialize()

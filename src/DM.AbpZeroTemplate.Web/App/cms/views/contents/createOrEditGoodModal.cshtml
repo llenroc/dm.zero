@@ -1,0 +1,103 @@
+﻿@using Abp.Contents
+<div>
+    <form name="goodForm" role="form" novalidate class="form-validation">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                <span ng-if="vm.good.Id">@L("Edit"):{{vm.good.displayName}}</span>
+                <span ng-if="!vm.good.Id">@L("AddGood")</span>
+            </h4>
+        </div>
+        <uib-tabset class="tab-container tabbable-line">
+            <uib-tab heading="@L("BaseSetting")">
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="Title" ng-class="{'edited':vm.good.title}" ng-model="vm.good.title" required maxlength="@Good.MaxTitleLength" />
+                        <label>@L("GoodTitle")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="ImageUrl" nv-file-select uploader="vm.imageUploader" ng-model="vm.good.imageUrl" ng-class="{'edited':vm.good.imageUrl}" maxlength="@Good.MaxImageUrlLength" />
+                        <label>@L("ImageUrl")</label>
+                    </div>
+                    <label ng-show="vm.good.imageUrl">{{vm.good.imageUrl}}</label>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="VideoUrl" nv-file-select uploader="vm.videoUploader" ng-model="vm.good.videoUrl" ng-class="{'edited':vm.good.videoUrl}" maxlength="@Good.MaxVideoUrlLength" />
+                        <label>@L("VideoUrl")</label>
+                    </div>
+                    <label ng-show="vm.good.videoUrl">{{vm.good.videoUrl}}</label>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input">
+                        <input class="form-control" type="file" name="FileUrl" nv-file-select uploader="vm.fileUploader" ng-model="vm.good.fileUrl" ng-class="{'edited':vm.good.fileUrl}" maxlength="@Good.MaxFileUrlLength" />
+                        <label>@L("FileUrl")</label>
+                    </div>
+                    <label ng-show="vm.good.fileUrl">{{vm.good.fileUrl}}</label>
+                </div>
+                <div class="modal-body">
+                    <div simditor ng-model="vm.good.goodText" placeholder="@L("GoodText")"></div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="@L("AdvancedSetting")">
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="LinkUrl" ng-class="{'edited':vm.good.linkUrl}" ng-model="vm.good.linkUrl" maxlength="@Good.MaxLinkUrlLength" />
+                        <label>@L("LinkUrl")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input auto-focus class="form-control" type="text" name="Summary" ng-class="{'edited':vm.good.summary}" ng-model="vm.good.Summary" maxlength="@Good.MaxDefaultLength" />
+                        <label>@L("Summary")</label>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="md-checkbox-list">
+                        <div class="md-checkbox">
+                            <input id="IsTop" class="md-check" type="checkbox" name="IsTop" ng-model="vm.good.isTop">
+                            <label for="IsTop">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsTop")
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input id="IsRecommend" class="md-check" type="checkbox" name="IsRecommend" ng-model="vm.good.isRecommend">
+                            <label for="IsRecommend">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsRecommend")
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input id="IsHot" class="md-check" type="checkbox" name="IsHot" ng-model="vm.good.isHot">
+                            <label for="IsHot">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsHot")
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input id="IsColor" class="md-check" type="checkbox" name="IsColor" ng-model="vm.good.isColor">
+                            <label for="IsColor">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsColor")
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+        <div class="modal-footer">
+            <button ng-disabled="vm.saving" type="button" class="btn btn-default" ng-click="vm.cancel()">@L("Cancel")</button>
+            <button type="submit" button-busy="vm.saving" busy-text="@L("SavingWithThreeDot")" class="btn btn-primary blue" ng-click="vm.save()" ng-disabled="goodForm.$invalid"><i class="fa fa-save"></i><span>@L("Save")</span></button>
+        </div>
+    </form>
+</div>

@@ -21,6 +21,13 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         Task<ListResultOutput<ChannelDto>> GetChannels(IdInput<long> input);
 
         /// <summary>
+        /// 获取树形结构的栏目列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<ListResultOutput<ChannelDto>> GetChannelsForTree(IdInput<long> input);
+
+        /// <summary>
         /// 创建栏目
         /// </summary>
         /// <param name="input"></param>

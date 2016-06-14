@@ -122,6 +122,11 @@
     <Compile Include="Authorization\Users\UserManager.cs" />
     <Compile Include="Authorization\Users\UserStore.cs" />
     <Compile Include="Authorization\Users\User.cs" />
+    <Compile Include="CMS\DMUsers\DMUser.cs" />
+    <Compile Include="CMS\DMUsers\DMUserEmailer.cs" />
+    <Compile Include="CMS\DMUsers\DMUserManager.cs" />
+    <Compile Include="CMS\DMUsers\DMUserStore.cs" />
+    <Compile Include="CMS\DMUsers\IDMUserEmailer.cs" />
     <Compile Include="Configuration\AppSettingProvider.cs" />
     <Compile Include="Configuration\AppSettings.cs" />
     <Compile Include="Debugging\DebugHelper.cs" />
@@ -173,6 +178,7 @@
     <Content Include="Localization\AbpZeroTemplate\READ_ME.txt" />
     <EmbeddedResource Include="Emailing\EmailTemplates\default.html" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

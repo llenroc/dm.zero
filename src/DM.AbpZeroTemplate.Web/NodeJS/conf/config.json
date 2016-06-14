@@ -1,0 +1,19 @@
+{
+    "root":"..",
+    "mssql":{
+        "user": "sa",
+        "password": "123456",
+        "server": "127.0.0.1",
+        "database": "AbpZeroTemplate_new",
+        "pool": {
+            "max": 100,
+            "min": 0,
+            "idleTimeoutMillis": 30000
+        }
+    },
+    "api":{
+        "root":"api/services/nodejs",
+        "createServer":"createServer",
+        "getGenerateProgressServer":"getGenerateProgressServer"
+    }
+}

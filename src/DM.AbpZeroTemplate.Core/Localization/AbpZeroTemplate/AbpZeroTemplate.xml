@@ -378,11 +378,17 @@
     <text name="CMS" value="CMS Manage"></text>
     <text name="Detail" value="Detail"></text>
     <text name="Refesh" value="Refesh"></text>
+    <text name="BaseSetting" value="BaseSetting"></text>
+    <text name="AdvancedSetting" value="AdvancedSetting"></text>
 
     <text name="Channels" value="Channels"></text>
     <text name="ChannelsHeaderInfo" value="Class of Content"></text>
     <text name="ChannelTree" value="ChannelTree"></text>
     <text name="ChannelDeleteWarningMessage" value="Are you sure to delete channel {0}?" />
+    <text name="ChannelName" value="ChannelName"></text>
+    <text name="SelectChannel" value="SelectChannel"></text>
+    <text name="UnSelectChannel" value="UnSelectChannel"></text>
+    <text name="ToggleChannel" value="ToggleChannel"></text>
 
 
     <text name="Contents" value="Contents"></text>
@@ -391,6 +397,24 @@
     <text name="ContentTitle" value="Title"></text>
     <text name="ContentText" value="ContentText"></text>
     <text name="RemoveContentFromChannelWarningMessage" value="Are you sure to delete content {0} from channel {1}?"></text>
+     
+    <text name="ImageUrl" value="ImageUrl"></text>
+    <text name="VideoUrl" value="VideoUrl"></text>
+    <text name="FileUrl" value="FileUrl"></text>
+    <text name="SubTitle" value="SubTitle"></text>
+    <text name="Author" value="Author"></text>
+    <text name="FromSource" value="Source"></text>
+    <text name="LinkUrl" value="LinkUrl"></text>
+    <text name="Summary" value="Summary"></text>
+    <text name="IsTop" value="IsTop"></text>
+    <text name="IsRecommend" value="IsRecommend"></text>
+    <text name="IsHot" value="IsHot"></text>
+    <text name="IsColor" value="IsColor"></text>
+    
+    <text name="AddGood" value="AddGood"></text>
+    <text name="GoodTitle" value="GoodName"></text>
+
+
 
     <text name="Templates" value="Templates"></text>
     <text name="TemplateDetail" value="Detail of Template"></text>
@@ -405,6 +429,19 @@
     <text name="ChannelTemplate" value="ChannleTemplate"></text>
     <text name="ContentTemplate" value="ContentTemplate"></text>
     <text name="FileTemplate" value="FileTemplate"></text>
+    <text name="SelectTemplate" value="SelectTemplate"></text>
+    <text name="UnSelectTemplate" value="UnSelectTemplate"></text>
+    <text name="ToggleTemplate" value="ToggleTemplate"></text>
+    
+    <text name="Generate" value="Generate"></text>
+    <text name="GenerateOptions" value="GenerateOptions"></text>
+    <text name="GenerateIndex" value="GenerateIndex"></text>
+    <text name="GenerateChannel" value="GenerateChannel"></text>
+    <text name="GenerateContent" value="GenerateContent"></text>
+    <text name="GenerateFile" value="GenerateFile"></text>
+    <text name="GenerateProcess" value="GenerateProcess"></text>
+    
+    
 
     <text name="CMS_Warn_FileType" value="You can only select {0} file. Please select another file." />
     <text name="CMS_Warn_SizeLimit" value="Picture size must be smalled than {0}MB. Please select another file." />

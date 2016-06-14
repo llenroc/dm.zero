@@ -331,6 +331,10 @@
     <Content Include="App\cms\views\channels\createOrEditChannelModal.js" />
     <Content Include="App\cms\views\channels\index.cshtml" />
     <Content Include="App\cms\views\channels\index.js" />
+    <Content Include="App\cms\views\contents\createOrEditGoodModal.js" />
+    <Content Include="App\cms\views\generate\file.js" />
+    <Content Include="App\cms\views\generate\content.js" />
+    <Content Include="App\cms\views\generate\channel.js" />
     <Content Include="App\cms\views\generate\index.js" />
     <Content Include="App\cms\views\templates\createOrEditTemplateModal.js" />
     <Content Include="App\cms\views\templates\detailModal.js" />
@@ -619,6 +623,12 @@
     <Content Include="Common\Styles\core.min.css">
       <DependentUpon>core.css</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-treeview.css" />
+    <Content Include="Content\bootstrap-treeview.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts-open-sans.css" />
@@ -626,6 +636,8 @@
     <Content Include="Content\fonts-sourcesans-pro.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Icon.png" />
     <Content Include="libs\angular-bootstrap-switch\angular-bootstrap-switch.js" />
     <Content Include="libs\angular-bootstrap-switch\angular-bootstrap-switch.min.js" />
     <Content Include="libs\angular-daterangepicker\angular-daterangepicker.js" />
@@ -1817,6 +1829,7 @@
     <Content Include="log4net.config" />
     <Content Include="metronic\assets\layouts\global\scripts\quick-sidebar.js" />
     <Content Include="metronic\assets\layouts\global\scripts\quick-sidebar.min.js" />
+    <Content Include="NodeJS\index.js" />
     <Content Include="RecaptchaNet.Readme.txt" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -2011,9 +2024,20 @@
     <Content Include="App\cms\views\generate\channel.cshtml" />
     <Content Include="App\cms\views\generate\file.cshtml" />
     <Content Include="App\cms\views\generate\content.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="App\cms\views\contents\createOrEditGoodModal.cshtml" />
     <None Include="Properties\PublishProfiles\dm.pubxml" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bootstrap-treeview.js" />
+    <Content Include="Scripts\bootstrap-treeview.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />
@@ -2769,6 +2793,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Views\Account\EmailActivation.js" />
@@ -2778,6 +2803,14 @@
     <Content Include="Views\Account\Login.js" />
     <Content Include="Views\Account\_Layout-rtl.css" />
     <Content Include="Views\TenantRegistration\Index.js" />
+    <Content Include="Views\UserCenter\EmailActivation.js" />
+    <Content Include="Views\UserCenter\ForgotPassword.js" />
+    <Content Include="Views\UserCenter\Login.cshtml" />
+    <Content Include="Views\UserCenter\Login.js" />
+    <Content Include="Views\UserCenter\Register.js" />
+    <Content Include="Views\UserCenter\ResetPassword.js" />
+    <Content Include="Views\UserCenter\_Layout-rtl.css" />
+    <Content Include="Views\UserCenter\_Layout.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2853,11 +2886,22 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\TenantRegistrationController.cs" />
+    <Compile Include="Controllers\UserCenter\UserCenterController.cs" />
     <Compile Include="Models\Account\ImpersonateModel.cs" />
     <Compile Include="Models\Account\SwitchToLinkedAccountModel.cs" />
     <Compile Include="Models\Account\TenantSelectionViewModel.cs" />
     <Compile Include="Models\TenantRegistration\TenantRegisterResultViewModel.cs" />
     <Compile Include="Models\TenantRegistration\TenantRegistrationViewModel.cs" />
+    <Compile Include="Models\UserCenter\EmailConfirmationViewModel.cs" />
+    <Compile Include="Models\UserCenter\LanguagesViewModel.cs" />
+    <Compile Include="Models\UserCenter\LoginFormViewModel.cs" />
+    <Compile Include="Models\UserCenter\LoginViewModel.cs" />
+    <Compile Include="Models\UserCenter\RegisterResultViewModel.cs" />
+    <Compile Include="Models\UserCenter\RegisterViewModel.cs" />
+    <Compile Include="Models\UserCenter\ResetPasswordFormViewModel.cs" />
+    <Compile Include="Models\UserCenter\ResetPasswordViewModel.cs" />
+    <Compile Include="Models\UserCenter\SendEmailActivationLinkViewModel.cs" />
+    <Compile Include="Models\UserCenter\SendPasswordResetLinkViewModel.cs" />
     <Compile Include="MultiTenancy\ITenancyNameFinder.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -3082,6 +3126,15 @@
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\jquery-2.2.3.min.map" />
+    <Content Include="Views\UserCenter\ForgotPassword.cshtml" />
+    <Content Include="Views\UserCenter\EmailActivation.cshtml" />
+    <Content Include="Views\UserCenter\Register.cshtml" />
+    <Content Include="Views\UserCenter\RegisterResult.cshtml" />
+    <Content Include="Views\UserCenter\ResetPassword.cshtml" />
+    <Content Include="Views\UserCenter\TenantSelection.cshtml" />
+    <Content Include="Views\UserCenter\_Languages.cshtml" />
+    <Content Include="Views\UserCenter\_Layout.cshtml" />
+    <Content Include="Views\UserCenter\_ViewStart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3110,6 +3163,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

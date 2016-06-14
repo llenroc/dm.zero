@@ -18,10 +18,10 @@
                 <div class="portlet-body">
                     <div class="col-lg-9">
                         <div class="ibox-content">
-                            <h5>生成进度：</h5>
-                            <div class="progress progress-striped active">
-                                <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">40% Complete (success)</span>
+                            <h5>@L("GenerateProcess")：</h5>
+                            <div class="progress progress-striped active" style="height:20px;background-color:#C5C5C5">
+                                <div style="width:{{vm.process}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{vm.process}}" role="progressbar" class="progress-bar">
+                                    <span class="sr-only" style="position:relative;">{{vm.process}}% Complete (success)</span>
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,8 @@
         '$scope', '$uibModal', 'appSession', 'abp.services.nodejs',
             function ($scope, $uibModal, $appSession, nodejsService) {
                 var vm = this;
+                vm.process = 0;
+
                 var interval;
                 //调用nodejs提供的服务，生成首页
                 nodejsService.createServer({ appId: $appSession.app.id })
@@ -21,6 +23,10 @@
                             !result.createCount ||
                             result.createCount >= result.totalCount) {
                             clearInterval(interval);
+                            vm.process = 100;
+                        }
+                        else {
+                            vm.process = result.createCount / result.totalCount;
                         }
                     });
                 }

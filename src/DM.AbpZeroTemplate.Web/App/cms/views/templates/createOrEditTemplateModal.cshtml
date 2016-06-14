@@ -24,8 +24,11 @@
                 <label>@L("TemplateType")</label>
             </div>
             <div class="form-group form-md-line-input form-md-floating-label no-hint">
-
+                <textarea auto-focus class="form-control"  name="TemplateContent" ng-class="{'edited':vm.template.templateContent}"  ng-model="vm.template.templateContent"  rows="30"></textarea>
+                <label>@L("TemplateContent")</label>
             </div>
+
+
             <input type="hidden" name="Extension" ng-model="vm.template.extension" required maxlength="@Template.MaxExtensionLength" />
         </div>
         <div class="modal-footer">
@@ -33,6 +36,4 @@
             <button type="submit" button-busy="vm.saving" busy-text="@L("SavingWithThreeDot")" class="btn btn-primary blue" ng-click="vm.save()" ng-disabled="templateForm.$invalid"><i class="fa fa-save"></i><span>@L("Save")</span></button>
         </div>
     </form>
-    <div simditor ng-model="vm.template.templateContent" placeholder="@L("TemplateContent")"></div>
-
 </div>

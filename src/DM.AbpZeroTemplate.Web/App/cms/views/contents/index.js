@@ -1,12 +1,14 @@
 ﻿(function () {
     appModule.controller('cms.views.contents.index', [
-        '$scope', '$uibModal', '$q', 'uiGridConstants', 'abp.services.app.channel', 'abp.services.app.content', 'abp.services.app.commonLookup', 'lookupModal', 'appSession',
-        function ($scope, $uibModal, $q, uiGridConstants, channelService, contentService, commonLookupService, lookupModal, $appSession) {
+        '$scope', '$uibModal', '$q', 'uiGridConstants', 'abp.services.app.channel', 'abp.services.app.content', 'abp.services.app.commonLookup', 'lookupModal', 'appSession', 'abp.services.app.good',
+        function ($scope, $uibModal, $q, uiGridConstants, channelService, contentService, commonLookupService, lookupModal, $appSession, goodService) {
             var vm = this;
 
             $scope.$on('$viewContentLoaded', function () {
                 App.initAjax();
             });
+
+            vm.defaultModelType = 'Content';
 
             vm.permissions = {
                 manageChannelTree: abp.auth.hasPermission('Pages.CMS.Channels'),
@@ -46,6 +48,7 @@
                     displayName: null,
                     code: null,
                     isIndex: null,
+                    modelType: vm.defaultModelType,
                     defaultIndex: 0, //默认加载第一个节点的内容
                     set: function (ouInTree) {
                         if (!ouInTree) {
@@ -53,11 +56,15 @@
                             vm.channelTree.selectedChannel.displayName = null;
                             vm.channelTree.selectedChannel.code = null;
                             vm.channelTree.selectedChannel.isIndex = null;
+                            vm.channelTree.selectedChannel.modelType = vm.defaultModelType;
                         } else {
                             vm.channelTree.selectedChannel.id = ouInTree.id;
                             vm.channelTree.selectedChannel.displayName = ouInTree.displayName;
                             vm.channelTree.selectedChannel.code = ouInTree.code;
-                            vm.channelTree.selectedChannel.isIndex = ouInTree.isIndex;
+                            if (ouInTree.original) {
+                                vm.channelTree.selectedChannel.isIndex = ouInTree.original.isIndex;
+                                vm.channelTree.selectedChannel.modelType = ouInTree.original.modelType;
+                            }
                         }
                         vm.contents.load();
                     }
@@ -187,6 +194,7 @@
                                 displayName: item.displayName,
                                 contentCount: item.contentCount,
                                 isIndex: item.isIndex,
+                                modelType: item.modelType,
                                 text: vm.channelTree.generateTextOnTree(item),
                                 state: {
                                     opened: true
@@ -374,10 +382,18 @@
                         return;
                     }
 
-                    contentService.getContents($.extend(vm.requestParams, { id: vm.channelTree.selectedChannel.id })).success(function (result) {
-                        vm.contents.gridOptions.totalItems = result.totalCount;
-                        vm.contents.gridOptions.data = result.items;
-                    });
+                    if (vm.channelTree.selectedChannel.modelType === "Content" || vm.channelTree.selectedChannel.modelType === '') {
+                        contentService.getContents($.extend(vm.requestParams, { id: vm.channelTree.selectedChannel.id })).success(function (result) {
+                            vm.contents.gridOptions.totalItems = result.totalCount;
+                            vm.contents.gridOptions.data = result.items;
+                        });
+                    }
+                    else if (vm.channelTree.selectedChannel.modelType === "Good") {
+                        goodService.getGoods($.extend(vm.requestParams, { id: vm.channelTree.selectedChannel.id })).success(function (result) {
+                            vm.contents.gridOptions.totalItems = result.totalCount;
+                            vm.contents.gridOptions.data = result.items;
+                        });
+                    }
                 },
 
                 remove: function (content) {
@@ -391,12 +407,22 @@
                         app.localize('RemoveContentFromChannelWarningMessage', content.title, treeNode.original.displayName),
                         function (isConfirmed) {
                             if (isConfirmed) {
-                                contentService.deleteContent({
-                                    id: content.id
-                                }).success(function () {
-                                    vm.channelTree.incrementContentCount(channelId, -1);
-                                    vm.contents.load();
-                                });
+                                if (vm.channelTree.selectedChannel.modelType === "Content" || vm.channelTree.selectedChannel.modelType === '') {
+                                    contentService.deleteContent({
+                                        id: content.id
+                                    }).success(function () {
+                                        vm.channelTree.incrementContentCount(channelId, -1);
+                                        vm.contents.load();
+                                    });
+                                }
+                                else if (vm.channelTree.selectedChannel.modelType === "Good") {
+                                    goodService.deleteGood({
+                                        id: content.id
+                                    }).success(function () {
+                                        vm.channelTree.incrementContentCount(channelId, -1);
+                                        vm.contents.load();
+                                    });
+                                }
                             }
                         }
                     );
@@ -428,21 +454,46 @@
                 },
 
                 openCreateOrEditContentModal: function (content, closeCallback) {
-                    var modalInstance = $uibModal.open({
-                        templateUrl: '~/App/cms/views/contents/createOrEditContentModal.cshtml',
-                        controller: 'cms.views.contents.createOrEditContentModal as vm',
-                        backdrop: 'static',
-                        size: "lg",
-                        resolve: {
-                            content: function () {
-                                return content;
-                            }
-                        }
-                    });
+                    var modalInstance = null;
 
-                    modalInstance.result.then(function (result) {
-                        closeCallback && closeCallback(result);
-                    });
+                    if (!vm.channelTree.selectedChannel.modelType) {
+                        vm.channelTree.selectedChannel.modelType = vm.defaultModelType;
+                    }
+
+                    //根据栏目类型，判断需要打开的编辑页面
+                    if (vm.channelTree.selectedChannel.modelType === 'Content' || vm.channelTree.selectedChannel.modelType === '') {
+                        modalInstance = $uibModal.open({
+                            templateUrl: '~/App/cms/views/contents/createOrEditContentModal.cshtml',
+                            controller: 'cms.views.contents.createOrEditContentModal as vm',
+                            backdrop: 'static',
+                            size: "lg",
+                            resolve: {
+                                content: function () {
+                                    return content;
+                                }
+                            }
+                        });
+                    }
+                    else if (vm.channelTree.selectedChannel.modelType === 'Good') {
+                        modalInstance = $uibModal.open({
+                            templateUrl: '~/App/cms/views/contents/createOrEditGoodModal.cshtml',
+                            controller: 'cms.views.contents.createOrEditGoodModal as vm',
+                            backdrop: 'static',
+                            size: "lg",
+                            resolve: {
+                                good: function () {
+                                    return content;
+                                }
+                            }
+                        });
+                    }
+
+
+                    if (modalInstance) {
+                        modalInstance.result.then(function (result) {
+                            closeCallback && closeCallback(result);
+                        });
+                    }
                 },
 
                 init: function () {

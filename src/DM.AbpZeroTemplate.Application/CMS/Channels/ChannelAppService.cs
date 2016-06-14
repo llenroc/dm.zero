@@ -160,6 +160,30 @@ namespace DM.AbpZeroTemplate.CMS.Channels
         }
 
         /// <summary>
+        /// 获取树形结构的栏目列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<ListResultOutput<ChannelDto>> GetChannelsForTree(IdInput<long> input)
+        {
+            if (input.Id == 0)
+                input.Id = AppId;
+
+            var query = from ch in _channelManager.ChannelRepository.GetAll()
+                        where ch.AppId == input.Id
+                        select ch;
+            var items = query.ToList();
+            return new ListResultOutput<ChannelDto>(items.Select(
+                    item =>
+                    {
+                        var dto = item.MapTo<ChannelDto>();
+                        return dto;
+                    }
+                ).ToList()
+                );
+        }
+
+        /// <summary>
         /// 是否在栏目下
         /// </summary>
         /// <param name="input"></param>
